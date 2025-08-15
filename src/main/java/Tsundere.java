@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 abstract class Task {
     private final String name;
@@ -75,10 +73,16 @@ class TaskFormatException extends Exception {
     }
 }
 
+class MissingArgumentException extends Exception {
+    public MissingArgumentException() {
+        super();
+    }
+}
+
 public class Tsundere {
     public static final int WIDTH = 40;
     public static final String HORIZONTAL_LINE = "_".repeat(WIDTH);
-    public static final Task[] tasks = new Task[100];
+    public static final List<Task> tasks = new ArrayList<>();
     public static int numTasks = 0;
 
     public static void init() {
@@ -102,9 +106,9 @@ public class Tsundere {
     public static void addTodo(String message) {
         System.out.println(HORIZONTAL_LINE);
 
-        tasks[numTasks] = new TodoTask(message);
+        tasks.add(new TodoTask(message));
         System.out.println("New todo task added!");
-        System.out.println(tasks[numTasks]);
+        System.out.println(tasks.get(numTasks));
         numTasks++;
 
         System.out.println(HORIZONTAL_LINE);
@@ -116,9 +120,9 @@ public class Tsundere {
 
         System.out.println(HORIZONTAL_LINE);
 
-        tasks[numTasks] = new DeadlineTask(message, by);
+        tasks.add(new DeadlineTask(message, by));
         System.out.println("New deadline task added!");
-        System.out.println(tasks[numTasks]);
+        System.out.println(tasks.get(numTasks));
         numTasks++;
 
         System.out.println(HORIZONTAL_LINE);
@@ -131,9 +135,9 @@ public class Tsundere {
 
         System.out.println(HORIZONTAL_LINE);
 
-        tasks[numTasks] = new EventTask(message, from, to);
+        tasks.add(new EventTask(message, from, to));
         System.out.println("New event task added!");
-        System.out.println(tasks[numTasks]);
+        System.out.println(tasks.get(numTasks));
         numTasks++;
 
         System.out.println(HORIZONTAL_LINE);
@@ -148,7 +152,7 @@ public class Tsundere {
 
         for (int i = 0; i < numTasks; i++) {
             System.out.print((i+1) + ". ");
-            System.out.println(tasks[i]);
+            System.out.println(tasks.get(numTasks));
         }
 
         System.out.println(HORIZONTAL_LINE);
@@ -158,22 +162,28 @@ public class Tsundere {
         System.out.println(HORIZONTAL_LINE);
 
         try {
+            if (idString == null) {
+                throw new MissingArgumentException();
+            }
             int id = Integer.parseInt(idString) - 1;
             if (id >= numTasks || id < 0) {
                 throw new ArrayIndexOutOfBoundsException();
             }
-            if (tasks[id].isDone()) {
+            if (tasks.get(id).isDone()) {
                 System.out.println("Ehh? It's already marked! You probably input the wrong number, silly.");
-                System.out.println(tasks[id]);
+                System.out.println(tasks.get(numTasks));
             } else {
-                tasks[id].markDone();
+                tasks.get(id).markDone();
                 System.out.println("Here, it's marked.");
-                System.out.println(tasks[id]);
+                System.out.println(tasks.get(numTasks));
             }
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Ugh! That task does not exist. You know I'm busy, right?");
+        } catch (MissingArgumentException e) {
+            System.out.println("Don't leave me hanging!");
+            System.out.println("Use `mark <task id>");
         } finally {
             System.out.println(HORIZONTAL_LINE);
         }
@@ -183,24 +193,58 @@ public class Tsundere {
         System.out.println(HORIZONTAL_LINE);
 
         try {
+            if (idString == null) {
+                throw new MissingArgumentException();
+            }
             int id = Integer.parseInt(idString) - 1;
             if (id >= numTasks || id < 0) {
                 throw new ArrayIndexOutOfBoundsException();
-            } else if (!tasks[id].isDone()) {
+            } else if (!tasks.get(id).isDone()) {
                 System.out.println("Dude!! That task isn't even done yet!");
-                System.out.println(tasks[id]);
+                System.out.println(tasks.get(numTasks));
             }
-            tasks[id].markUndone();
+            tasks.get(id).markUndone();
             System.out.println("Why'd you even mark it done?");
-            System.out.println(tasks[id]);
+            System.out.println(tasks.get(numTasks));
 
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Ugh! That task does not exist. You know I'm busy, right?");
+        } catch (MissingArgumentException e) {
+            System.out.println("Don't leave me hanging!");
+            System.out.println("Use `unmark <task id>");
         } finally {
             System.out.println(HORIZONTAL_LINE);
         }
+    }
+
+    public static void delete(String idString) {
+        System.out.println(HORIZONTAL_LINE);
+
+        try {
+            if (idString == null) {
+                throw new MissingArgumentException();
+            }
+            int id = Integer.parseInt(idString);
+            if (id >= numTasks || id < 0) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+
+            Task t = tasks.remove(id);
+            System.out.println("I've removed the task.");
+            System.out.println(t);
+
+        } catch (NumberFormatException e) {
+            System.out.println("That's not a valid number, baka!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Ugh! That task does not exist. You know I'm busy, right?");
+        } catch (MissingArgumentException e) {
+            System.out.println("Don't leave me hanging!");
+            System.out.println("Use `delete <task id>");
+        }
+
+        System.out.println(HORIZONTAL_LINE);
     }
 
     public static String[] parseEvent(String[] words) throws TaskFormatException {
@@ -332,6 +376,12 @@ public class Tsundere {
                             ? words[1]
                             : null;
                     unmark(id2);
+                    break;
+                case "delete":
+                    String id3 = words.length > 1
+                            ? words[1]
+                            : null;
+                    delete(id3);
                     break;
                 case "bye":
                     break outer;
