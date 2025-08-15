@@ -1,10 +1,13 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Tsundere {
     public static final int WIDTH = 40;
     public static final String HORIZONTAL_LINE = "_".repeat(WIDTH);
+    public static final String[] tasks = new String[100];
+    public static int numTasks = 0;
 
     public static void init() {
         System.out.println(HORIZONTAL_LINE);
@@ -29,6 +32,16 @@ public class Tsundere {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public static void addTodo(String message) {
+        System.out.println(HORIZONTAL_LINE);
+
+        tasks[numTasks] = message;
+        numTasks++;
+        System.out.println("I've added " + message + " to the task list.");
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
     public static void main(String[] args) {
         init();
 
@@ -42,7 +55,18 @@ public class Tsundere {
 
             String command = words.length > 0 ? words[0] : "noInput";
 
-            switch (line) {
+            switch (command) {
+                case "todo":
+                    String message = words.length > 1
+                            ? Arrays.stream(words).skip(2).reduce(words[1],
+                                (prev, next) -> prev + " " + next)
+                            : "";
+                    if (message.isEmpty()) {
+                        System.out.println("Use the format `todo <Name>`");
+                    } else {
+                        addTodo(message);
+                    }
+                    break;
                 case "bye":
                     break outer;
                 default:
