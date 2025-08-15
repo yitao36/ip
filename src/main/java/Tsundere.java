@@ -42,6 +42,21 @@ public class Tsundere {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public static void list() {
+        System.out.println(HORIZONTAL_LINE);
+
+        if (numTasks == 0) {
+            System.out.println("There's no tasks, dummy!");
+        }
+
+        for (int i = 0; i < numTasks; i++) {
+            System.out.print((i+1) + ". ");
+            System.out.println(tasks[i]);
+        }
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
     public static void main(String[] args) {
         init();
 
@@ -66,6 +81,9 @@ public class Tsundere {
                     } else {
                         addTodo(message);
                     }
+                    break;
+                case "list":
+                    list();
                     break;
                 case "bye":
                     break outer;
