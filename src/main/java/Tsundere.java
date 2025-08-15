@@ -253,66 +253,97 @@ public class Tsundere {
         StringBuilder from = new StringBuilder();
         StringBuilder to = new StringBuilder();
 
-        StringBuilder[] sb = new StringBuilder[] {message, from, to};
-        int type = 0;
+        enum Params {MESSAGE, FROM, TO};
+        Params type = Params.MESSAGE;
 
         for (int i = 1; i < words.length; i++) {
             if (words[i].equals("/from")) {
-                if (type == 1 || !from.isEmpty()) {
-                    sb[type].append(words[i]);
-                    sb[type].append(' ');
+                switch (type) {
+                    case MESSAGE -> type = Params.FROM;
+                    case FROM -> {
+                        from.append(words[i]);
+                        from.append(' ');
+                    }
+                    case TO -> {
+                        to.append(words[i]);
+                        to.append(' ');
+                    }
                 }
-                type = Math.max(type, 1);
             } else if (words[i].equals("/to")) {
-                if (type == 2 || !to.isEmpty()) {
-                    sb[type].append(words[i]);
-                    sb[type].append(' ');
+                switch (type) {
+                    case MESSAGE -> type = Params.TO;
+                    case FROM -> type = Params.TO;
+                    case TO -> {
+                        to.append(words[i]);
+                        to.append(' ');
+                    }
                 }
-                type = 2;
             } else {
-                sb[type].append(words[i]);
-                sb[type].append(' ');
+                switch (type) {
+                    case MESSAGE -> {
+                        message.append(words[i]);
+                        message.append(' ');
+                    }
+                    case FROM -> {
+                        from.append(words[i]);
+                        from.append(' ');
+                    }
+                    case TO -> {
+                        to.append(words[i]);
+                        to.append(' ');
+                    }
+                }
             }
         }
-        for (StringBuilder stringBuilder : sb) {
-            if (stringBuilder.isEmpty()) {
+        if (message.isEmpty() || from.isEmpty() || to.isEmpty()) {
                 throw new TaskFormatException();
-            }
-            stringBuilder.deleteCharAt(stringBuilder.length()-1);
         }
+        message.deleteCharAt(message.length()-1);
+        from.deleteCharAt(from.length()-1);
+        to.deleteCharAt(to.length()-1);
 
-        String[] str = new String[3];
-        return Arrays.stream(sb).map(StringBuilder::toString).toList().toArray(str);
+        String[] str = new String[] {message.toString(), from.toString(), to.toString()};
+        return str;
     }
 
     public static String[] parseDeadline(String[] words) throws TaskFormatException {
         StringBuilder message = new StringBuilder();
         StringBuilder by = new StringBuilder();
 
-        StringBuilder[] sb = new StringBuilder[] {message, by};
-        int type = 0;
+        enum Param {MESSAGE, BY};
+        Param type = Param.MESSAGE;
 
         for (int i = 1; i < words.length; i++) {
             if (words[i].equals("/by")) {
-                if (type == 1 || !by.isEmpty()) {
-                    sb[type].append(words[i]);
-                    sb[type].append(' ');
+                switch (type) {
+                    case MESSAGE -> type = Param.BY;
+                    case BY -> {
+                        by.append(words[i]);
+                        by.append(' ');
+                    }
                 }
-                type = 1;
             } else {
-                sb[type].append(words[i]);
-                sb[type].append(' ');
+                switch (type) {
+                    case MESSAGE -> {
+                        message.append(words[i]);
+                        message.append(' ');
+                    }
+                    case BY -> {
+                        by.append(words[i]);
+                        by.append(' ');
+                    }
+                }
             }
-        }
-        for (StringBuilder stringBuilder : sb) {
-            if (stringBuilder.isEmpty()) {
-                throw new TaskFormatException();
-            }
-            stringBuilder.deleteCharAt(stringBuilder.length()-1);
         }
 
-        String[] str = new String[3];
-        return Arrays.stream(sb).map(StringBuilder::toString).toList().toArray(str);
+        if (message.isEmpty() || by.isEmpty()) {
+            throw new TaskFormatException();
+        }
+        message.deleteCharAt(message.length() - 1);
+        by.deleteCharAt(by.length() - 1);
+
+        String[] str = new String[] {message.toString(), by.toString()};
+        return str;
     }
 
     public static void main(String[] args) {
