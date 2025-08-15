@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 
-class Task {
+abstract class Task {
     private final String name;
     private boolean done = false;
 
@@ -26,6 +26,46 @@ class Task {
 
     public String toString() {
         return "[" + (done ? "X" : "") + "] " + this.name;
+    }
+}
+
+class TodoTask extends Task {
+    public TodoTask (String name) {
+        super(name);
+    }
+
+    @Override
+    public String toString() {
+        return "[T]" + super.toString();
+    }
+}
+
+class DeadlineTask extends Task {
+    private final String deadline;
+    public DeadlineTask(String name, String deadline) {
+        super(name);
+        this.deadline = deadline;
+    }
+
+    @Override
+    public String toString() {
+        return "[D]" + super.toString() + " (by " + deadline + ")";
+    }
+}
+
+class EventTask extends Task {
+    private final String from;
+    private final String to;
+
+    public EventTask(String name, String from, String to) {
+        super(name);
+        this.from = from;
+        this.to = to;
+    }
+
+    @Override
+    public String toString() {
+        return "[E]" + super.toString() + " (from " + from + " to " + to + ")";
     }
 }
 
@@ -56,9 +96,54 @@ public class Tsundere {
     public static void addTodo(String message) {
         System.out.println(HORIZONTAL_LINE);
 
-        tasks[numTasks] = new Task(message);
+        tasks[numTasks] = new TodoTask(message);
         numTasks++;
         System.out.println("I've added " + message + " to the list.");
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    public static void addDeadline(String[] params) {
+        if (params == null) {
+            System.out.println(HORIZONTAL_LINE);
+            System.out.println("Incorrect format!");
+            System.out.println("Use 'deadline <message> /by <date>'");
+            System.out.println(HORIZONTAL_LINE);
+            return;
+        }
+
+        String message = params[0];
+        String by = params[1];
+
+        System.out.println(HORIZONTAL_LINE);
+
+        tasks[numTasks] = new DeadlineTask(message, by);
+        System.out.println("New deadline task added!");
+        System.out.println(tasks[numTasks]);
+        numTasks++;
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    public static void addEvent(String[] params) {
+        if (params == null) {
+            System.out.println(HORIZONTAL_LINE);
+            System.out.println("Incorrect format!");
+            System.out.println("Use 'event <message> /from <time> /to <time>'");
+            System.out.println(HORIZONTAL_LINE);
+            return;
+        }
+
+        String message = params[0];
+        String from = params[1];
+        String to = params[2];
+
+        System.out.println(HORIZONTAL_LINE);
+
+        tasks[numTasks] = new EventTask(message, from, to);
+        System.out.println("New event task added!");
+        System.out.println(tasks[numTasks]);
+        numTasks++;
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -126,6 +211,73 @@ public class Tsundere {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public static String[] parseEvent(String[] words) {
+        StringBuilder message = new StringBuilder();
+        StringBuilder from = new StringBuilder();
+        StringBuilder to = new StringBuilder();
+
+        StringBuilder[] sb = new StringBuilder[] {message, from, to};
+        int type = 0;
+
+        for (int i = 1; i < words.length; i++) {
+            if (words[i].equals("/from")) {
+                if (type == 1 || !from.isEmpty()) {
+                    sb[type].append(words[i]);
+                    sb[type].append(' ');
+                }
+                type = Math.max(type, 1);
+            } else if (words[i].equals("/to")) {
+                if (type == 2 || !to.isEmpty()) {
+                    sb[type].append(words[i]);
+                    sb[type].append(' ');
+                }
+                type = 2;
+            } else {
+                sb[type].append(words[i]);
+                sb[type].append(' ');
+            }
+        }
+        for (StringBuilder stringBuilder : sb) {
+            if (stringBuilder.isEmpty()) {
+                return null;
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+
+        String[] str = new String[3];
+        return Arrays.stream(sb).map(StringBuilder::toString).toList().toArray(str);
+    }
+
+    public static String[] parseDeadline(String[] words) {
+        StringBuilder message = new StringBuilder();
+        StringBuilder by = new StringBuilder();
+
+        StringBuilder[] sb = new StringBuilder[] {message, by};
+        int type = 0;
+
+        for (int i = 1; i < words.length; i++) {
+            if (words[i].equals("/by")) {
+                if (type == 1 || !by.isEmpty()) {
+                    sb[type].append(words[i]);
+                    sb[type].append(' ');
+                }
+                type = 1;
+            } else {
+                sb[type].append(words[i]);
+                sb[type].append(' ');
+            }
+        }
+        for (StringBuilder stringBuilder : sb) {
+            if (stringBuilder.isEmpty()) {
+                return null;
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+
+        String[] str = new String[3];
+        return Arrays.stream(sb).map(StringBuilder::toString).toList().toArray(str);
+    }
+
     public static void main(String[] args) {
         init();
 
@@ -150,6 +302,14 @@ public class Tsundere {
                     } else {
                         addTodo(message);
                     }
+                    break;
+                case "deadline":
+                    String[] deadlineMessage = parseDeadline(words);
+                    addDeadline(deadlineMessage);
+                    break;
+                case "event":
+                    String[] eventMessage = parseEvent(words);
+                    addEvent(eventMessage);
                     break;
                 case "list":
                     list();
