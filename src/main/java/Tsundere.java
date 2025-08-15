@@ -69,6 +69,12 @@ class EventTask extends Task {
     }
 }
 
+class TaskFormatException extends Exception {
+    public TaskFormatException() {
+        super();
+    }
+}
+
 public class Tsundere {
     public static final int WIDTH = 40;
     public static final String HORIZONTAL_LINE = "_".repeat(WIDTH);
@@ -97,21 +103,14 @@ public class Tsundere {
         System.out.println(HORIZONTAL_LINE);
 
         tasks[numTasks] = new TodoTask(message);
+        System.out.println("New todo task added!");
+        System.out.println(tasks[numTasks]);
         numTasks++;
-        System.out.println("I've added " + message + " to the list.");
 
         System.out.println(HORIZONTAL_LINE);
     }
 
     public static void addDeadline(String[] params) {
-        if (params == null) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("Incorrect format!");
-            System.out.println("Use 'deadline <message> /by <date>'");
-            System.out.println(HORIZONTAL_LINE);
-            return;
-        }
-
         String message = params[0];
         String by = params[1];
 
@@ -126,14 +125,6 @@ public class Tsundere {
     }
 
     public static void addEvent(String[] params) {
-        if (params == null) {
-            System.out.println(HORIZONTAL_LINE);
-            System.out.println("Incorrect format!");
-            System.out.println("Use 'event <message> /from <time> /to <time>'");
-            System.out.println(HORIZONTAL_LINE);
-            return;
-        }
-
         String message = params[0];
         String from = params[1];
         String to = params[2];
@@ -166,32 +157,33 @@ public class Tsundere {
     public static void mark(String idString) {
         System.out.println(HORIZONTAL_LINE);
 
-        int id;
         try {
-            id = Integer.parseInt(idString) - 1;
+            int id = Integer.parseInt(idString) - 1;
             if (id >= numTasks || id < 0) {
                 throw new ArrayIndexOutOfBoundsException();
-            } else if (tasks[id].isDone()) {
+            }
+            if (tasks[id].isDone()) {
                 System.out.println("Ehh? It's already marked! You probably input the wrong number, silly.");
                 System.out.println(tasks[id]);
+            } else {
+                tasks[id].markDone();
+                System.out.println("Here, it's marked.");
+                System.out.println(tasks[id]);
             }
-            tasks[id].markDone();
-            System.out.println("Here, it's marked.");
-            System.out.println(tasks[id]);
-
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Ugh! That task does not exist. You know I'm busy, right?");
+        } finally {
+            System.out.println(HORIZONTAL_LINE);
         }
-
-        System.out.println(HORIZONTAL_LINE);
     }
 
     public static void unmark(String idString) {
-        int id;
+        System.out.println(HORIZONTAL_LINE);
+
         try {
-            id = Integer.parseInt(idString) - 1;
+            int id = Integer.parseInt(idString) - 1;
             if (id >= numTasks || id < 0) {
                 throw new ArrayIndexOutOfBoundsException();
             } else if (!tasks[id].isDone()) {
@@ -206,12 +198,12 @@ public class Tsundere {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Ugh! That task does not exist. You know I'm busy, right?");
+        } finally {
+            System.out.println(HORIZONTAL_LINE);
         }
-
-        System.out.println(HORIZONTAL_LINE);
     }
 
-    public static String[] parseEvent(String[] words) {
+    public static String[] parseEvent(String[] words) throws TaskFormatException {
         StringBuilder message = new StringBuilder();
         StringBuilder from = new StringBuilder();
         StringBuilder to = new StringBuilder();
@@ -239,7 +231,7 @@ public class Tsundere {
         }
         for (StringBuilder stringBuilder : sb) {
             if (stringBuilder.isEmpty()) {
-                return null;
+                throw new TaskFormatException();
             }
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
         }
@@ -248,7 +240,7 @@ public class Tsundere {
         return Arrays.stream(sb).map(StringBuilder::toString).toList().toArray(str);
     }
 
-    public static String[] parseDeadline(String[] words) {
+    public static String[] parseDeadline(String[] words) throws TaskFormatException {
         StringBuilder message = new StringBuilder();
         StringBuilder by = new StringBuilder();
 
@@ -269,7 +261,7 @@ public class Tsundere {
         }
         for (StringBuilder stringBuilder : sb) {
             if (stringBuilder.isEmpty()) {
-                return null;
+                throw new TaskFormatException();
             }
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
         }
@@ -293,23 +285,38 @@ public class Tsundere {
 
             switch (command) {
                 case "todo":
-                    String message = words.length > 1
-                            ? Arrays.stream(words).skip(2).reduce(words[1],
-                                (prev, next) -> prev + " " + next)
-                            : "";
-                    if (message.isEmpty()) {
-                        System.out.println("Use the format `todo <Name>`");
-                    } else {
+                    try {
+                        String message = Arrays.stream(words).skip(2).reduce(words[1],
+                                (prev, next) -> prev + " " + next);
                         addTodo(message);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println(HORIZONTAL_LINE);
+                        System.out.println("Incorrect format!");
+                        System.out.println("Use `todo <name>`");
+                        System.out.println(HORIZONTAL_LINE);
                     }
                     break;
                 case "deadline":
-                    String[] deadlineMessage = parseDeadline(words);
-                    addDeadline(deadlineMessage);
+                    try {
+                        String[] deadlineMessage = parseDeadline(words);
+                        addDeadline(deadlineMessage);
+                    } catch (TaskFormatException e) {
+                        System.out.println(HORIZONTAL_LINE);
+                        System.out.println("Incorrect format!");
+                        System.out.println("Use 'deadline <name> /by <date>'");
+                        System.out.println(HORIZONTAL_LINE);
+                    }
                     break;
                 case "event":
-                    String[] eventMessage = parseEvent(words);
-                    addEvent(eventMessage);
+                    try {
+                        String[] eventMessage = parseEvent(words);
+                        addEvent(eventMessage);
+                    } catch (TaskFormatException e) {
+                        System.out.println(HORIZONTAL_LINE);
+                        System.out.println("Incorrect format!");
+                        System.out.println("Use 'event <name> /from <time> /to <time>'");
+                        System.out.println(HORIZONTAL_LINE);
+                    }
                     break;
                 case "list":
                     list();
