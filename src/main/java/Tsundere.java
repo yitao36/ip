@@ -152,7 +152,7 @@ public class Tsundere {
 
         for (int i = 0; i < numTasks; i++) {
             System.out.print((i+1) + ". ");
-            System.out.println(tasks.get(numTasks));
+            System.out.println(tasks.get(i));
         }
 
         System.out.println(HORIZONTAL_LINE);
@@ -171,11 +171,11 @@ public class Tsundere {
             }
             if (tasks.get(id).isDone()) {
                 System.out.println("Ehh? It's already marked! You probably input the wrong number, silly.");
-                System.out.println(tasks.get(numTasks));
+                System.out.println(tasks.get(id));
             } else {
                 tasks.get(id).markDone();
                 System.out.println("Here, it's marked.");
-                System.out.println(tasks.get(numTasks));
+                System.out.println(tasks.get(id));
             }
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
@@ -201,12 +201,12 @@ public class Tsundere {
                 throw new ArrayIndexOutOfBoundsException();
             } else if (!tasks.get(id).isDone()) {
                 System.out.println("Dude!! That task isn't even done yet!");
-                System.out.println(tasks.get(numTasks));
+                System.out.println(tasks.get(id));
+            } else {
+                tasks.get(id).markUndone();
+                System.out.println("Why'd you even mark it done?");
+                System.out.println(tasks.get(id));
             }
-            tasks.get(id).markUndone();
-            System.out.println("Why'd you even mark it done?");
-            System.out.println(tasks.get(numTasks));
-
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -226,12 +226,13 @@ public class Tsundere {
             if (idString == null) {
                 throw new MissingArgumentException();
             }
-            int id = Integer.parseInt(idString);
+            int id = Integer.parseInt(idString) - 1;
             if (id >= numTasks || id < 0) {
                 throw new ArrayIndexOutOfBoundsException();
             }
 
             Task t = tasks.remove(id);
+            numTasks--;
             System.out.println("I've removed the task.");
             System.out.println(t);
 
