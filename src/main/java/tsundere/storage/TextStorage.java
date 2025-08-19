@@ -99,32 +99,6 @@ public class TextStorage {
         return task;
     }
 
-    public Task retrieve(int id) throws StorageFormatException {
-        try {
-            Scanner sc = new Scanner(new FileReader(storage));
-
-            while (sc.hasNext() && id > 0) {
-                String line = sc.nextLine();
-
-                Task task = validateTask(line);
-
-                if (task == null) {
-                    throw new StorageFormatException();
-                }
-
-                id--;
-                if (id == 0) {
-                    sc.close();
-                    return task;
-                }
-            }
-            sc.close();
-            return null;
-        } catch (FileNotFoundException | StorageFormatException e) {
-            return null;
-        }
-    }
-
     public TaskList retrieveAll() {
         try {
             File file = new File(storage);
@@ -141,10 +115,6 @@ public class TextStorage {
             while (sc.hasNext()) {
                 String line = sc.nextLine();
                 Task task = validateTask(line);
-
-                if (task == null) {
-                    throw new StorageFormatException();
-                }
 
                 tasks.add(task);
             }
@@ -180,7 +150,7 @@ public class TextStorage {
      * @param id The row from the top, starting from 0.
      * @return The deleted task, or null if it does not exist.
      */
-    public Task delete(int id) {
+    public Task delete(int id) throws StorageFormatException {
         try {
             Scanner sc = new Scanner(new FileReader(storage));
             StringBuilder sb = new StringBuilder();

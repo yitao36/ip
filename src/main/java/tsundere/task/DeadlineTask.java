@@ -1,10 +1,13 @@
 package tsundere.task;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static tsundere.Config.TASK_DEADLINE;
 
 public class DeadlineTask extends Task {
-    private final String deadline;
-    public DeadlineTask(String name, String deadline) {
+    private final LocalDateTime deadline;
+    public DeadlineTask(String name, LocalDateTime deadline) {
         super(name);
         this.deadline = deadline;
     }
@@ -17,6 +20,7 @@ public class DeadlineTask extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by " + deadline + ")";
+        return "[D]" + super.toString() + " (By "
+                + deadline.format(DateTimeFormatter.ofPattern("dd-MMM-yy' 'HH:mm")) + ")";
     }
 }

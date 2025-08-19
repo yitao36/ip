@@ -117,10 +117,12 @@ public class Ui {
                     System.out.println("Use `todo <name>`");
                     break;
                 case "deadline":
-                    System.out.println("Use `deadline <name> /by <date>`");
+                    System.out.println("Use `deadline <name> /by <YYYY-MM-DDTHH:MM>`");
+                    System.out.println("Example: deadline TASK /by 2025-02-28T23:59");
                     break;
                 case "event":
-                    System.out.println("Use `event <name> /from <date> /to <date>`");
+                    System.out.println("Use `event <name> /from <YYYY-MM-DDTHH:MM> \n/to <YYYY-MM-DDTHH:MM>`");
+                    System.out.println("Example: `event TASK /from 2025-02-28T23:59 \n/to 2025-02-29T23:59`");
                     break;
                 case "mark":
                     System.out.println("Use `mark <position of task in list>`");
