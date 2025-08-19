@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import tsundere.command.AbstractCommand;
-import tsundere.parser.Parser;
+import tsundere.parser.CommandParser;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
@@ -31,7 +31,7 @@ public class Tsundere {
         boolean isExit = false;
         while (!isExit) {
             String fullCommand = sc.nextLine();
-            AbstractCommand command = Parser.parse(fullCommand);
+            AbstractCommand command = CommandParser.parse(fullCommand);
             command.execute(tasks, ui, storage);
             isExit = command.isExit();
         }

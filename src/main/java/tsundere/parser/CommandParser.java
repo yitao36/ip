@@ -5,9 +5,13 @@ import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
-public class Parser {
+public class CommandParser {
     public static AbstractCommand parse(String fullCommand) {
         String[] args = fullCommand.split(" ");
 
@@ -121,12 +125,21 @@ public class Parser {
                 }
             }
         }
-        if (name.isEmpty() || from.isEmpty() || to.isEmpty()) {
+        if (name.isEmpty() || from.toString().split(" ").length != 1
+                || to.toString().split(" ").length != 1) {
             return new InvalidFormatCommand("event");
         }
+
         name.deleteCharAt(name.length()-1);
         from.deleteCharAt(from.length()-1);
         to.deleteCharAt(to.length()-1);
+
+        try {
+            LocalDateTime.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            LocalDateTime.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+        } catch (DateTimeParseException e) {
+            return new InvalidFormatCommand("event");
+        }
 
         return new AddTaskCommand(new EventTask(name.toString(), from.toString(), to.toString()));
     }
@@ -164,11 +177,19 @@ public class Parser {
             }
         }
 
-        if (name.isEmpty() || by.isEmpty()) {
+        if (name.isEmpty() || by.toString().split(" ").length != 1) {
             return new InvalidFormatCommand("deadline");
         }
+
         name.deleteCharAt(name.length() - 1);
         by.deleteCharAt(by.length() - 1);
+
+        try {
+            LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+        } catch (DateTimeParseException e) {
+            return new InvalidFormatCommand("deadline");
+        }
+
 
         return new AddTaskCommand(new DeadlineTask(name.toString(), by.toString()));
     }

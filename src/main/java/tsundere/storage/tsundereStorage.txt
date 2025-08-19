@@ -1,7 +1,2 @@
-todo,F,a
-event,T,kdad,/from,/to
-deadline,T,adlsd;,ladd
-todo,F,a
-todo,F,aa
-event,F,afs,faef,afsf
-todo,F,adwad
+event,F,ca,2025-02-10T23:59,2025-03-10T23:59
+deadline,F,ADASD,2025-01-01T23:59
