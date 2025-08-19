@@ -193,6 +193,7 @@ public class TextStorage {
                     deletedTask = validateTask(line);
                 } else {
                     sb.append(line);
+                    sb.append("\n");
                 }
                 id--;
             }

@@ -23,6 +23,7 @@ public class Tsundere {
 
     public void run() {
         ui.showWelcome();
+        tasks.addAll(storage.retrieveAll());
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(br);
@@ -39,7 +40,5 @@ public class Tsundere {
     public static void main(String[] args) {
         Tsundere tsundere = new Tsundere("./src/main/java/tsundere/storage/tsundereStorage.txt");
         tsundere.run();
-
-
     }
 }

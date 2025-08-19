@@ -31,7 +31,7 @@ public class Parser {
                     if (args.length < 2) {
                         return new InvalidFormatCommand("mark");
                     }
-                    return new MarkCommand_(Integer.parseInt(args[1]));
+                    return new MarkCommand_(Integer.parseInt(args[1]) - 1);
                 } catch (NumberFormatException e) {
                     return new InvalidFormatCommand("mark");
                 }

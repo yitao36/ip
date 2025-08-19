@@ -37,7 +37,7 @@ public class Ui {
         }
 
         for (Task task : tasks) {
-            System.out.println(num + ". ");
+            System.out.print(num + ". ");
             System.out.println(task);
             num++;
         }
@@ -63,10 +63,28 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public void markRedundant(Task task) {
+        System.out.println(HORIZONTAL_LINE);
+
+        System.out.println("It's already marked, dummy!");
+        System.out.println(task);
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
     public void unmarkSuccess(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
         System.out.println("Why'd you mark it in the first place?");
+        System.out.println(task);
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    public void unmarkRedundant(Task task) {
+        System.out.println(HORIZONTAL_LINE);
+
+        System.out.println("Hey!! You haven't even done the task!");
         System.out.println(task);
 
         System.out.println(HORIZONTAL_LINE);
@@ -124,6 +142,22 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE);
 
         System.out.println(text);
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    public void taskIndexOutOfBounds() {
+        System.out.println(HORIZONTAL_LINE);
+
+        System.out.println("That's not a valid index, baka!!");
+
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    public void storageException() {
+        System.out.println(HORIZONTAL_LINE);
+
+        System.out.println("Storage data seems to be corrupted.");
 
         System.out.println(HORIZONTAL_LINE);
     }

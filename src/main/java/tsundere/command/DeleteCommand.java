@@ -5,6 +5,7 @@ import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
+
 public class DeleteCommand extends AbstractCommand {
     private final int id;
 
@@ -23,7 +24,7 @@ public class DeleteCommand extends AbstractCommand {
             tasks.remove(id);
             ui.deleteSuccess(task);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new RuntimeException(e);
+            ui.taskIndexOutOfBounds();
         }
     }
 }
