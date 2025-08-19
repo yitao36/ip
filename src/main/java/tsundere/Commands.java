@@ -1,18 +1,19 @@
 package tsundere;
 
+import tsundere.storage.AlreadyMarkedException;
+import tsundere.storage.StorageFormatException;
+import tsundere.storage.TextStorage;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.Task;
 import tsundere.task.TodoTask;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 import static tsundere.Config.*;
 
 public class Commands {
-    public static final List<Task> tasks = new ArrayList<>();
-    public static int numTasks = 0;
+    private static final TextStorage storage = new TextStorage("./src/main/java/tsundere/storage/tsundereStorage.txt");
 
     public static void init() {
         System.out.println(HORIZONTAL_LINE);
@@ -35,10 +36,10 @@ public class Commands {
     public static void addTodo(String message) {
         System.out.println(HORIZONTAL_LINE);
 
-        tasks.add(new TodoTask(message));
+        Task todo = new TodoTask(message);
+        storage.store(todo);
         System.out.println("New todo task added!");
-        System.out.println(tasks.get(numTasks));
-        numTasks++;
+        System.out.println(todo);
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -49,10 +50,10 @@ public class Commands {
 
         System.out.println(HORIZONTAL_LINE);
 
-        tasks.add(new DeadlineTask(message, by));
+        Task deadline = new DeadlineTask(message, by);
+        storage.store(deadline);
         System.out.println("New deadline task added!");
-        System.out.println(tasks.get(numTasks));
-        numTasks++;
+        System.out.println(deadline);
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -64,10 +65,10 @@ public class Commands {
 
         System.out.println(HORIZONTAL_LINE);
 
-        tasks.add(new EventTask(message, from, to));
+        Task event = new EventTask(message, from, to);
+        storage.store(event);
         System.out.println("New event task added!");
-        System.out.println(tasks.get(numTasks));
-        numTasks++;
+        System.out.println(event);
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -75,13 +76,15 @@ public class Commands {
     public static void list() {
         System.out.println(HORIZONTAL_LINE);
 
-        if (numTasks == 0) {
+        Task[] tasks = storage.retrieveAll();
+        if (tasks == null || tasks.length == 0) {
             System.out.println("There's no tasks, dummy!");
+            tasks = new Task[] {};
         }
 
-        for (int i = 0; i < numTasks; i++) {
+        for (int i = 0; i < tasks.length; i++) {
             System.out.print((i+1) + ". ");
-            System.out.println(tasks.get(i));
+            System.out.println(tasks[i]);
         }
 
         System.out.println(HORIZONTAL_LINE);
@@ -95,17 +98,14 @@ public class Commands {
                 throw new MissingArgumentException();
             }
             int id = Integer.parseInt(idString) - 1;
-            if (id >= numTasks || id < 0) {
+
+            Task task = storage.mark(id);
+            if (task == null) {
                 throw new ArrayIndexOutOfBoundsException();
             }
-            if (tasks.get(id).isDone()) {
-                System.out.println("Ehh? It's already marked! You probably input the wrong number, silly.");
-                System.out.println(tasks.get(id));
-            } else {
-                tasks.get(id).markDone();
-                System.out.println("Here, it's marked.");
-                System.out.println(tasks.get(id));
-            }
+            System.out.println("Here, it's marked.");
+            System.out.println(task);
+
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -113,6 +113,13 @@ public class Commands {
         } catch (MissingArgumentException e) {
             System.out.println("Don't leave me hanging!");
             System.out.println("Use `mark <task id>");
+        } catch (AlreadyMarkedException e) {
+            System.out.println("Ehh? It's already marked! You probably input the wrong number, silly.");
+            System.out.println(e.getTask());
+        } catch (IOException e) {
+            System.out.println("It seems I'm unable to open the storage file...");
+        } catch (StorageFormatException e) {
+            System.out.println("Storage text seems to be corrupted!");
         } finally {
             System.out.println(HORIZONTAL_LINE);
         }
@@ -126,16 +133,14 @@ public class Commands {
                 throw new MissingArgumentException();
             }
             int id = Integer.parseInt(idString) - 1;
-            if (id >= numTasks || id < 0) {
+
+            Task task = storage.unmark(id);
+            if (task == null) {
                 throw new ArrayIndexOutOfBoundsException();
-            } else if (!tasks.get(id).isDone()) {
-                System.out.println("Dude!! That task isn't even done yet!");
-                System.out.println(tasks.get(id));
-            } else {
-                tasks.get(id).markUndone();
-                System.out.println("Why'd you even mark it done?");
-                System.out.println(tasks.get(id));
             }
+            System.out.println("Why'd you even mark it done?");
+            System.out.println(task);
+
         } catch (NumberFormatException e) {
             System.out.println("That's not a valid number, baka!");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -143,8 +148,13 @@ public class Commands {
         } catch (MissingArgumentException e) {
             System.out.println("Don't leave me hanging!");
             System.out.println("Use `unmark <task id>");
-        } finally {
-            System.out.println(HORIZONTAL_LINE);
+        } catch (AlreadyMarkedException e) {
+            System.out.println("Dude!! That task isn't even done yet!");
+            System.out.println(e.getTask());
+        } catch (IOException e) {
+            System.out.println("It seems I'm unable to open the storage file...");
+        } catch (StorageFormatException e) {
+            System.out.println("Storage text seems to be corrupted!");
         }
     }
 
@@ -155,13 +165,12 @@ public class Commands {
             if (idString == null) {
                 throw new MissingArgumentException();
             }
+
             int id = Integer.parseInt(idString) - 1;
-            if (id >= numTasks || id < 0) {
+            Task t = storage.delete(id);
+            if (t == null) {
                 throw new ArrayIndexOutOfBoundsException();
             }
-
-            Task t = tasks.remove(id);
-            numTasks--;
             System.out.println("I've removed the task.");
             System.out.println(t);
 

@@ -20,6 +20,12 @@ public abstract class Task {
         this.done = false;
     }
 
+    public abstract String toStorageString();
+
+    protected String getName() {
+        return this.name;
+    }
+
     public String toString() {
         return "[" + (done ? "X" : "") + "] " + this.name;
     }

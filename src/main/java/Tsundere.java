@@ -110,7 +110,7 @@ public class Tsundere {
     }
 
     public static String readFromStorage() throws FileNotFoundException {
-        Scanner sc = new Scanner(new FileReader("./tsundereStorage.txt"));
+        Scanner sc = new Scanner(new FileReader("tsundere/storage/tsundereStorage.txt"));
         StringBuilder sb = new StringBuilder();
 
         while (sc.hasNext()) {
