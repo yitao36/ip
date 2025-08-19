@@ -1,5 +1,6 @@
 package tsundere.command;
 
+import tsundere.storage.StorageFormatException;
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
@@ -25,6 +26,8 @@ public class DeleteCommand extends AbstractCommand {
             ui.deleteSuccess(task);
         } catch (ArrayIndexOutOfBoundsException e) {
             ui.taskIndexOutOfBounds();
+        } catch (StorageFormatException e) {
+            ui.storageException();
         }
     }
 }

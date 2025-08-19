@@ -134,14 +134,16 @@ public class CommandParser {
         from.deleteCharAt(from.length()-1);
         to.deleteCharAt(to.length()-1);
 
+        LocalDateTime fromDate;
+        LocalDateTime toDate;
         try {
-            LocalDateTime.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
-            LocalDateTime.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            fromDate = LocalDateTime.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            toDate = LocalDateTime.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
         } catch (DateTimeParseException e) {
             return new InvalidFormatCommand("event");
         }
 
-        return new AddTaskCommand(new EventTask(name.toString(), from.toString(), to.toString()));
+        return new AddTaskCommand(new EventTask(name.toString(), fromDate, toDate));
     }
 
     public static AbstractCommand parseDeadline(String[] words) {
@@ -184,13 +186,14 @@ public class CommandParser {
         name.deleteCharAt(name.length() - 1);
         by.deleteCharAt(by.length() - 1);
 
+        LocalDateTime byDate;
         try {
-            LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            byDate = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
         } catch (DateTimeParseException e) {
             return new InvalidFormatCommand("deadline");
         }
 
 
-        return new AddTaskCommand(new DeadlineTask(name.toString(), by.toString()));
+        return new AddTaskCommand(new DeadlineTask(name.toString(), byDate));
     }
 }

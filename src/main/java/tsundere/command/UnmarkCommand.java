@@ -29,7 +29,7 @@ public class UnmarkCommand extends AbstractCommand {
         } catch (ArrayIndexOutOfBoundsException e) {
             ui.taskIndexOutOfBounds();
         } catch (AlreadyMarkedException e) {
-            ui.markRedundant(e.getTask());
+            ui.unmarkRedundant(e.getTask());
         } catch (StorageFormatException | IOException e) {
             ui.storageException();
         }

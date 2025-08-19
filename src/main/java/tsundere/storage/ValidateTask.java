@@ -5,10 +5,14 @@ import tsundere.task.EventTask;
 import tsundere.task.Task;
 import tsundere.task.TodoTask;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import static tsundere.Config.*;
 
 public class ValidateTask {
-    public static Task validateTask(String task) {
+    public static Task validateTask(String task) throws StorageFormatException {
         String[] params = task.split(",");
         if (params.length == 0) {
             return null;
@@ -27,15 +31,15 @@ public class ValidateTask {
      * @param task task parameters
      * @return Task
      */
-    private static Task validateTodo(String[] task) {
+    private static Task validateTodo(String[] task) throws StorageFormatException {
         if (task.length != 3) {
-            return null;
+            throw new StorageFormatException();
         }
         String checked = task[1];
         String name = task[2];
 
         if (!(checked.equals("T") || checked.equals("F"))) {
-            return null;
+            throw new StorageFormatException();
         }
 
         Task t = new TodoTask(name);
@@ -50,17 +54,25 @@ public class ValidateTask {
      * @param task task parameters
      * @return Task
      */
-    private static Task validateDeadline(String[] task) {
+    private static Task validateDeadline(String[] task) throws StorageFormatException {
         if (task.length != 4) {
-            return null;
+            throw new StorageFormatException();
         }
         String checked = task[1];
         String name = task[2];
-        String byDate = task[3];
+        String by = task[3];
 
         if (!(checked.equals("T") || checked.equals("F"))) {
-            return null;
+            throw new StorageFormatException();
         }
+
+        LocalDateTime byDate;
+        try {
+            byDate = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+        } catch (DateTimeParseException e) {
+            throw new StorageFormatException();
+        }
+
         Task t = new DeadlineTask(name, byDate);
         if (checked.equals("T")) {
             t.markDone();
@@ -73,19 +85,27 @@ public class ValidateTask {
      * @param task task parameters
      * @return Task
      */
-    private static Task validateEvent(String[] task) {
+    private static Task validateEvent(String[] task) throws StorageFormatException {
         if (task.length != 5) {
-            return null;
+            throw new StorageFormatException();
         }
         String checked = task[1];
         String name = task[2];
-        String startDate = task[3];
-        String endDate = task[4];
+        String start = task[3];
+        String end = task[4];
 
         if (!(checked.equals("T") || checked.equals("F"))) {
-            return null;
+            throw new StorageFormatException();
         }
 
+        LocalDateTime startDate;
+        LocalDateTime endDate;
+        try {
+            startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+        } catch (DateTimeParseException e) {
+            throw new StorageFormatException();
+        }
         Task t = new EventTask(name, startDate, endDate);
         if (checked.equals("T")) {
             t.markDone();
