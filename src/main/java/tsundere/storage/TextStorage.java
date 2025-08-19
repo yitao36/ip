@@ -1,6 +1,7 @@
 package tsundere.storage;
 
 import tsundere.task.Task;
+import tsundere.task.TaskList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class TextStorage {
     }
 
     /**
-     * Finds the task on the line id, and updates F to T.
+     * Finds the task on the corresponding row, and updates F to T.
      * @param id The row from the top, starting from 0.
      * @return The modified task, or null if it does not exist.
      * @throws AlreadyMarkedException The task is already marked.
@@ -28,22 +29,22 @@ public class TextStorage {
         Scanner sc = new Scanner(new FileReader(storage));
         StringBuilder sb = new StringBuilder();
 
-        Task t = null;
+        Task task = null;
 
         while (sc.hasNext()) {
             String line = sc.nextLine();
             if (id == 0) {
-                t = validateTask(line);
-                if (t == null) {
+                task = validateTask(line);
+                if (task == null) {
                     throw new StorageFormatException();
-                } else if (t.isDone()) {
+                } else if (task.isDone()) {
                     // Do not need to change file, return early
                     sc.close();
-                    throw new AlreadyMarkedException(t);
+                    throw new AlreadyMarkedException(task);
                 } else {
-                    t.markDone();
+                    task.markDone();
                 }
-                sb.append(t.toStorageString());
+                sb.append(task.toStorageString());
                 sb.append('\n');
             } else {
                 sb.append(line);
@@ -54,11 +55,11 @@ public class TextStorage {
         FileWriter fw = new FileWriter(storage);
         fw.append(sb);
         fw.close();
-        return t;
+        return task;
     }
 
     /**
-     * Finds the task on the line id, and updates T to F.
+     * Finds the task on the corresponding row, and updates T to F.
      * @param id The row from the top, starting from 0.
      * @return The modified task, or null if it does not exist
      * @throws AlreadyMarkedException The task is already marked.
@@ -124,7 +125,7 @@ public class TextStorage {
         }
     }
 
-    public Task[] retrieveAll() {
+    public TaskList retrieveAll() {
         try {
             File file = new File(storage);
 
@@ -135,7 +136,7 @@ public class TextStorage {
             }
 
             Scanner sc = new Scanner(file);
-            List<Task> arr = new ArrayList<>();
+            TaskList tasks = new TaskList();
 
             while (sc.hasNext()) {
                 String line = sc.nextLine();
@@ -145,10 +146,10 @@ public class TextStorage {
                     throw new StorageFormatException();
                 }
 
-                arr.add(task);
+                tasks.add(task);
             }
             sc.close();
-            return arr.toArray(new Task[0]);
+            return tasks;
         } catch (FileNotFoundException e) {
             System.out.println("NOTFOUND");
             return null;
@@ -174,6 +175,11 @@ public class TextStorage {
         }
     }
 
+    /**
+     * Finds the task on corresponding row and deletes it.
+     * @param id The row from the top, starting from 0.
+     * @return The deleted task, or null if it does not exist.
+     */
     public Task delete(int id) {
         try {
             Scanner sc = new Scanner(new FileReader(storage));
