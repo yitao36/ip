@@ -28,13 +28,14 @@ public class DeadlineTask extends Task {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof DeadlineTask deadlineTask) {
-            return this.deadline.equals(deadlineTask.deadline);
+            return this.deadline.equals(deadlineTask.deadline)
+                    && super.equals(deadlineTask);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.deadline);
+        return Objects.hash(super.hashCode(), this.deadline);
     }
 }

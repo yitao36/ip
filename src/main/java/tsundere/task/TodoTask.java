@@ -22,13 +22,13 @@ public class TodoTask extends Task {
     @Override
     public boolean equals(Object o) {
         if (o instanceof TodoTask todoTask) {
-            return this.getName().equals(todoTask.getName());
+            return super.equals(todoTask);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getName());
+        return Objects.hash(super.hashCode());
     }
 }

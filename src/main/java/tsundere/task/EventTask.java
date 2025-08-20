@@ -33,13 +33,14 @@ public class EventTask extends Task {
     public boolean equals(Object obj) {
         if (obj instanceof EventTask eventTask) {
             return this.from.equals(eventTask.from)
-                    && this.to.equals(eventTask.to);
+                    && this.to.equals(eventTask.to)
+                    && super.equals(eventTask);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.from, this.to);
+        return Objects.hash(super.hashCode(), this.from, this.to);
     }
 }
