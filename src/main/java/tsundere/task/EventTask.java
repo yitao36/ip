@@ -2,6 +2,7 @@ package tsundere.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import static tsundere.Config.*;
 
@@ -26,5 +27,19 @@ public class EventTask extends Task {
         return "[E]" + super.toString() + " (From "
                 + from.format(DateTimeFormatter.ofPattern("dd-MMM-yy' 'HH:mm")) + " To "
                 + to.format(DateTimeFormatter.ofPattern("dd-MMM-yy' 'HH:mm")) + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof EventTask eventTask) {
+            return this.from.equals(eventTask.from)
+                    && this.to.equals(eventTask.to);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.from, this.to);
     }
 }

@@ -14,4 +14,17 @@ public class InvalidFormatCommand extends AbstractCommand {
     public void execute(TaskList tasks, Ui ui, TextStorage storage) {
         ui.showHelp(format);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof InvalidFormatCommand command) {
+            return this.format.equals(command.format);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.format.hashCode();
+    }
 }

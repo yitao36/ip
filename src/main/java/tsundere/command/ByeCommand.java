@@ -13,4 +13,14 @@ public class ByeCommand extends AbstractCommand {
     public void execute(TaskList tasks, Ui ui, TextStorage storage) {
         ui.showExit();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ByeCommand;
+    }
+
+    @Override
+    public int hashCode() {
+        return ByeCommand.class.hashCode();
+    }
 }

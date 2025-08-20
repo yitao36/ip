@@ -30,4 +30,17 @@ public class DeleteCommand extends AbstractCommand {
             ui.storageException();
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof DeleteCommand deleteCommand) {
+            return this.id == deleteCommand.id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return DeleteCommand.class.hashCode();
+    }
 }

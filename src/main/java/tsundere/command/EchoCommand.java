@@ -15,4 +15,17 @@ public class EchoCommand extends AbstractCommand {
     public void execute(TaskList tasks, Ui ui, TextStorage storage) {
         ui.echo(text);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof EchoCommand echoCommand) {
+            return this.text.equals(echoCommand.text);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.text.hashCode();
+    }
 }
