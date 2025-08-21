@@ -1,5 +1,7 @@
 package tsundere.task;
 
+import java.util.Objects;
+
 public abstract class Task {
     private final String name;
     private boolean done = false;
@@ -28,6 +30,19 @@ public abstract class Task {
 
     public String toString() {
         return "[" + (done ? "X" : "") + "] " + this.name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Task task) {
+            return this.name.equals(task.name) && this.done == task.done;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.name, this.done);
     }
 }
 

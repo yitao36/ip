@@ -8,6 +8,7 @@ import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class UnmarkCommand extends AbstractCommand {
     private int id;
@@ -33,5 +34,18 @@ public class UnmarkCommand extends AbstractCommand {
         } catch (StorageFormatException | IOException e) {
             ui.storageException();
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof UnmarkCommand unmarkCommand) {
+            return this.id == unmarkCommand.id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return UnmarkCommand.class.hashCode();
     }
 }

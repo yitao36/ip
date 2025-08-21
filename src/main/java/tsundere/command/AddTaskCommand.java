@@ -8,6 +8,7 @@ import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AddTaskCommand extends AbstractCommand {
     private final Task task;
@@ -26,5 +27,18 @@ public class AddTaskCommand extends AbstractCommand {
         } catch (ArrayIndexOutOfBoundsException e) {
             ui.taskIndexOutOfBounds();
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AddTaskCommand addTaskCommand) {
+            return this.task.equals(addTaskCommand.task);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.task);
     }
 }

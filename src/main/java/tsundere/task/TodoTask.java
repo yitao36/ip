@@ -1,5 +1,7 @@
 package tsundere.task;
 
+import java.util.Objects;
+
 import static tsundere.Config.TASK_TODO;
 
 public class TodoTask extends Task {
@@ -15,5 +17,18 @@ public class TodoTask extends Task {
     @Override
     public String toString() {
         return "[T]" + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TodoTask todoTask) {
+            return super.equals(todoTask);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode());
     }
 }

@@ -34,4 +34,17 @@ public class MarkCommand_ extends AbstractCommand {
             ui.storageException();
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof MarkCommand_ markCommand) {
+            return this.id == markCommand.id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return MarkCommand_.class.hashCode();
+    }
 }

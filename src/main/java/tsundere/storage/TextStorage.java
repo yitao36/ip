@@ -120,16 +120,8 @@ public class TextStorage {
             }
             sc.close();
             return tasks;
-        } catch (FileNotFoundException e) {
-            System.out.println("NOTFOUND");
-            return null;
-        } catch (StorageFormatException e) {
-            System.out.println("STORAGE");
-            return null;
-        } catch (IOException e) {
-
-            System.out.println("IO");
-            return null;
+        } catch (StorageFormatException | IOException e) {
+            throw new RuntimeException();
         }
     }
 
@@ -174,6 +166,19 @@ public class TextStorage {
             fw.close();
 
             return deletedTask;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Deletes all data stored in the specified storage.
+     */
+    public void clear() {
+        try {
+            FileWriter fw = new FileWriter(storage);
+            fw.flush();
+            fw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

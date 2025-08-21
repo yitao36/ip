@@ -2,6 +2,7 @@ package tsundere.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import static tsundere.Config.TASK_DEADLINE;
 
@@ -22,5 +23,19 @@ public class DeadlineTask extends Task {
     public String toString() {
         return "[D]" + super.toString() + " (By "
                 + deadline.format(DateTimeFormatter.ofPattern("dd-MMM-yy' 'HH:mm")) + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof DeadlineTask deadlineTask) {
+            return this.deadline.equals(deadlineTask.deadline)
+                    && super.equals(deadlineTask);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this.deadline);
     }
 }

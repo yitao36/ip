@@ -5,13 +5,31 @@ import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
 public class InvalidFormatCommand extends AbstractCommand {
-    private final String format;
-    public InvalidFormatCommand(String format) {
+    public enum Format {
+            TODO, DEADLINE, EVENT, EVENT_DATE, MARK, UNMARK, DELETE, HELP
+    }
+
+    private final Format format;
+
+    public InvalidFormatCommand(Format format) {
         super(false);
         this.format = format;
     }
     @Override
     public void execute(TaskList tasks, Ui ui, TextStorage storage) {
         ui.showHelp(format);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof InvalidFormatCommand command) {
+            return this.format.equals(command.format);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.format.hashCode();
     }
 }
