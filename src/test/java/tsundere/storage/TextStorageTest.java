@@ -17,8 +17,8 @@ public class TextStorageTest {
      * Initializes a new text storage in the specified test folder.
      * Clears its contents between each test.
      */
-    public TextStorageTest() {
-        this.storage = new TextStorage("./src/test/java/tsundere/storage/tsundereStorage.txt");
+    public TextStorageTest() throws IOException {
+        this.storage = TextStorage.of();
         storage.clear();
     }
 

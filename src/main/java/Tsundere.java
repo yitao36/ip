@@ -20,7 +20,7 @@ public class Tsundere {
     private final TextStorage storage;
     private final TaskList tasks;
 
-    public Tsundere(String path) {
+    public Tsundere() {
         this.ui = new Ui();
         try {
             this.storage = TextStorage.of();
@@ -48,7 +48,7 @@ public class Tsundere {
     }
 
     public static void main(String[] args) {
-        Tsundere tsundere = new Tsundere("./src/main/java/tsundere/storage/tsundereStorage.txt");
+        Tsundere tsundere = new Tsundere();
         tsundere.run();
     }
 }

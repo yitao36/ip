@@ -22,7 +22,7 @@ public class TextStorage {
 
     /**
      * Factory method to try and create a new storage file
-     * @return new TextStorage or IO exception if none of the storage paths work
+     * @return new TextStorage or IO Exception if none of the default storage paths work
      */
     public static TextStorage of() throws IOException {
         try {
@@ -122,6 +122,10 @@ public class TextStorage {
         return task;
     }
 
+    /**
+     * Fetches all the tasks from storage. Runs on initialization of application
+     * @return
+     */
     public TaskList retrieveAll() {
         try {
             File file = new File(storage);
