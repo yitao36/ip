@@ -11,10 +11,33 @@ import java.util.Scanner;
 import static tsundere.storage.ValidateTask.validateTask;
 
 public class TextStorage {
+    private final static String DEFAULT_STORAGE_PATH = "./src/main/java/tsundere/storage/tsundereStorage.txt";
+    private final static String ALT_STORAGE_PATH = "./tsundereStorage.txt";
+
     private final String storage;
 
-    public TextStorage(String storage) {
+    private TextStorage(String storage) {
         this.storage = storage;
+    }
+
+    /**
+     * Factory method to try and create a new storage file
+     * @return new TextStorage or IO exception if none of the storage paths work
+     */
+    public static TextStorage of() throws IOException {
+        try {
+            File file = new File(DEFAULT_STORAGE_PATH);
+            if (!file.exists() && !file.createNewFile()) {
+                throw new IOException();
+            }
+            return new TextStorage(DEFAULT_STORAGE_PATH);
+        } catch (IOException e) {
+            File file = new File(ALT_STORAGE_PATH);
+            if (!file.exists() && !file.createNewFile()) {
+                throw new IOException();
+            }
+            return new TextStorage(ALT_STORAGE_PATH);
+        }
     }
 
     /**
@@ -108,6 +131,8 @@ public class TextStorage {
                     System.out.println("Error creating storage file..");
                 }
             }
+
+            System.out.println(file);
 
             Scanner sc = new Scanner(file);
             TaskList tasks = new TaskList();
