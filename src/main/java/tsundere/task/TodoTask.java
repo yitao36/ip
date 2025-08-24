@@ -4,6 +4,11 @@ import java.util.Objects;
 
 import static tsundere.Config.TASK_TODO;
 
+/**
+ * A task that can be marked as completed.
+ *
+ * @see tsundere.task.Task
+ */
 public class TodoTask extends Task {
     public TodoTask (String name) {
         super(name);

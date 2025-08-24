@@ -12,6 +12,13 @@ import java.time.format.DateTimeParseException;
 import static tsundere.Config.*;
 
 public class ValidateTask {
+    /**
+     * Validates that the String format stored in the text database is correct,
+     * and creates the new corresponding Task.
+     * @param task The text String containing information about the task
+     * @return new Task
+     * @throws StorageFormatException If text format does not comply with standards.
+     */
     public static Task validateTask(String task) throws StorageFormatException {
         String[] params = task.split(",");
         if (params.length == 0) {
@@ -28,7 +35,7 @@ public class ValidateTask {
 
     /**
      * The string format should be `todo,[checked],[name]`
-     * @param task task parameters
+     * @param task The columns of data, split by ','.
      * @return Task
      */
     private static Task validateTodo(String[] task) throws StorageFormatException {
@@ -51,7 +58,7 @@ public class ValidateTask {
 
     /**
      * The string format should be `deadline,[checked],[name],[byDate]`
-     * @param task task parameters
+     * @param task The columns of data, split by ','.
      * @return Task
      */
     private static Task validateDeadline(String[] task) throws StorageFormatException {
@@ -82,7 +89,7 @@ public class ValidateTask {
 
     /**
      * The string format should be `event,[checked],[name],[startDate],[endDate]`
-     * @param task task parameters
+     * @param task The columns of data, split by ','.
      * @return Task
      */
     private static Task validateEvent(String[] task) throws StorageFormatException {

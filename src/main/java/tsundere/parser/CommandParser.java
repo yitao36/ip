@@ -12,6 +12,11 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
 public class CommandParser {
+    /**
+     * Parses the command based on the first word.
+     * @param fullCommand The user input to be parsed.
+     * @return A runnable command that effects storage, ui, and tasks.
+     */
     public static AbstractCommand parse(String fullCommand) {
         String[] args = fullCommand.split(" ");
 
@@ -65,17 +70,28 @@ public class CommandParser {
         }
     }
 
-    public static AbstractCommand parseTodo(String[] args) {
-        if (args.length < 2) {
+    /**
+     * Verifies that the user input follows the format `todo <name>`.
+     * @param words The full user input split by spaces.
+     * @return {@link AddTaskCommand} if user input is valid, else InvalidFormatCommand
+     */
+    public static AbstractCommand parseTodo(String[] words) {
+        if (words.length < 2) {
             return new InvalidFormatCommand(Format.TODO);
         }
 
-        String name = Arrays.stream(args).skip(2).reduce(args[1],
+        String name = Arrays.stream(words).skip(2).reduce(words[1],
                 (prev, next) -> prev + " " + next);
 
         return new AddTaskCommand(new TodoTask(name));
     }
 
+    /**
+     * Verifies that the user input follows the format `event <name> /from <date> /to <date>`,
+     * where date is of the format `yyyy-MM-dd'T'HH:mm`.
+     * @param words The full user input split by spaces.
+     * @return AddTaskCommand if user input is valid, else InvalidFormatCommand
+     */
     public static AbstractCommand parseEvent(String[] words) {
         if (words.length < 6) {
             return new InvalidFormatCommand(Format.EVENT);
@@ -149,6 +165,12 @@ public class CommandParser {
         return new AddTaskCommand(new EventTask(name.toString(), fromDate, toDate));
     }
 
+    /**
+     * Verifies that the user input follows the format `deadline <name> /by <date>`,
+     * where date is of the format `yyyy-MM-dd'T'HH:mm`.
+     * @param words The full user input split by spaces.
+     * @return AddTaskCommand if user input is valid, else InvalidFormatCommand
+     */
     public static AbstractCommand parseDeadline(String[] words) {
         if (words.length < 4) {
             return new InvalidFormatCommand(Format.DEADLINE);

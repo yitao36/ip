@@ -4,8 +4,6 @@ import tsundere.task.Task;
 import tsundere.task.TaskList;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static tsundere.storage.ValidateTask.validateTask;
@@ -122,17 +120,13 @@ public class TextStorage {
         return task;
     }
 
+    /**
+     * Fetches all the tasks from storage. Runs on initialization of application.
+     * @return TaskList
+     */
     public TaskList retrieveAll() {
         try {
             File file = new File(storage);
-
-            if (!file.exists()) {
-                if (!file.createNewFile()) {
-                    System.out.println("Error creating storage file..");
-                }
-            }
-
-            System.out.println(file);
 
             Scanner sc = new Scanner(file);
             TaskList tasks = new TaskList();
@@ -150,9 +144,13 @@ public class TextStorage {
         }
     }
 
-    public void store(Task t) {
+    /**
+     * Appends the task in a new line at the end of the file.
+     * @param task Task to be stored.
+     */
+    public void store(Task task) {
         try {
-            String data = t.toStorageString();
+            String data = task.toStorageString();
             FileWriter fw = new FileWriter(storage, true);
             fw.append(data);
             fw.append('\n');
@@ -197,7 +195,7 @@ public class TextStorage {
     }
 
     /**
-     * Deletes all data stored in the specified storage.
+     * Deletes all data stored in the specified storage. Used for testing.
      */
     public void clear() {
         try {

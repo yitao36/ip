@@ -6,6 +6,11 @@ import java.util.Objects;
 
 import static tsundere.Config.TASK_DEADLINE;
 
+/**
+ * A task that contains a date specifying the task's deadline.
+ *
+ * @see tsundere.task.Task
+ */
 public class DeadlineTask extends Task {
     private final LocalDateTime deadline;
     public DeadlineTask(String name, LocalDateTime deadline) {
