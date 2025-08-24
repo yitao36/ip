@@ -24,7 +24,7 @@ public abstract class Task {
 
     public abstract String toStorageString();
 
-    protected String getName() {
+    public String getName() {
         return this.name;
     }
 

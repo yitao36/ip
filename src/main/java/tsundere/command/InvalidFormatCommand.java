@@ -6,7 +6,7 @@ import tsundere.ui.Ui;
 
 public class InvalidFormatCommand extends AbstractCommand {
     public enum Format {
-            TODO, DEADLINE, EVENT, EVENT_DATE, MARK, UNMARK, DELETE, HELP
+            TODO, DEADLINE, EVENT, EVENT_DATE, FIND, MARK, UNMARK, DELETE, HELP
     }
 
     private final Format format;

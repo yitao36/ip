@@ -133,6 +133,10 @@ public class Ui {
                 System.out.println("Invalid date order!");
                 System.out.println("From date should be before To date!");
             }
+            case FIND -> {
+                System.out.println("Wrong format!");
+                System.out.println("Use `find <name>`");
+            }
             case MARK -> {
                 System.out.println("Wrong format!");
                 System.out.println("Use `mark <position of task in list>`");

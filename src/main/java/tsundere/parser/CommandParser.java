@@ -30,6 +30,12 @@ public class CommandParser {
                 return parseEvent(args);
             case "list":
                 return new ListCommand();
+        case "find":
+            if (args.length < 2) {
+                return new InvalidFormatCommand(Format.FIND);
+            }
+            return new FindCommand(Arrays.stream(args).skip(2)
+                    .reduce(args[1], (prev, next) -> prev + ' ' + next));
             case "mark":
                 try {
                     if (args.length < 2) {
