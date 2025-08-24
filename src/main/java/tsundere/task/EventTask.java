@@ -6,6 +6,11 @@ import java.util.Objects;
 
 import static tsundere.Config.*;
 
+/**
+ * A task that contains two dates, specifying the start date and end date of the task.
+ *
+ * @see tsundere.task.Task
+ */
 public class EventTask extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;

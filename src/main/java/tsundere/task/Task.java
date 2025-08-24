@@ -2,32 +2,56 @@ package tsundere.task;
 
 import java.util.Objects;
 
+/**
+ * Represents an abstract task with a name and completion status.
+ */
 public abstract class Task {
     private final String name;
     private boolean done = false;
 
+    /**
+     * Constructs a new Task with the specified name.
+     * The task is initially marked as not done.
+     *
+     * @param name the name of the task
+     */
     public Task(String name) {
         this.name = name;
     }
 
+    /**
+     * Checks if the current task has been completed.
+     * @return True if the task is completed, else false.
+     */
     public boolean isDone() {
         return done;
     }
 
+    /**
+     * Marks the current task as completed.
+     */
     public void markDone() {
         this.done = true;
     }
 
+    /**
+     * Marks the current task as not completed.
+     */
     public void markUndone() {
         this.done = false;
     }
 
     public abstract String toStorageString();
 
+    /**
+     * Returns the name of the task.
+     * @return name of the task.
+     */
     protected String getName() {
         return this.name;
     }
 
+    @Override
     public String toString() {
         return "[" + (done ? "X" : "") + "] " + this.name;
     }

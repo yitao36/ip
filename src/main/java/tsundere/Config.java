@@ -7,6 +7,4 @@ public class Config {
     public static final String TASK_TODO = "todo";
     public static final String TASK_DEADLINE = "deadline";
     public static final String TASK_EVENT = "event";
-
-
 }
