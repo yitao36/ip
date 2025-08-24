@@ -1,7 +1,9 @@
 package tsundere.parser;
 
 import tsundere.command.*;
+
 import static tsundere.command.InvalidFormatCommand.Format;
+
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
@@ -27,46 +29,47 @@ public class CommandParser {
         String command = args[0];
 
         switch (command) {
-            case "todo":
-                return parseTodo(args);
-            case "deadline":
-                return parseDeadline(args);
-            case "event":
-                return parseEvent(args);
-            case "list":
-                return new ListCommand();
-            case "mark":
-                try {
-                    if (args.length < 2) {
-                        return new InvalidFormatCommand(Format.MARK);
-                    }
-                    return new MarkCommand_(Integer.parseInt(args[1]) - 1);
-                } catch (NumberFormatException e) {
+        case "todo":
+            return parseTodo(args);
+        case "deadline":
+            return parseDeadline(args);
+        case "event":
+            return parseEvent(args);
+        case "list":
+            return new ListCommand();
+        case "mark":
+            try {
+                if (args.length < 2) {
                     return new InvalidFormatCommand(Format.MARK);
                 }
-            case "unmark":
-                try {
-                    if (args.length < 2) {
-                        return new InvalidFormatCommand(Format.UNMARK);
-                    }
-                    return new UnmarkCommand(Integer.parseInt(args[1]) - 1);
-                } catch (NumberFormatException e) {
+                return new MarkCommand_(Integer.parseInt(args[1]) - 1);
+            } catch (NumberFormatException e) {
+                return new InvalidFormatCommand(Format.MARK);
+            }
+        case "unmark":
+            try {
+                if (args.length < 2) {
                     return new InvalidFormatCommand(Format.UNMARK);
                 }
-            case "delete":
-                try {
-                    if (args.length < 2) {
-                        return new InvalidFormatCommand(Format.DELETE);
-                    }
-                    return new DeleteCommand(Integer.parseInt(args[1]) - 1);
-                } catch (NumberFormatException e) {
+                return new UnmarkCommand(Integer.parseInt(args[1]) - 1);
+            } catch (NumberFormatException e) {
+                return new InvalidFormatCommand(Format.UNMARK);
+            }
+        case "delete":
+            try {
+                if (args.length < 2) {
                     return new InvalidFormatCommand(Format.DELETE);
                 }
-            case "bye":
-                return new ByeCommand();
-            case "noInput":
-            default:
-                return new EchoCommand(fullCommand);
+                return new DeleteCommand(Integer.parseInt(args[1]) - 1);
+            } catch (NumberFormatException e) {
+                return new InvalidFormatCommand(Format.DELETE);
+            }
+        case "bye":
+            return new ByeCommand();
+        case "noInput":
+            // Fallthrough
+        default:
+            return new EchoCommand(fullCommand);
         }
     }
 
@@ -100,44 +103,44 @@ public class CommandParser {
         StringBuilder from = new StringBuilder();
         StringBuilder to = new StringBuilder();
 
-        enum Params {NAME, FROM, TO};
+        enum Params {NAME, FROM, TO}
         Params type = Params.NAME;
 
         for (int i = 1; i < words.length; i++) {
             if (words[i].equals("/from")) {
                 switch (type) {
-                    case NAME -> type = Params.FROM;
-                    case FROM -> {
-                        from.append(words[i]);
-                        from.append(' ');
-                    }
-                    case TO -> {
-                        to.append(words[i]);
-                        to.append(' ');
-                    }
+                case NAME -> type = Params.FROM;
+                case FROM -> {
+                    from.append(words[i]);
+                    from.append(' ');
+                }
+                case TO -> {
+                    to.append(words[i]);
+                    to.append(' ');
+                }
                 }
             } else if (words[i].equals("/to")) {
                 switch (type) {
-                    case NAME, FROM -> type = Params.TO;
-                    case TO -> {
-                        to.append(words[i]);
-                        to.append(' ');
-                    }
+                case NAME, FROM -> type = Params.TO;
+                case TO -> {
+                    to.append(words[i]);
+                    to.append(' ');
+                }
                 }
             } else {
                 switch (type) {
-                    case NAME -> {
-                        name.append(words[i]);
-                        name.append(' ');
-                    }
-                    case FROM -> {
-                        from.append(words[i]);
-                        from.append(' ');
-                    }
-                    case TO -> {
-                        to.append(words[i]);
-                        to.append(' ');
-                    }
+                case NAME -> {
+                    name.append(words[i]);
+                    name.append(' ');
+                }
+                case FROM -> {
+                    from.append(words[i]);
+                    from.append(' ');
+                }
+                case TO -> {
+                    to.append(words[i]);
+                    to.append(' ');
+                }
                 }
             }
         }
@@ -146,9 +149,9 @@ public class CommandParser {
             return new InvalidFormatCommand(InvalidFormatCommand.Format.EVENT);
         }
 
-        name.deleteCharAt(name.length()-1);
-        from.deleteCharAt(from.length()-1);
-        to.deleteCharAt(to.length()-1);
+        name.deleteCharAt(name.length() - 1);
+        from.deleteCharAt(from.length() - 1);
+        to.deleteCharAt(to.length() - 1);
 
         LocalDateTime fromDate;
         LocalDateTime toDate;
@@ -178,28 +181,29 @@ public class CommandParser {
         StringBuilder name = new StringBuilder();
         StringBuilder by = new StringBuilder();
 
-        enum Param {NAME, BY};
+        enum Param {NAME, BY}
+        ;
         Param type = Param.NAME;
 
         for (int i = 1; i < words.length; i++) {
             if (words[i].equals("/by")) {
                 switch (type) {
-                    case NAME -> type = Param.BY;
-                    case BY -> {
-                        by.append(words[i]);
-                        by.append(' ');
-                    }
+                case NAME -> type = Param.BY;
+                case BY -> {
+                    by.append(words[i]);
+                    by.append(' ');
+                }
                 }
             } else {
                 switch (type) {
-                    case NAME -> {
-                        name.append(words[i]);
-                        name.append(' ');
-                    }
-                    case BY -> {
-                        by.append(words[i]);
-                        by.append(' ');
-                    }
+                case NAME -> {
+                    name.append(words[i]);
+                    name.append(' ');
+                }
+                case BY -> {
+                    by.append(words[i]);
+                    by.append(' ');
+                }
                 }
             }
         }
