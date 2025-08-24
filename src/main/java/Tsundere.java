@@ -15,6 +15,7 @@ public class Tsundere {
     private final TextStorage storage;
     private final TaskList tasks;
 
+<<<<<<< HEAD
     /**
      * Initializes a new Tsundere chatbot with a text file storage.
      *
@@ -22,6 +23,9 @@ public class Tsundere {
      */
     public Tsundere() {
         this.tasks = new TaskList();
+=======
+    public Tsundere() {
+>>>>>>> branch-Level-9
         this.ui = new Ui();
         try {
             this.storage = TextStorage.of();

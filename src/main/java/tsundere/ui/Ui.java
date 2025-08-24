@@ -40,6 +40,7 @@ public class Ui {
 
     /**
      * Prints the list of tasks and their indexes to the user.
+     *
      * @param tasks The list of tasks to be printed.
      */
     public void listTasks(TaskList tasks) {
@@ -134,6 +135,7 @@ public class Ui {
     /**
      * The specific format use is shown to the user when their command does not follow the correct format.
      * Also shows all available commands when input is empty or 'help'.
+     *
      * @param format The format to be explained to the user.
      */
     public void showHelp(Format format) {
@@ -167,6 +169,10 @@ public class Ui {
         case EVENT_DATE -> {
             System.out.println("Invalid date order!");
             System.out.println("From date should be before To date!");
+        }
+        case FIND -> {
+            System.out.println("Wrong format!");
+            System.out.println("Use `find <name>`");
         }
         case MARK -> {
             System.out.println("Wrong format!");

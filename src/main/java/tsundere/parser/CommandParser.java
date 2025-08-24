@@ -16,6 +16,7 @@ import java.util.Arrays;
 public class CommandParser {
     /**
      * Parses the command based on the first word.
+     *
      * @param fullCommand The user input to be parsed.
      * @return A runnable command that effects storage, ui, and tasks.
      */
@@ -37,6 +38,12 @@ public class CommandParser {
             return parseEvent(args);
         case "list":
             return new ListCommand();
+        case "find":
+            if (args.length < 2) {
+                return new InvalidFormatCommand(Format.FIND);
+            }
+            return new FindCommand(Arrays.stream(args).skip(2)
+                    .reduce(args[1], (prev, next) -> prev + ' ' + next));
         case "mark":
             try {
                 if (args.length < 2) {
@@ -75,6 +82,7 @@ public class CommandParser {
 
     /**
      * Verifies that the user input follows the format `todo <name>`.
+     *
      * @param words The full user input split by spaces.
      * @return {@link AddTaskCommand} if user input is valid, else InvalidFormatCommand
      */
@@ -92,6 +100,7 @@ public class CommandParser {
     /**
      * Verifies that the user input follows the format `event <name> /from <date> /to <date>`,
      * where date is of the format `yyyy-MM-dd'T'HH:mm`.
+     *
      * @param words The full user input split by spaces.
      * @return AddTaskCommand if user input is valid, else InvalidFormatCommand
      */
@@ -171,6 +180,7 @@ public class CommandParser {
     /**
      * Verifies that the user input follows the format `deadline <name> /by <date>`,
      * where date is of the format `yyyy-MM-dd'T'HH:mm`.
+     *
      * @param words The full user input split by spaces.
      * @return AddTaskCommand if user input is valid, else InvalidFormatCommand
      */

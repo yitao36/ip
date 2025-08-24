@@ -47,7 +47,7 @@ public abstract class Task {
      * Returns the name of the task.
      * @return name of the task.
      */
-    protected String getName() {
+    public String getName() {
         return this.name;
     }
 
