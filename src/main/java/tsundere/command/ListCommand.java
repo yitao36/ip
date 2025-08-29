@@ -4,6 +4,9 @@ import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
+/**
+ * Command to list out all the tasks to the user.
+ */
 public class ListCommand extends AbstractCommand {
     public ListCommand() {
         super(false);

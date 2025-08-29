@@ -1,16 +1,21 @@
 package tsundere.storage;
 
-import tsundere.task.DeadlineTask;
-import tsundere.task.EventTask;
-import tsundere.task.Task;
-import tsundere.task.TodoTask;
+import static tsundere.Config.TASK_DEADLINE;
+import static tsundere.Config.TASK_EVENT;
+import static tsundere.Config.TASK_TODO;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import static tsundere.Config.*;
+import tsundere.task.DeadlineTask;
+import tsundere.task.EventTask;
+import tsundere.task.Task;
+import tsundere.task.TodoTask;
 
+/**
+ *
+ */
 public class ValidateTask {
     /**
      * Validates that the String format stored in the text database is correct,

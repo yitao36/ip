@@ -1,14 +1,14 @@
 package tsundere.ui;
 
-import tsundere.command.InvalidFormatCommand;
-
+import static tsundere.Config.HORIZONTAL_LINE;
 import static tsundere.command.InvalidFormatCommand.Format;
 
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 
-import static tsundere.Config.HORIZONTAL_LINE;
-
+/**
+ * Interface that handles the printing of strings to the user.
+ */
 public class Ui {
     public Ui() {
 
@@ -186,6 +186,7 @@ public class Ui {
             System.out.println("Wrong format!");
             System.out.println("Use `delete <position of task in list>`");
         }
+        default -> { }
         }
 
         System.out.println(HORIZONTAL_LINE);

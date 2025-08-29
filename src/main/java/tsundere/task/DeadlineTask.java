@@ -1,18 +1,23 @@
 package tsundere.task;
 
+import static tsundere.Config.TASK_DEADLINE;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static tsundere.Config.TASK_DEADLINE;
-
 /**
  * A task that contains a date specifying the task's deadline.
- *
  * @see tsundere.task.Task
  */
 public class DeadlineTask extends Task {
     private final LocalDateTime deadline;
+
+    /**
+     * Creates a new deadline task.
+     * @param name Name of the task
+     * @param deadline The deadline date to finish the task by
+     */
     public DeadlineTask(String name, LocalDateTime deadline) {
         super(name);
         this.deadline = deadline;

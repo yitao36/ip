@@ -1,8 +1,7 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Scanner;
 
 import tsundere.command.AbstractCommand;
 import tsundere.parser.CommandParser;
@@ -10,6 +9,9 @@ import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
+/**
+ * The entry point to the Tsundere chatbot.
+ */
 public class Tsundere {
     private final Ui ui;
     private final TextStorage storage;
@@ -31,6 +33,9 @@ public class Tsundere {
         }
     }
 
+    /**
+     * Starts the main command loop for Tsundere.
+     */
     public void run() {
         ui.showWelcome();
         tasks.addAll(storage.retrieveAll());

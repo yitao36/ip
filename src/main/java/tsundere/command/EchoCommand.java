@@ -4,8 +4,16 @@ import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
+/**
+ * Command to print the user input back to the user
+ */
 public class EchoCommand extends AbstractCommand {
     private final String text;
+
+    /**
+     * Prints the user input back to the user.
+     * @param text Text to be printed to the user.
+     */
     public EchoCommand(String text) {
         super(false);
         this.text = text;

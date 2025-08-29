@@ -1,18 +1,31 @@
 package tsundere.parser;
 
-import tsundere.command.*;
-
 import static tsundere.command.InvalidFormatCommand.Format;
-
-import tsundere.task.DeadlineTask;
-import tsundere.task.EventTask;
-import tsundere.task.TodoTask;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
+import tsundere.command.AbstractCommand;
+import tsundere.command.AddTaskCommand;
+import tsundere.command.ByeCommand;
+import tsundere.command.DeleteCommand;
+import tsundere.command.EchoCommand;
+import tsundere.command.FindCommand;
+import tsundere.command.InvalidFormatCommand;
+import tsundere.command.ListCommand;
+import tsundere.command.MarkCommand;
+import tsundere.command.UnmarkCommand;
+import tsundere.task.DeadlineTask;
+import tsundere.task.EventTask;
+import tsundere.task.TodoTask;
+
+
+
+/**
+ * Parses the user input into an executable command.
+ */
 public class CommandParser {
     /**
      * Parses the command based on the first word.
@@ -49,7 +62,7 @@ public class CommandParser {
                 if (args.length < 2) {
                     return new InvalidFormatCommand(Format.MARK);
                 }
-                return new MarkCommand_(Integer.parseInt(args[1]) - 1);
+                return new MarkCommand(Integer.parseInt(args[1]) - 1);
             } catch (NumberFormatException e) {
                 return new InvalidFormatCommand(Format.MARK);
             }
@@ -81,7 +94,7 @@ public class CommandParser {
     }
 
     /**
-     * Verifies that the user input follows the format `todo <name>`.
+     * Verifies that the user input follows the format `todo [name]`.
      *
      * @param words The full user input split by spaces.
      * @return {@link AddTaskCommand} if user input is valid, else InvalidFormatCommand
@@ -91,14 +104,13 @@ public class CommandParser {
             return new InvalidFormatCommand(Format.TODO);
         }
 
-        String name = Arrays.stream(words).skip(2).reduce(words[1],
-                (prev, next) -> prev + " " + next);
+        String name = Arrays.stream(words).skip(2).reduce(words[1], (prev, next) -> prev + " " + next);
 
         return new AddTaskCommand(new TodoTask(name));
     }
 
     /**
-     * Verifies that the user input follows the format `event <name> /from <date> /to <date>`,
+     * Verifies that the user input follows the format `event [name] /from [date] /to [date]`,
      * where date is of the format `yyyy-MM-dd'T'HH:mm`.
      *
      * @param words The full user input split by spaces.
@@ -112,7 +124,7 @@ public class CommandParser {
         StringBuilder from = new StringBuilder();
         StringBuilder to = new StringBuilder();
 
-        enum Params {NAME, FROM, TO}
+        enum Params { NAME, FROM, TO }
         Params type = Params.NAME;
 
         for (int i = 1; i < words.length; i++) {
@@ -127,6 +139,7 @@ public class CommandParser {
                     to.append(words[i]);
                     to.append(' ');
                 }
+                default -> { }
                 }
             } else if (words[i].equals("/to")) {
                 switch (type) {
@@ -135,6 +148,7 @@ public class CommandParser {
                     to.append(words[i]);
                     to.append(' ');
                 }
+                default -> { }
                 }
             } else {
                 switch (type) {
@@ -150,6 +164,7 @@ public class CommandParser {
                     to.append(words[i]);
                     to.append(' ');
                 }
+                default -> { }
                 }
             }
         }
@@ -178,7 +193,7 @@ public class CommandParser {
     }
 
     /**
-     * Verifies that the user input follows the format `deadline <name> /by <date>`,
+     * Verifies that the user input follows the format `deadline [name] /by [date]`,
      * where date is of the format `yyyy-MM-dd'T'HH:mm`.
      *
      * @param words The full user input split by spaces.
@@ -191,7 +206,7 @@ public class CommandParser {
         StringBuilder name = new StringBuilder();
         StringBuilder by = new StringBuilder();
 
-        enum Param {NAME, BY}
+        enum Param { NAME, BY }
         ;
         Param type = Param.NAME;
 
@@ -203,6 +218,7 @@ public class CommandParser {
                     by.append(words[i]);
                     by.append(' ');
                 }
+                default -> { }
                 }
             } else {
                 switch (type) {
@@ -214,6 +230,7 @@ public class CommandParser {
                     by.append(words[i]);
                     by.append(' ');
                 }
+                default -> { }
                 }
             }
         }

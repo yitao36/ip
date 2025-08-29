@@ -1,10 +1,11 @@
 package tsundere.task;
 
+import static tsundere.Config.TASK_EVENT;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static tsundere.Config.*;
 
 /**
  * A task that contains two dates, specifying the start date and end date of the task.
@@ -15,6 +16,12 @@ public class EventTask extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
+    /**
+     * Creates a new task.
+     * @param name Name of the task
+     * @param from Start date of the task
+     * @param to End date of the task
+     */
     public EventTask(String name, LocalDateTime from, LocalDateTime to) {
         super(name);
         this.from = from;
