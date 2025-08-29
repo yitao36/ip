@@ -10,6 +10,10 @@ import tsundere.ui.Ui;
 public class FindCommand extends AbstractCommand {
     private final String name;
 
+    /**
+     * Searches for the tasks that includes the specified name.
+     * @param name Substring to search for
+     */
     public FindCommand(String name) {
         super(false);
         this.name = name;

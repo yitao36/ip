@@ -1,5 +1,7 @@
 package tsundere.command;
 
+import java.io.IOException;
+
 import tsundere.storage.AlreadyMarkedException;
 import tsundere.storage.StorageFormatException;
 import tsundere.storage.TextStorage;
@@ -7,12 +9,17 @@ import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
-import java.io.IOException;
+/**
+ * Command to set the status of a task to marked.
+ */
+public class MarkCommand extends AbstractCommand {
+    private final int id;
 
-public class MarkCommand_ extends AbstractCommand {
-    private int id;
-
-    public MarkCommand_(int id) {
+    /**
+     * Creates a new command to mark the task as completed
+     * @param id The index of the task to be marked. Must be valid.
+     */
+    public MarkCommand(int id) {
         super(false);
         this.id = id;
     }
@@ -37,7 +44,7 @@ public class MarkCommand_ extends AbstractCommand {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MarkCommand_ markCommand) {
+        if (obj instanceof MarkCommand markCommand) {
             return this.id == markCommand.id;
         }
         return false;
@@ -45,6 +52,6 @@ public class MarkCommand_ extends AbstractCommand {
 
     @Override
     public int hashCode() {
-        return MarkCommand_.class.hashCode();
+        return MarkCommand.class.hashCode();
     }
 }

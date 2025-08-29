@@ -6,10 +6,16 @@ import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
-
+/**
+ * Deletes a task from the task list and storage, and prints a message to the user.
+ */
 public class DeleteCommand extends AbstractCommand {
     private final int id;
 
+    /**
+     * Creates a new command to delete an existing task.
+     * @param id Index of task in the task list to be deleted. Must be valid.
+     */
     public DeleteCommand(int id) {
         super(false);
         this.id = id;

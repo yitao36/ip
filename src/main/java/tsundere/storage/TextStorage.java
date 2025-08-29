@@ -1,16 +1,24 @@
 package tsundere.storage;
 
+import static tsundere.storage.ValidateTask.validateTask;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 
-import java.io.*;
-import java.util.Scanner;
-
-import static tsundere.storage.ValidateTask.validateTask;
-
+/**
+ * Handles the loading and storing of tasks.
+ * Checks storage paths for existing storages. If it does not exist, attempts to create one.
+ * Uses the alternate storage path if default fails to initialize.
+ */
 public class TextStorage {
-    private final static String DEFAULT_STORAGE_PATH = "./src/main/java/tsundere/storage/tsundereStorage.txt";
-    private final static String ALT_STORAGE_PATH = "./tsundereStorage.txt";
+    private static final String DEFAULT_STORAGE_PATH = "./src/main/java/tsundere/storage/tsundereStorage.txt";
+    private static final String ALT_STORAGE_PATH = "./tsundereStorage.txt";
 
     private final String storage;
 

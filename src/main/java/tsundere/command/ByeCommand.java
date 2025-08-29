@@ -4,6 +4,9 @@ import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
+/**
+ * Prints a goodbye message to the user and exits the program.
+ */
 public class ByeCommand extends AbstractCommand {
     public ByeCommand() {
         super(true);

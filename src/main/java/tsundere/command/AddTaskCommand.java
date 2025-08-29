@@ -1,15 +1,22 @@
 package tsundere.command;
 
+import java.util.Objects;
+
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.Ui;
 
-import java.util.Objects;
-
+/**
+ * Adds a task to the task list, storage, and prints a message to the user.
+ */
 public class AddTaskCommand extends AbstractCommand {
     private final Task task;
 
+    /**
+     * Adds a new task to the task list and storage.
+     * @param task Task to be added
+     */
     public AddTaskCommand(Task task) {
         super(false);
         this.task = task;
