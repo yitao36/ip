@@ -2,7 +2,7 @@ package tsundere.command;
 
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
-import tsundere.ui.Ui;
+import tsundere.ui.AbstractUi;
 
 /**
  * Command that displays a help message to the user for the correct format for the specified Format type.
@@ -29,7 +29,7 @@ public class InvalidFormatCommand extends AbstractCommand {
         this.format = format;
     }
     @Override
-    public void execute(TaskList tasks, Ui ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         ui.showHelp(format);
     }
 

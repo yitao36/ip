@@ -1,14 +1,19 @@
 package tsundere.storage;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import tsundere.task.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import tsundere.task.DeadlineTask;
+import tsundere.task.EventTask;
+import tsundere.task.Task;
+import tsundere.task.TaskList;
+import tsundere.task.TodoTask;
 
 public class TextStorageTest {
     private final TextStorage storage;

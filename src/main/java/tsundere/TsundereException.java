@@ -3,7 +3,7 @@ package tsundere;
 import tsundere.task.Task;
 
 /**
- * Checked exception thrown by the Tsundere class.
+ * Checked exception thrown by the tsundere.Tsundere class.
  */
 public class TsundereException extends Exception {
     private final Task task;

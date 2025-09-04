@@ -4,7 +4,7 @@ import tsundere.storage.StorageFormatException;
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
-import tsundere.ui.Ui;
+import tsundere.ui.AbstractUi;
 
 /**
  * Deletes a task from the task list and storage, and prints a message to the user.
@@ -22,7 +22,7 @@ public class DeleteCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
             Task task = storage.delete(id);
             if (task == null) {

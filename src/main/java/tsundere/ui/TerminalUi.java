@@ -7,10 +7,10 @@ import tsundere.task.Task;
 import tsundere.task.TaskList;
 
 /**
- * Interface that handles the printing of strings to the user.
+ * Interface that handles the printing of strings to the terminal.
  */
-public class Ui {
-    public Ui() {
+public class TerminalUi extends AbstractUi {
+    public TerminalUi() {
 
     }
 
@@ -20,8 +20,7 @@ public class Ui {
     public void showWelcome() {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("Oh! I-I- didn't expect you to be here...");
-        System.out.println("What do you want...? Hmph, I'm obviously busy!");
+        System.out.println(UiMessages.getMessage(UiMessages.WELCOME));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -32,8 +31,7 @@ public class Ui {
     public void showExit() {
         System.out.println(HORIZONTAL_LINE);
 
-        String exitMessage = "Oh... Leaving already? N-not that I care! Bye...";
-        System.out.println(exitMessage);
+        System.out.println(UiMessages.getMessage(UiMessages.EXIT));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -45,17 +43,8 @@ public class Ui {
      */
     public void listTasks(TaskList tasks) {
         System.out.println(HORIZONTAL_LINE);
-        int num = 1;
 
-        if (tasks.isEmpty()) {
-            System.out.println("There's no tasks, dummy!");
-        }
-
-        for (Task task : tasks) {
-            System.out.print(num + ". ");
-            System.out.println(task);
-            num++;
-        }
+        System.out.println(UiMessages.getMessage(UiMessages.LIST_TASKS, tasks));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -66,8 +55,7 @@ public class Ui {
     public void addTaskSuccess(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("New task added!");
-        System.out.println(task);
+        System.out.println(UiMessages.getMessage(UiMessages.ADD_TASK, task));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -78,8 +66,7 @@ public class Ui {
     public void markSuccess(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("Here, it's marked.");
-        System.out.println(task);
+        System.out.println(UiMessages.getMessage(UiMessages.MARK_TASK_SUCCESS, task));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -90,8 +77,7 @@ public class Ui {
     public void markRedundant(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("It's already marked, dummy!");
-        System.out.println(task);
+        System.out.println(UiMessages.getMessage(UiMessages.MARK_TASK_REDUNDANT, task));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -102,8 +88,7 @@ public class Ui {
     public void unmarkSuccess(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("Why'd you mark it in the first place?");
-        System.out.println(task);
+        System.out.println(UiMessages.getMessage(UiMessages.UNMARK_TASK_SUCCESS, task));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -114,8 +99,7 @@ public class Ui {
     public void unmarkRedundant(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("Hey!! You haven't even done the task!");
-        System.out.println(task);
+        System.out.println(UiMessages.getMessage(UiMessages.UNMARK_TASK_REDUNDANT, task));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -126,8 +110,7 @@ public class Ui {
     public void deleteSuccess(Task task) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("There, it's done and dusted.");
-        System.out.println(task);
+        System.out.println(UiMessages.getMessage(UiMessages.DELETE_SUCCESS, task));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -141,53 +124,7 @@ public class Ui {
     public void showHelp(Format format) {
         System.out.println(HORIZONTAL_LINE);
 
-        switch (format) {
-        case HELP -> {
-            System.out.println("Here's a list of commands for your pea-brain.\n");
-            System.out.println("todo - Creates a todo task");
-            System.out.println("event - Creates an event task");
-            System.out.println("deadline - Creates a deadline task");
-            System.out.println("list - Lists all your tasks");
-            System.out.println("mark - Marks a task as completed");
-            System.out.println("unmark - Marks a task as uncompleted");
-            System.out.println("bye - Installs a virus! Don't input this");
-        }
-        case TODO -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `todo <name>`");
-        }
-        case DEADLINE -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `deadline <name> /by <YYYY-MM-DDTHH:MM>`");
-            System.out.println("Example: deadline TASK /by 2025-02-28T23:59");
-        }
-        case EVENT -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `event <name> /from <YYYY-MM-DDTHH:MM> \n/to <YYYY-MM-DDTHH:MM>`");
-            System.out.println("Example: `event TASK /from 2025-02-28T23:59 \n/to 2025-02-29T23:59`");
-        }
-        case EVENT_DATE -> {
-            System.out.println("Invalid date order!");
-            System.out.println("From date should be before To date!");
-        }
-        case FIND -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `find <name>`");
-        }
-        case MARK -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `mark <position of task in list>`");
-        }
-        case UNMARK -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `unmark <position of task in list>`");
-        }
-        case DELETE -> {
-            System.out.println("Wrong format!");
-            System.out.println("Use `delete <position of task in list>`");
-        }
-        default -> { }
-        }
+        System.out.println(UiMessages.getMessage(UiMessages.HELP, format));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -198,7 +135,7 @@ public class Ui {
     public void echo(String text) {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println(text);
+        System.out.println(UiMessages.getMessage(UiMessages.ECHO, text));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -209,7 +146,7 @@ public class Ui {
     public void taskIndexOutOfBounds() {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("That's not a valid index, baka!!");
+        System.out.println(UiMessages.getMessage(UiMessages.INDEX_ERROR));
 
         System.out.println(HORIZONTAL_LINE);
     }
@@ -220,7 +157,7 @@ public class Ui {
     public void storageException() {
         System.out.println(HORIZONTAL_LINE);
 
-        System.out.println("Storage data seems to be corrupted.");
+        System.out.println(UiMessages.getMessage(UiMessages.STORAGE_ERROR));
 
         System.out.println(HORIZONTAL_LINE);
     }

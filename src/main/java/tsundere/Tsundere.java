@@ -1,30 +1,34 @@
+package tsundere;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import tsundere.command.AbstractCommand;
 import tsundere.parser.CommandParser;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
-import tsundere.ui.Ui;
+import tsundere.ui.GraphicsUi;
 
 /**
- * The entry point to the Tsundere chatbot.
+ * The entry point to the tsundere.Tsundere chatbot.
  */
 public class Tsundere {
-    private final Ui ui;
+    private final GraphicsUi ui;
     private final TextStorage storage;
     private final TaskList tasks;
 
     /**
-     * Initializes a new Tsundere chatbot with a text file storage.
+     * Initializes a new tsundere.Tsundere chatbot with a text file storage.
      *
      * @throws RuntimeException If none of the storage location can be used for text storage.
      */
     public Tsundere() {
         this.tasks = new TaskList();
-        this.ui = new Ui();
+        this.ui = new GraphicsUi();
         try {
             this.storage = TextStorage.of();
         } catch (IOException e) {
@@ -32,9 +36,8 @@ public class Tsundere {
             throw new RuntimeException();
         }
     }
-
     /**
-     * Starts the main command loop for Tsundere.
+     * Starts the main command loop for tsundere.Tsundere.
      */
     public void run() {
         ui.showWelcome();
@@ -55,5 +58,25 @@ public class Tsundere {
     public static void main(String[] args) {
         Tsundere tsundere = new Tsundere();
         tsundere.run();
+    }
+
+    /**
+     * Initializes GraphicsUi with a welcome message.
+     * @param vBox DialogContainer to display output
+     * @param image Profile picture of Tsundere
+     */
+    public void setGraphicsUi(VBox vBox, Image image) {
+        tasks.addAll(storage.retrieveAll());
+        ui.setResources(vBox, image);
+        ui.showWelcome();
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public void displayResponse(String input) {
+        AbstractCommand command = CommandParser.parse(input);
+        command.execute(tasks, ui, storage);
+        boolean isExit = command.isExit();
     }
 }
