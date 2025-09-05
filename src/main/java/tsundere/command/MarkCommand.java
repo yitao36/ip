@@ -27,9 +27,9 @@ public class MarkCommand extends AbstractCommand {
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
-            tasks.validateIndex(id);
-            Task task = storage.mark(id);
-            tasks.set(id, task);
+            tasks.mark(id);
+            Task task = tasks.get(id);
+            storage.storeAll(tasks);
             ui.displayMessage(UiMessages.MARK_TASK_SUCCESS, task);
         } catch (TsundereException | IOException e) {
             ui.displayMessage(e.getMessage());

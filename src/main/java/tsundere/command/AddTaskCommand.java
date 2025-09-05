@@ -28,7 +28,7 @@ public class AddTaskCommand extends AbstractCommand {
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
             tasks.add(task);
-            storage.store(task);
+            storage.storeAll(tasks);
             ui.displayMessage(UiMessages.ADD_TASK, task);
         } catch (IOException e) {
             ui.displayMessage(e.getMessage());

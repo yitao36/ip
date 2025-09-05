@@ -27,9 +27,9 @@ public class UnmarkCommand extends AbstractCommand {
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
-            tasks.validateIndex(id);
-            Task task = storage.unmark(id);
-            tasks.set(id, task);
+            tasks.unmark(id);
+            storage.storeAll(tasks);
+            Task task = tasks.get(id);
             ui.displayMessage(UiMessages.UNMARK_TASK_SUCCESS, task);
         } catch (TsundereException | IOException e) {
             ui.displayMessage(e.getMessage());

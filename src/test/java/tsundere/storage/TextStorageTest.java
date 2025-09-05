@@ -29,7 +29,7 @@ public class TextStorageTest {
     }
 
     @Test
-    public void storeAndRetrieveAll_multipleTasks_correctFormat() {
+    public void storeAndRetrieveAll_multipleTasks_correctFormat() throws Exception {
         TaskList tasks = new TaskList();
         TodoTask todo1 = new TodoTask("task 1");
         TodoTask todo2 = new TodoTask("task 2");
@@ -44,10 +44,12 @@ public class TextStorageTest {
         deadline2.markDone();
         event2.markDone();
 
-        List<Task> list = Arrays.stream(new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList();
+        TaskList list = new TaskList(Arrays.stream(
+                new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList());
         list.forEach(task -> {
             try {
-                storage.store(task);
+                tasks.add(task);
+                storage.storeAll(tasks);
             } catch (IOException e) {
                 System.out.println("ERROR");
             }
@@ -75,10 +77,12 @@ public class TextStorageTest {
         EventTask event2 = new EventTask("task 6",
                 LocalDateTime.parse("2025-05-25T23:59"), LocalDateTime.parse("2025-05-26T23:59"));
 
-        List<Task> list = Arrays.stream(new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList();
+        TaskList list = new TaskList(Arrays.stream(
+                new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList());
         list.forEach(task -> {
             try {
-                storage.store(task);
+                tasks.add(task);
+                storage.storeAll(tasks);
             } catch (IOException e) {
                 System.out.println("ERROR");
             }
@@ -88,9 +92,10 @@ public class TextStorageTest {
             todo2.markDone();
             deadline2.markDone();
             event2.markDone();
-            storage.mark(1);
-            storage.mark(3);
-            storage.mark(5);
+            tasks.mark(1);
+            tasks.mark(3);
+            tasks.mark(5);
+            storage.storeAll(tasks);
         } catch (TsundereException | IOException e) {
             throw new RuntimeException(e);
         }

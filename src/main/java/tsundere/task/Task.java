@@ -2,6 +2,10 @@ package tsundere.task;
 
 import java.util.Objects;
 
+import tsundere.storage.AlreadyMarkedException;
+import tsundere.storage.AlreadyUnmarkedException;
+
+
 /**
  * Represents an abstract task with a name and completion status.
  */
@@ -30,15 +34,21 @@ public abstract class Task {
     /**
      * Marks the current task as completed.
      */
-    public void markDone() {
-        this.done = true;
+    public void markDone() throws AlreadyMarkedException {
+        if (done) {
+            throw new AlreadyMarkedException(this);
+        }
+        done = true;
     }
 
     /**
      * Marks the current task as not completed.
      */
-    public void markUndone() {
-        this.done = false;
+    public void markUndone() throws AlreadyUnmarkedException {
+        if (!done) {
+            throw new AlreadyUnmarkedException(this);
+        }
+        done = false;
     }
 
     public abstract String toStorageString();
