@@ -1,7 +1,6 @@
-package tsundere.storage;
+package tsundere.task;
 
 import tsundere.TsundereException;
-import tsundere.task.Task;
 
 /**
  * Thrown if the Mark command attempts to mark a task that is already marked.

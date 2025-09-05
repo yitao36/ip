@@ -1,7 +1,6 @@
-package tsundere.storage;
+package tsundere.task;
 
 import tsundere.TsundereException;
-import tsundere.task.Task;
 
 /**
  * Thrown if the Unmark command attempts to unmark a task that is not yet marked.
