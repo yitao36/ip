@@ -1,5 +1,6 @@
 package tsundere.command;
 
+import tsundere.log.Log;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
@@ -16,13 +17,16 @@ public class FindCommand extends AbstractCommand {
      * @param name Substring to search for
      */
     public FindCommand(String name) {
-        super(false);
+        super(false, false);
         this.name = name;
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         TaskList filteredList = tasks.find(name);
         ui.displayMessage(UiMessages.LIST_TASKS, filteredList);
     }
+
+    @Override
+    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {}
 }

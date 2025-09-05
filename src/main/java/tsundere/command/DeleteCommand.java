@@ -1,37 +1,67 @@
 package tsundere.command;
 
+<<<<<<< Updated upstream
+import tsundere.storage.StorageFormatException;
+=======
 import java.io.IOException;
 
 import tsundere.TsundereException;
+import tsundere.log.Log;
+>>>>>>> Stashed changes
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
-import tsundere.ui.UiMessages;
-
 
 /**
  * Deletes a task from the task list and storage, and prints a message to the user.
  */
 public class DeleteCommand extends AbstractCommand {
     private final int id;
+    private Task task;
 
     /**
      * Creates a new command to delete an existing task.
      * @param id Index of task in the task list to be deleted. Must be valid.
      */
     public DeleteCommand(int id) {
-        super(false);
+        super(false, true);
         this.id = id;
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         try {
-            Task task = tasks.get(id);
+<<<<<<< Updated upstream
+            Task task = storage.delete(id);
+            if (task == null) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+            tasks.remove(id);
+            ui.deleteSuccess(task);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            ui.taskIndexOutOfBounds();
+        } catch (StorageFormatException e) {
+            ui.storageException();
+=======
+            Task task = tasks.remove(id);
+            this.task = task;
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.DELETE_SUCCESS, task);
+            log.add(this);
         } catch (TsundereException | IOException e) {
+            ui.displayMessage(e.getMessage());
+>>>>>>> Stashed changes
+        }
+    }
+
+    @Override
+    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+        try {
+            tasks.undoDelete(task, id);
+            storage.storeAll(tasks);
+            ui.displayMessage("Successfully undid last command of deleting the following task: \n" + task + '\n');
+        } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }
     }

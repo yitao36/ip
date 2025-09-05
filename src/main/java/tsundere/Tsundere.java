@@ -8,6 +8,7 @@ import java.util.Scanner;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import tsundere.command.AbstractCommand;
+import tsundere.log.Log;
 import tsundere.parser.CommandParser;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
@@ -21,6 +22,7 @@ public class Tsundere {
     private final GraphicsUi ui;
     private final TextStorage storage;
     private final TaskList tasks;
+    private final Log log;
 
     /**
      * Initializes a new tsundere.Tsundere chatbot with a text file storage.
@@ -36,6 +38,7 @@ public class Tsundere {
             System.out.println("Failed to initialize text storage.");
             throw new RuntimeException();
         }
+        this.log = new Log(tasks, ui, storage);
     }
     /**
      * Starts the main command loop for tsundere.Tsundere.
@@ -55,7 +58,7 @@ public class Tsundere {
         while (!isExit) {
             String fullCommand = sc.nextLine();
             AbstractCommand command = CommandParser.parse(fullCommand);
-            command.execute(tasks, ui, storage);
+            command.execute(tasks, ui, storage, log);
             isExit = command.isExit();
         }
     }
@@ -85,7 +88,7 @@ public class Tsundere {
      */
     public void displayResponse(String input) {
         AbstractCommand command = CommandParser.parse(input);
-        command.execute(tasks, ui, storage);
+        command.execute(tasks, ui, storage, log);
         boolean isExit = command.isExit();
     }
 }
