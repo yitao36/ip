@@ -14,8 +14,7 @@ public enum UiMessages {
     LIST_TASKS,
     ADD_TASK, MARK_TASK_SUCCESS, UNMARK_TASK_SUCCESS,
     MARK_TASK_REDUNDANT, UNMARK_TASK_REDUNDANT,
-    DELETE_SUCCESS, HELP,
-    INDEX_ERROR, STORAGE_ERROR;
+    DELETE_SUCCESS, HELP;
 
     public static String getMessage(UiMessages ui) {
         StringBuilder sb = new StringBuilder();
@@ -28,12 +27,6 @@ public enum UiMessages {
         }
         case EXIT -> {
             sb.append("Oh... Leaving already? N-not that I care! Bye...\n");
-        }
-        case INDEX_ERROR -> {
-            sb.append("That's not a valid index, baka!!\n");
-        }
-        case STORAGE_ERROR -> {
-            sb.append("Storage data seems to be corrupted.\n");
         }
         default -> {
             assert false : "UI getMessage wrong type";

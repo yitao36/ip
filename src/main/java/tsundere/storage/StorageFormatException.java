@@ -1,10 +1,12 @@
 package tsundere.storage;
 
+import tsundere.TsundereException;
+
 /**
  * Thrown if the storage data is corrupted.
  */
-public class StorageFormatException extends Exception {
+public class StorageFormatException extends TsundereException {
     public StorageFormatException() {
-        super();
+        super("Storage data seems to be corrupted.\n");
     }
 }

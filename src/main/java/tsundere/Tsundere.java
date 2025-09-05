@@ -41,7 +41,11 @@ public class Tsundere {
      */
     public void run() {
         ui.showWelcome();
-        tasks.addAll(storage.retrieveAll());
+        try {
+            tasks.addAll(storage.retrieveAll());
+        } catch (TsundereException e) {
+            ui.echo(e.getMessage());
+        }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(br);
@@ -66,7 +70,11 @@ public class Tsundere {
      * @param image Profile picture of Tsundere
      */
     public void setGraphicsUi(VBox vBox, Image image) {
-        tasks.addAll(storage.retrieveAll());
+        try {
+            tasks.addAll(storage.retrieveAll());
+        } catch (TsundereException e) {
+            ui.echo(e.getMessage());
+        }
         ui.setResources(vBox, image);
         ui.showWelcome();
     }

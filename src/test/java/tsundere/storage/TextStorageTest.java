@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import tsundere.TsundereException;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.Task;
@@ -44,10 +45,21 @@ public class TextStorageTest {
         event2.markDone();
 
         List<Task> list = Arrays.stream(new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList();
-        list.forEach(storage::store);
+        list.forEach(task -> {
+            try {
+                storage.store(task);
+            } catch (IOException e) {
+                System.out.println("ERROR");
+            }
+        });
         tasks.addAll(list);
 
-        TaskList outputTasks = storage.retrieveAll();
+        TaskList outputTasks = null;
+        try {
+            outputTasks = storage.retrieveAll();
+        } catch (TsundereException e) {
+            System.out.println("ERROR");
+        }
         assertEquals(tasks, outputTasks, "able to store and retrieve multiple items correctly");
     }
 
@@ -64,9 +76,14 @@ public class TextStorageTest {
                 LocalDateTime.parse("2025-05-25T23:59"), LocalDateTime.parse("2025-05-26T23:59"));
 
         List<Task> list = Arrays.stream(new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList();
-        list.forEach(storage::store);
+        list.forEach(task -> {
+            try {
+                storage.store(task);
+            } catch (IOException e) {
+                System.out.println("ERROR");
+            }
+        });
         tasks.addAll(list);
-
         try {
             todo2.markDone();
             deadline2.markDone();
@@ -74,11 +91,16 @@ public class TextStorageTest {
             storage.mark(1);
             storage.mark(3);
             storage.mark(5);
-        } catch (AlreadyMarkedException | StorageFormatException | IOException e) {
+        } catch (TsundereException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        TaskList outputTasks = storage.retrieveAll();
+        TaskList outputTasks = null;
+        try {
+            outputTasks = storage.retrieveAll();
+        } catch (TsundereException e) {
+            System.out.println("ERROR");
+        }
         assertEquals(tasks, outputTasks);
     }
 }

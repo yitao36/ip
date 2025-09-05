@@ -88,17 +88,4 @@ public class GraphicsUi extends AbstractUi {
         String response = UiMessages.getMessage(UiMessages.ECHO, s);
         dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
     }
-
-    @Override
-    public void taskIndexOutOfBounds() {
-        String response = UiMessages.getMessage(UiMessages.INDEX_ERROR);
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
-
-    }
-
-    @Override
-    public void storageException() {
-        String response = UiMessages.getMessage(UiMessages.STORAGE_ERROR);
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
-    }
 }

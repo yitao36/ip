@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import tsundere.TsundereException;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 
@@ -54,7 +55,7 @@ public class TextStorage {
      * @throws StorageFormatException Storage text is unable to be parsed.
      * @throws IOException Storage file is unable to be opened.
      */
-    public Task mark(int id) throws AlreadyMarkedException, StorageFormatException, IOException {
+    public Task mark(int id) throws TsundereException, IOException {
         Scanner sc = new Scanner(new FileReader(storage));
         StringBuilder sb = new StringBuilder();
 
@@ -95,7 +96,7 @@ public class TextStorage {
      * @throws StorageFormatException Storage text is unable to be parsed.
      * @throws IOException Storage file is unable to be opened.
      */
-    public Task unmark(int id) throws AlreadyMarkedException, StorageFormatException, IOException {
+    public Task unmark(int id) throws TsundereException, IOException {
         Scanner sc = new Scanner(new FileReader(storage));
         StringBuilder sb = new StringBuilder();
 
@@ -133,7 +134,7 @@ public class TextStorage {
      *
      * @return new {@link TaskList}
      */
-    public TaskList retrieveAll() {
+    public TaskList retrieveAll() throws TsundereException {
         try {
             File file = new File(storage);
 
@@ -157,24 +158,20 @@ public class TextStorage {
      * Appends the task in a new line at the end of the file.
      * @param task Task to be stored.
      */
-    public void store(Task task) {
-        try {
-            String data = task.toStorageString();
-            FileWriter fw = new FileWriter(storage, true);
-            fw.append(data);
-            fw.append('\n');
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("STORE_IOEXCEPTION");
-        }
+    public void store(Task task) throws IOException {
+        String data = task.toStorageString();
+        FileWriter fw = new FileWriter(storage, true);
+        fw.append(data);
+        fw.append('\n');
+        fw.close();
     }
 
     /**
      * Finds the task on corresponding row and deletes it.
+     *
      * @param id The row from the top, starting from 0.
-     * @return The deleted task, or null if it does not exist.
      */
-    public Task delete(int id) throws StorageFormatException {
+    public void delete(int id) throws TsundereException {
         try {
             Scanner sc = new Scanner(new FileReader(storage));
             StringBuilder sb = new StringBuilder();
@@ -197,7 +194,6 @@ public class TextStorage {
             fw.append(sb);
             fw.close();
 
-            return deletedTask;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

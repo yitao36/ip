@@ -2,6 +2,7 @@ package tsundere.command;
 
 import java.io.IOException;
 
+import tsundere.TsundereException;
 import tsundere.storage.AlreadyMarkedException;
 import tsundere.storage.StorageFormatException;
 import tsundere.storage.TextStorage;
@@ -27,18 +28,15 @@ public class MarkCommand extends AbstractCommand {
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
+            tasks.validateIndex(id);
             Task task = storage.mark(id);
             if (task == null) {
                 throw new ArrayIndexOutOfBoundsException();
             }
             tasks.set(id, task);
             ui.markSuccess(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ui.taskIndexOutOfBounds();
-        } catch (AlreadyMarkedException e) {
-            ui.markRedundant(e.getTask());
-        } catch (StorageFormatException | IOException e) {
-            ui.storageException();
+        } catch (TsundereException e) {
+            ui.echo(e.getMessage());
         }
     }
 

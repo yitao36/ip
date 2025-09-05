@@ -1,5 +1,7 @@
 package tsundere.task;
 
+import tsundere.storage.TsundereOutOfBoundsException;
+
 import java.util.ArrayList;
 
 /**
@@ -21,6 +23,16 @@ public class TaskList extends ArrayList<Task> {
         TaskList filteredList = new TaskList();
         filteredList.addAll(super.stream().filter(task -> task.getName().contains(name)).toList());
         return filteredList;
+    }
+
+    /**
+     * Checks if the user input index is within the correct range.
+     * @param i The index of the task in the task list.
+     */
+    public void validateIndex(int i) throws TsundereOutOfBoundsException {
+        if (i < 0 || i >= super.size()) {
+            throw new TsundereOutOfBoundsException();
+        }
     }
 
     @Override

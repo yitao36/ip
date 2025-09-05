@@ -130,34 +130,13 @@ public class TerminalUi extends AbstractUi {
     }
 
     /**
-     * Prints the user input back as output, if it does not match any of the available commands.
+     * Prints the text to the user.
+     * @param text Can be the user input echoed back, or the associated error message.
      */
     public void echo(String text) {
         System.out.println(HORIZONTAL_LINE);
 
         System.out.println(UiMessages.getMessage(UiMessages.ECHO, text));
-
-        System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Prints an error message for trying to perform any operation on a non-existent task index.
-     */
-    public void taskIndexOutOfBounds() {
-        System.out.println(HORIZONTAL_LINE);
-
-        System.out.println(UiMessages.getMessage(UiMessages.INDEX_ERROR));
-
-        System.out.println(HORIZONTAL_LINE);
-    }
-
-    /**
-     * Prints an error message for any errors associated with storage storing and retrieval.
-     */
-    public void storageException() {
-        System.out.println(HORIZONTAL_LINE);
-
-        System.out.println(UiMessages.getMessage(UiMessages.STORAGE_ERROR));
 
         System.out.println(HORIZONTAL_LINE);
     }

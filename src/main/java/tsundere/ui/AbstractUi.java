@@ -19,6 +19,4 @@ public abstract class AbstractUi {
     public abstract void deleteSuccess(Task task);
     public abstract void showHelp(InvalidFormatCommand.Format format);
     public abstract void echo(String s);
-    public abstract void taskIndexOutOfBounds();
-    public abstract void storageException();
 }

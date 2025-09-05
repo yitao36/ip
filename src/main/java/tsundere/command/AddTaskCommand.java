@@ -1,5 +1,6 @@
 package tsundere.command;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import tsundere.storage.TextStorage;
@@ -28,8 +29,8 @@ public class AddTaskCommand extends AbstractCommand {
             tasks.add(task);
             storage.store(task);
             ui.addTaskSuccess(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ui.taskIndexOutOfBounds();
+        } catch (IOException e) {
+            ui.echo(e.getMessage());
         }
     }
 
