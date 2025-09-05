@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import tsundere.TsundereException;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.Task;
@@ -24,7 +25,7 @@ public class ValidateTask {
      * @return new Task
      * @throws StorageFormatException If text format does not comply with standards.
      */
-    public static Task validateTask(String task) throws StorageFormatException {
+    public static Task validateTask(String task) throws TsundereException {
         String[] params = task.split(",");
         if (params.length == 0) {
             return null;
@@ -43,7 +44,7 @@ public class ValidateTask {
      * @param task The columns of data, split by ','.
      * @return Task
      */
-    private static Task validateTodo(String[] task) throws StorageFormatException {
+    private static Task validateTodo(String[] task) throws TsundereException {
         if (task.length != 3) {
             throw new StorageFormatException();
         }
@@ -66,7 +67,7 @@ public class ValidateTask {
      * @param task The columns of data, split by ','.
      * @return Task
      */
-    private static Task validateDeadline(String[] task) throws StorageFormatException {
+    private static Task validateDeadline(String[] task) throws TsundereException {
         if (task.length != 4) {
             throw new StorageFormatException();
         }
@@ -97,7 +98,7 @@ public class ValidateTask {
      * @param task The columns of data, split by ','.
      * @return Task
      */
-    private static Task validateEvent(String[] task) throws StorageFormatException {
+    private static Task validateEvent(String[] task) throws TsundereException {
         if (task.length != 5) {
             throw new StorageFormatException();
         }

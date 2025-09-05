@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import tsundere.TsundereException;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.Task;
@@ -28,7 +29,7 @@ public class TextStorageTest {
     }
 
     @Test
-    public void storeAndRetrieveAll_multipleTasks_correctFormat() {
+    public void storeAndRetrieveAll_multipleTasks_correctFormat() throws Exception {
         TaskList tasks = new TaskList();
         TodoTask todo1 = new TodoTask("task 1");
         TodoTask todo2 = new TodoTask("task 2");
@@ -43,11 +44,24 @@ public class TextStorageTest {
         deadline2.markDone();
         event2.markDone();
 
-        List<Task> list = Arrays.stream(new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList();
-        list.forEach(storage::store);
+        TaskList list = new TaskList(Arrays.stream(
+                new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList());
+        list.forEach(task -> {
+            try {
+                tasks.add(task);
+                storage.storeAll(tasks);
+            } catch (IOException e) {
+                System.out.println("ERROR");
+            }
+        });
         tasks.addAll(list);
 
-        TaskList outputTasks = storage.retrieveAll();
+        TaskList outputTasks = null;
+        try {
+            outputTasks = storage.retrieveAll();
+        } catch (TsundereException | IOException e) {
+            System.out.println("ERROR");
+        }
         assertEquals(tasks, outputTasks, "able to store and retrieve multiple items correctly");
     }
 
@@ -63,22 +77,35 @@ public class TextStorageTest {
         EventTask event2 = new EventTask("task 6",
                 LocalDateTime.parse("2025-05-25T23:59"), LocalDateTime.parse("2025-05-26T23:59"));
 
-        List<Task> list = Arrays.stream(new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList();
-        list.forEach(storage::store);
+        TaskList list = new TaskList(Arrays.stream(
+                new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList());
+        list.forEach(task -> {
+            try {
+                tasks.add(task);
+                storage.storeAll(tasks);
+            } catch (IOException e) {
+                System.out.println("ERROR");
+            }
+        });
         tasks.addAll(list);
-
         try {
             todo2.markDone();
             deadline2.markDone();
             event2.markDone();
-            storage.mark(1);
-            storage.mark(3);
-            storage.mark(5);
-        } catch (AlreadyMarkedException | StorageFormatException | IOException e) {
+            tasks.mark(1);
+            tasks.mark(3);
+            tasks.mark(5);
+            storage.storeAll(tasks);
+        } catch (TsundereException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        TaskList outputTasks = storage.retrieveAll();
+        TaskList outputTasks = null;
+        try {
+            outputTasks = storage.retrieveAll();
+        } catch (TsundereException | IOException e) {
+            System.out.println("ERROR");
+        }
         assertEquals(tasks, outputTasks);
     }
 }

@@ -1,11 +1,13 @@
 package tsundere.command;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Adds a task to the task list, storage, and prints a message to the user.
@@ -26,10 +28,10 @@ public class AddTaskCommand extends AbstractCommand {
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
             tasks.add(task);
-            storage.store(task);
-            ui.addTaskSuccess(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ui.taskIndexOutOfBounds();
+            storage.storeAll(tasks);
+            ui.displayMessage(UiMessages.ADD_TASK, task);
+        } catch (IOException e) {
+            ui.displayMessage(e.getMessage());
         }
     }
 

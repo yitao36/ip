@@ -3,7 +3,6 @@ package tsundere.command;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
-import tsundere.ui.TerminalUi;
 
 /**
  *  The abstract command class that handles the execution of code for {@link TaskList},

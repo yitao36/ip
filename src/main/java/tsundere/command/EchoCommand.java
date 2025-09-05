@@ -21,7 +21,7 @@ public class EchoCommand extends AbstractCommand {
 
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.echo(text);
+        ui.displayMessage(text);
     }
 
     @Override

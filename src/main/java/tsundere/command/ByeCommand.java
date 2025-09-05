@@ -3,6 +3,7 @@ package tsundere.command;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Prints a goodbye message to the user and exits the program.
@@ -14,7 +15,7 @@ public class ByeCommand extends AbstractCommand {
 
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.showExit();
+        ui.displayMessage(UiMessages.EXIT);
     }
 
     @Override

@@ -30,7 +30,7 @@ public class InvalidFormatCommand extends AbstractCommand {
     }
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.showHelp(format);
+        ui.displayMessage(format);
     }
 
     @Override
