@@ -35,7 +35,9 @@ public enum UiMessages {
         case STORAGE_ERROR -> {
             sb.append("Storage data seems to be corrupted.\n");
         }
-        default -> { }
+        default -> {
+            assert false : "UI getMessage wrong type";
+        }
         }
         return sb.toString();
     }
@@ -91,7 +93,9 @@ public enum UiMessages {
         case DELETE_SUCCESS -> {
             sb.append("There, it's done and dusted.\n");
         }
-        default -> { }
+        default -> {
+            assert false : "UI getMessage wrong type";
+        }
         }
         sb.append(task);
         return sb.toString();
@@ -166,7 +170,9 @@ public enum UiMessages {
             sb.append("Wrong format!\n");
             sb.append("Use `delete <position of task in list>`\n");
         }
-        default -> { }
+        default -> {
+            assert false : "UI getMessage wrong type";
+        }
         }
         return sb.toString();
     }
