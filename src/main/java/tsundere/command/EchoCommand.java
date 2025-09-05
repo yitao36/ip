@@ -2,7 +2,7 @@ package tsundere.command;
 
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
-import tsundere.ui.Ui;
+import tsundere.ui.AbstractUi;
 
 /**
  * Command to print the user input back to the user
@@ -20,7 +20,7 @@ public class EchoCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         ui.echo(text);
     }
 

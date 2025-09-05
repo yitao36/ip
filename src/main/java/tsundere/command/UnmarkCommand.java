@@ -7,7 +7,7 @@ import tsundere.storage.StorageFormatException;
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
-import tsundere.ui.Ui;
+import tsundere.ui.AbstractUi;
 
 /**
  * Command to set the status of a task to unmarked.
@@ -25,7 +25,7 @@ public class UnmarkCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
             Task task = storage.unmark(id);
             if (task == null) {

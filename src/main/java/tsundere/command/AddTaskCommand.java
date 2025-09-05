@@ -5,7 +5,7 @@ import java.util.Objects;
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
-import tsundere.ui.Ui;
+import tsundere.ui.AbstractUi;
 
 /**
  * Adds a task to the task list, storage, and prints a message to the user.
@@ -23,7 +23,7 @@ public class AddTaskCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, TextStorage storage) {
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
         try {
             tasks.add(task);
             storage.store(task);

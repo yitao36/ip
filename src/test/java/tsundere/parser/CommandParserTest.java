@@ -1,19 +1,22 @@
 package tsundere.parser;
 
-import org.junit.jupiter.api.Test;
-import tsundere.command.AbstractCommand;
-import tsundere.command.AddTaskCommand;
-import tsundere.command.InvalidFormatCommand;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tsundere.command.InvalidFormatCommand.Format;
-import tsundere.task.DeadlineTask;
-import tsundere.task.EventTask;
-import tsundere.task.TodoTask;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import tsundere.command.AbstractCommand;
+import tsundere.command.AddTaskCommand;
+import tsundere.command.InvalidFormatCommand;
+import tsundere.task.DeadlineTask;
+import tsundere.task.EventTask;
+import tsundere.task.TodoTask;
+
+
 
 public class CommandParserTest {
     @Test

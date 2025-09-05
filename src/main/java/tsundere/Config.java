@@ -1,7 +1,7 @@
 package tsundere;
 
 /**
- * Defines constants used in the Tsundere program.
+ * Defines constants used in the tsundere.Tsundere program.
  */
 public class Config {
     public static final int WIDTH = 40;
