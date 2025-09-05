@@ -114,7 +114,7 @@ public class TextStorage {
                 } else if (!task.isDone()) {
                     // Do not need to change file, return early
                     sc.close();
-                    throw new AlreadyMarkedException(task);
+                    throw new AlreadyUnmarkedException(task);
                 } else {
                     task.markUndone();
                 }
