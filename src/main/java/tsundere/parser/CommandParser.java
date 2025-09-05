@@ -139,7 +139,9 @@ public class CommandParser {
                     to.append(words[i]);
                     to.append(' ');
                 }
-                default -> { }
+                default -> {
+                    assert false : "parseEvent error";
+                }
                 }
             } else if (words[i].equals("/to")) {
                 switch (type) {
@@ -148,7 +150,9 @@ public class CommandParser {
                     to.append(words[i]);
                     to.append(' ');
                 }
-                default -> { }
+                default -> {
+                    assert false : "parseEvent error";
+                }
                 }
             } else {
                 switch (type) {
@@ -164,7 +168,9 @@ public class CommandParser {
                     to.append(words[i]);
                     to.append(' ');
                 }
-                default -> { }
+                default -> {
+                    assert false : "parseEvent error";
+                }
                 }
             }
         }
@@ -218,7 +224,9 @@ public class CommandParser {
                     by.append(words[i]);
                     by.append(' ');
                 }
-                default -> { }
+                default -> {
+                    assert false : "parseDeadline error";
+                }
                 }
             } else {
                 switch (type) {
@@ -230,7 +238,9 @@ public class CommandParser {
                     by.append(words[i]);
                     by.append(' ');
                 }
-                default -> { }
+                default -> {
+                    assert false : "parseDeadline error";
+                }
                 }
             }
         }
