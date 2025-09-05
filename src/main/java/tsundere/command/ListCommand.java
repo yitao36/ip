@@ -3,6 +3,7 @@ package tsundere.command;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Command to list out all the tasks to the user.
@@ -14,7 +15,7 @@ public class ListCommand extends AbstractCommand {
 
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.listTasks(tasks);
+        ui.displayMessage(UiMessages.LIST_TASKS, tasks);
     }
 
     @Override

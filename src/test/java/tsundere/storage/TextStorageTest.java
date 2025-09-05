@@ -57,7 +57,7 @@ public class TextStorageTest {
         TaskList outputTasks = null;
         try {
             outputTasks = storage.retrieveAll();
-        } catch (TsundereException e) {
+        } catch (TsundereException | IOException e) {
             System.out.println("ERROR");
         }
         assertEquals(tasks, outputTasks, "able to store and retrieve multiple items correctly");
@@ -98,7 +98,7 @@ public class TextStorageTest {
         TaskList outputTasks = null;
         try {
             outputTasks = storage.retrieveAll();
-        } catch (TsundereException e) {
+        } catch (TsundereException | IOException e) {
             System.out.println("ERROR");
         }
         assertEquals(tasks, outputTasks);

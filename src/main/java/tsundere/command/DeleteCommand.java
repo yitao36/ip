@@ -5,6 +5,7 @@ import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Deletes a task from the task list and storage, and prints a message to the user.
@@ -27,9 +28,9 @@ public class DeleteCommand extends AbstractCommand {
             tasks.validateIndex(id);
             Task task = tasks.remove(id);
             storage.delete(id);
-            ui.deleteSuccess(task);
+            ui.displayMessage(UiMessages.DELETE_SUCCESS, task);
         } catch (TsundereException e) {
-            ui.echo(e.getMessage());
+            ui.displayMessage(e.getMessage());
         }
     }
 

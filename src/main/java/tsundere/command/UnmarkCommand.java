@@ -7,6 +7,7 @@ import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Command to set the status of a task to unmarked.
@@ -29,9 +30,9 @@ public class UnmarkCommand extends AbstractCommand {
             tasks.validateIndex(id);
             Task task = storage.unmark(id);
             tasks.set(id, task);
-            ui.unmarkSuccess(task);
+            ui.displayMessage(UiMessages.UNMARK_TASK_SUCCESS, task);
         } catch (TsundereException | IOException e) {
-            ui.echo(e.getMessage());
+            ui.displayMessage(e.getMessage());
         }
     }
 

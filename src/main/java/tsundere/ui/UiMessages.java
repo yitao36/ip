@@ -10,10 +10,9 @@ import tsundere.task.TaskList;
  * Lists the available commands that should display a message, and a function to return the message.
  */
 public enum UiMessages {
-    WELCOME, EXIT, ECHO,
+    WELCOME, EXIT,
     LIST_TASKS,
     ADD_TASK, MARK_TASK_SUCCESS, UNMARK_TASK_SUCCESS,
-    MARK_TASK_REDUNDANT, UNMARK_TASK_REDUNDANT,
     DELETE_SUCCESS, HELP;
 
     public static String getMessage(UiMessages ui) {
@@ -74,14 +73,8 @@ public enum UiMessages {
         case MARK_TASK_SUCCESS -> {
             sb.append("Here, it's marked.\n");
         }
-        case MARK_TASK_REDUNDANT -> {
-            sb.append("It's already marked, dummy!\n");
-        }
         case UNMARK_TASK_SUCCESS -> {
             sb.append("Why'd you mark it in the first place?\n");
-        }
-        case UNMARK_TASK_REDUNDANT -> {
-            sb.append("Hey!! You haven't even done the task!\n");
         }
         case DELETE_SUCCESS -> {
             sb.append("There, it's done and dusted.\n");
@@ -92,19 +85,6 @@ public enum UiMessages {
         }
         sb.append(task);
         return sb.toString();
-    }
-
-    /**
-     * Echoes back the user's input.
-     * @param ui Should be ECHO
-     * @param s The user input to be echoed back
-     * @return A String echoing the user's input
-     */
-    public static String getMessage(UiMessages ui, String s) {
-        if (Objects.requireNonNull(ui) == UiMessages.ECHO) {
-            return s;
-        }
-        return null;
     }
 
     /**

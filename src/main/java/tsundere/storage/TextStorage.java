@@ -29,6 +29,7 @@ public class TextStorage {
 
     /**
      * Factory method to try and create a new storage file
+     *
      * @return new TextStorage or IO Exception if none of the default storage paths work
      */
     public static TextStorage of() throws IOException {
@@ -49,11 +50,12 @@ public class TextStorage {
 
     /**
      * Finds the task on the corresponding row, and updates F to T.
+     *
      * @param id The row from the top, starting from 0.
      * @return The modified task, or null if it does not exist.
      * @throws AlreadyMarkedException The task is already marked.
      * @throws StorageFormatException Storage text is unable to be parsed.
-     * @throws IOException Storage file is unable to be opened.
+     * @throws IOException            Storage file is unable to be opened.
      */
     public Task mark(int id) throws TsundereException, IOException {
         Scanner sc = new Scanner(new FileReader(storage));
@@ -90,11 +92,12 @@ public class TextStorage {
 
     /**
      * Finds the task on the corresponding row, and updates T to F.
+     *
      * @param id The row from the top, starting from 0.
      * @return The modified task, or null if it does not exist
      * @throws AlreadyMarkedException The task is already marked.
      * @throws StorageFormatException Storage text is unable to be parsed.
-     * @throws IOException Storage file is unable to be opened.
+     * @throws IOException            Storage file is unable to be opened.
      */
     public Task unmark(int id) throws TsundereException, IOException {
         Scanner sc = new Scanner(new FileReader(storage));
@@ -134,28 +137,25 @@ public class TextStorage {
      *
      * @return new {@link TaskList}
      */
-    public TaskList retrieveAll() throws TsundereException {
-        try {
-            File file = new File(storage);
+    public TaskList retrieveAll() throws TsundereException, IOException {
+        File file = new File(storage);
 
-            Scanner sc = new Scanner(file);
-            TaskList tasks = new TaskList();
+        Scanner sc = new Scanner(file);
+        TaskList tasks = new TaskList();
 
-            while (sc.hasNext()) {
-                String line = sc.nextLine();
-                Task task = validateTask(line);
+        while (sc.hasNext()) {
+            String line = sc.nextLine();
+            Task task = validateTask(line);
 
-                tasks.add(task);
-            }
-            sc.close();
-            return tasks;
-        } catch (StorageFormatException | IOException e) {
-            throw new RuntimeException();
+            tasks.add(task);
         }
+        sc.close();
+        return tasks;
     }
 
     /**
      * Appends the task in a new line at the end of the file.
+     *
      * @param task Task to be stored.
      */
     public void store(Task task) throws IOException {

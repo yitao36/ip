@@ -3,12 +3,11 @@ package tsundere.command;
 import java.io.IOException;
 
 import tsundere.TsundereException;
-import tsundere.storage.AlreadyMarkedException;
-import tsundere.storage.StorageFormatException;
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Command to set the status of a task to marked.
@@ -30,13 +29,10 @@ public class MarkCommand extends AbstractCommand {
         try {
             tasks.validateIndex(id);
             Task task = storage.mark(id);
-            if (task == null) {
-                throw new ArrayIndexOutOfBoundsException();
-            }
             tasks.set(id, task);
-            ui.markSuccess(task);
-        } catch (TsundereException e) {
-            ui.echo(e.getMessage());
+            ui.displayMessage(UiMessages.MARK_TASK_SUCCESS, task);
+        } catch (TsundereException | IOException e) {
+            ui.displayMessage(e.getMessage());
         }
     }
 

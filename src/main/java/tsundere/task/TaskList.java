@@ -1,8 +1,8 @@
 package tsundere.task;
 
-import tsundere.storage.TsundereOutOfBoundsException;
-
 import java.util.ArrayList;
+
+import tsundere.storage.TsundereOutOfBoundsException;
 
 /**
  * A list of tasks utilizing the ArrayList implementation.

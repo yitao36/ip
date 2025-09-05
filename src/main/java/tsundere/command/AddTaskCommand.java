@@ -7,6 +7,7 @@ import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Adds a task to the task list, storage, and prints a message to the user.
@@ -28,9 +29,9 @@ public class AddTaskCommand extends AbstractCommand {
         try {
             tasks.add(task);
             storage.store(task);
-            ui.addTaskSuccess(task);
+            ui.displayMessage(UiMessages.ADD_TASK, task);
         } catch (IOException e) {
-            ui.echo(e.getMessage());
+            ui.displayMessage(e.getMessage());
         }
     }
 

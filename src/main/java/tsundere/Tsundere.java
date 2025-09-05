@@ -12,6 +12,7 @@ import tsundere.parser.CommandParser;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.GraphicsUi;
+import tsundere.ui.UiMessages;
 
 /**
  * The entry point to the tsundere.Tsundere chatbot.
@@ -40,11 +41,11 @@ public class Tsundere {
      * Starts the main command loop for tsundere.Tsundere.
      */
     public void run() {
-        ui.showWelcome();
+        ui.displayMessage(UiMessages.WELCOME);
         try {
             tasks.addAll(storage.retrieveAll());
-        } catch (TsundereException e) {
-            ui.echo(e.getMessage());
+        } catch (TsundereException | IOException e) {
+            ui.displayMessage(e.getMessage());
         }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -72,11 +73,11 @@ public class Tsundere {
     public void setGraphicsUi(VBox vBox, Image image) {
         try {
             tasks.addAll(storage.retrieveAll());
-        } catch (TsundereException e) {
-            ui.echo(e.getMessage());
+        } catch (TsundereException | IOException e) {
+            ui.displayMessage(e.getMessage());
         }
         ui.setResources(vBox, image);
-        ui.showWelcome();
+        ui.displayMessage(UiMessages.WELCOME);
     }
 
     /**
