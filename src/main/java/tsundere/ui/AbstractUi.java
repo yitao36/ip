@@ -1,5 +1,6 @@
 package tsundere.ui;
 
+import tsundere.command.AbstractCommand;
 import tsundere.command.InvalidFormatCommand;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
@@ -12,5 +13,6 @@ public abstract class AbstractUi {
     public abstract void displayMessage(InvalidFormatCommand.Format format);
     public abstract void displayMessage(UiMessages type, Task task);
     public abstract void displayMessage(UiMessages type, TaskList tasks);
+    public abstract void displayMessage(UiMessages type, AbstractCommand command);
     public abstract void displayMessage(String s);
 }

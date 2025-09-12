@@ -45,7 +45,7 @@ public class MarkCommand extends AbstractCommand {
         try {
             tasks.undoMark(id);
             storage.storeAll(tasks);
-            ui.displayMessage("Successfully undid last command of marking the following task: \n" + task + '\n');
+            ui.displayMessage(UiMessages.UNDO, this);
         } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }
@@ -62,5 +62,10 @@ public class MarkCommand extends AbstractCommand {
     @Override
     public int hashCode() {
         return MarkCommand.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Mark command: " + task.toString();
     }
 }

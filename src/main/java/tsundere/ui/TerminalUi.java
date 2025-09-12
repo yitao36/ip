@@ -2,6 +2,7 @@ package tsundere.ui;
 
 import static tsundere.Config.HORIZONTAL_LINE;
 
+import tsundere.command.AbstractCommand;
 import tsundere.command.InvalidFormatCommand;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
@@ -40,6 +41,13 @@ public class TerminalUi extends AbstractUi {
         System.out.println(HORIZONTAL_LINE);
         System.out.println(UiMessages.getMessage(type, tasks));
         System.out.println(tasks);
+        System.out.println(HORIZONTAL_LINE);
+    }
+
+    @Override
+    public void displayMessage(UiMessages type, AbstractCommand command) {
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println(UiMessages.getMessage(type, command));
         System.out.println(HORIZONTAL_LINE);
     }
 

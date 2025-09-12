@@ -63,4 +63,9 @@ public class UnmarkCommand extends AbstractCommand {
     public int hashCode() {
         return UnmarkCommand.class.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Unmark Command: " + task.toString();
+    }
 }

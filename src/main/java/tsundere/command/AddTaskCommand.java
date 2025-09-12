@@ -60,4 +60,9 @@ public class AddTaskCommand extends AbstractCommand {
     public int hashCode() {
         return Objects.hash(this.task);
     }
+
+    @Override
+    public String toString() {
+        return "Add Task Command: " + task.toString();
+    }
 }

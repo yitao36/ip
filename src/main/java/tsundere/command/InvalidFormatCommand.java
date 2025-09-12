@@ -49,4 +49,9 @@ public class InvalidFormatCommand extends AbstractCommand {
     public int hashCode() {
         return this.format.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Invalid Format Command: " + format;
+    }
 }

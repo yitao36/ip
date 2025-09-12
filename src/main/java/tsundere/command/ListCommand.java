@@ -20,7 +20,9 @@ public class ListCommand extends AbstractCommand {
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {}
+    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+        assert false : "Not undoable";
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -30,5 +32,10 @@ public class ListCommand extends AbstractCommand {
     @Override
     public int hashCode() {
         return ListCommand.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "List Command";
     }
 }

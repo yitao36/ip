@@ -52,5 +52,10 @@ public abstract class AbstractCommand {
      * @param storage Storage for the tasks.
      */
     public abstract void undo(TaskList tasks, AbstractUi ui, TextStorage storage);
+
+    @Override
+    public String toString() {
+        return "Abstract Command";
+    }
 }
 

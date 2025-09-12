@@ -62,4 +62,9 @@ public class DeleteCommand extends AbstractCommand {
     public int hashCode() {
         return DeleteCommand.class.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Delete Command: " + task.toString();
+    }
 }

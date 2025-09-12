@@ -28,5 +28,12 @@ public class FindCommand extends AbstractCommand {
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {}
+    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+        assert false : "Not undoable";
+    }
+
+    @Override
+    public String toString() {
+        return "Find Command: " + name;
+    }
 }

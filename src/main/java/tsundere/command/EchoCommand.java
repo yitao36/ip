@@ -27,7 +27,7 @@ public class EchoCommand extends AbstractCommand {
 
     @Override
     public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        return;
+        assert false : "Not undoable";
     }
 
     @Override

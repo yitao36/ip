@@ -2,6 +2,7 @@ package tsundere.ui;
 
 import java.util.Objects;
 
+import tsundere.command.AbstractCommand;
 import tsundere.command.InvalidFormatCommand;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
@@ -10,7 +11,7 @@ import tsundere.task.TaskList;
  * Lists the available commands that should display a message, and a function to return the message.
  */
 public enum UiMessages {
-    WELCOME, EXIT,
+    WELCOME, EXIT, UNDO,
     LIST_TASKS,
     ADD_TASK, MARK_TASK_SUCCESS, UNMARK_TASK_SUCCESS,
     DELETE_SUCCESS, HELP;
@@ -47,6 +48,7 @@ public enum UiMessages {
             if (tasks.isEmpty()) {
                 sb.append("There's no tasks, dummy!\n");
             } else {
+                sb.append("Here's the list of tasks for your pea-brain.");
                 int num = 1;
                 for (Task task : tasks) {
                     sb.append(num).append(". ").append(task).append('\n');
@@ -150,5 +152,17 @@ public enum UiMessages {
         }
         }
         return sb.toString();
+    }
+
+    /**
+     * Returns an undo message specifying which command was undid.
+     * @param ui Should be UNDO
+     * @param command The command that was undone
+     * @return A String containing information about the undo
+     */
+    public static String getMessage(UiMessages ui, AbstractCommand command) {
+        return "You're so clumsy! I'll fix your mess, here.\n" +
+                "I've undid the following command:\n" +
+                command.toString();
     }
 }
