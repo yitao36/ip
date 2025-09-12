@@ -27,7 +27,7 @@ public class MainWindow extends AnchorPane {
 
     private Tsundere tsundere;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Sticker1.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/emiya.jpg"));
     private Image tsundereImage = new Image(this.getClass().getResourceAsStream("/images/tohsaka.jpg"));
     private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/tsundere.jpg"));
 

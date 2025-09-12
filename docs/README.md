@@ -1,8 +1,7 @@
 # tsundere.Tsundere User Guide
 
 
-
-![img.png](Ui.png)
+![Image of the Tsundere application](Ui.png)
 
 Need a motivator to finish your tasks on time? 
 Tsundere is just the right task management application for you!

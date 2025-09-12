@@ -48,7 +48,7 @@ public enum UiMessages {
             if (tasks.isEmpty()) {
                 sb.append("There's no tasks, dummy!\n");
             } else {
-                sb.append("Here's the list of tasks for your pea-brain.");
+                sb.append("Here's the list of tasks for your pea-brain.\n");
                 int num = 1;
                 for (Task task : tasks) {
                     sb.append(num).append(". ").append(task).append('\n');
