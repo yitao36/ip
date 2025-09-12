@@ -26,7 +26,11 @@
                -fx-min-width: 200;
                -fx-min-height: 50;
                -fx-padding: 5 5 5 5"/>
-        <ImageView fx:id="displayPicture" fitHeight="99.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="displayPicture"
+                   fitHeight="99.0"
+                   fitWidth="99.0"
+                   pickOnBounds="true"
+                   preserveRatio="true" />
     </children>
     <padding>
         <Insets bottom="15.0" left="5.0" right="5.0" top="15.0" />

@@ -26,29 +26,29 @@ public class GraphicsUi extends AbstractUi {
     @Override
     public void displayMessage(UiMessages type) {
         String response = UiMessages.getMessage(type);
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
+        dialogContainer.getChildren().addAll(DialogBox.getTsundereDialog(dialogContainer, response, tsundereImage));
     }
 
     @Override
     public void displayMessage(String s) {
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(s, tsundereImage));
+        dialogContainer.getChildren().addAll(DialogBox.getTsundereDialog(dialogContainer, s, tsundereImage));
     }
 
     @Override
     public void displayMessage(UiMessages type, Task task) {
         String response = UiMessages.getMessage(type, task);
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
+        dialogContainer.getChildren().addAll(DialogBox.getTsundereDialog(dialogContainer, response, tsundereImage));
     }
 
     @Override
     public void displayMessage(UiMessages type, TaskList tasks) {
         String response = UiMessages.getMessage(type, tasks);
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
+        dialogContainer.getChildren().addAll(DialogBox.getTsundereDialog(dialogContainer, response, tsundereImage));
     }
 
     @Override
     public void displayMessage(InvalidFormatCommand.Format format) {
         String response = UiMessages.getMessage(UiMessages.HELP, format);
-        dialogContainer.getChildren().addAll(DialogBox.getDukeDialog(response, tsundereImage));
+        dialogContainer.getChildren().addAll(DialogBox.getTsundereDialog(dialogContainer, response, tsundereImage));
     }
 }

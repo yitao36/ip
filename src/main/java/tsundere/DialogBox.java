@@ -2,9 +2,12 @@ package tsundere;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -24,7 +28,9 @@ public class DialogBox extends HBox {
     @FXML
     private ImageView displayPicture;
 
-    private DialogBox(String text, Image img) {
+    private Image angryTsundereImage = new Image(this.getClass().getResourceAsStream("/images/angryTohsaka.jpg"));
+
+    private DialogBox(VBox parent, String text, Image img, boolean isUser) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -36,6 +42,11 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+        if (!isUser) {
+            displayPicture.setOnMouseClicked(event -> parent.getChildren().add(
+                    DialogBox.getTsundereDialog(parent, "OW! STOP THAT!", angryTsundereImage)
+            ));
+        }
     }
 
     /**
@@ -48,12 +59,12 @@ public class DialogBox extends HBox {
         setAlignment(Pos.TOP_LEFT);
     }
 
-    public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+    public static DialogBox getUserDialog(VBox parent, String text, Image img) {
+        return new DialogBox(parent, text, img, true);
     }
 
-    public static DialogBox getDukeDialog(String text, Image img) {
-        var db = new DialogBox(text, img);
+    public static DialogBox getTsundereDialog(VBox parent, String text, Image img) {
+        var db = new DialogBox(parent, text, img, false);
         db.flip();
         return db;
     }

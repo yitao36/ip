@@ -53,7 +53,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage));
+        dialogContainer.getChildren().addAll(DialogBox.getUserDialog(dialogContainer, input, userImage));
         tsundere.displayResponse(input);
         userInput.clear();
     }

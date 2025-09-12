@@ -1,0 +1,31 @@
+.pink-button {
+    -fx-background-color: pink;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-border-color: deeppink;
+    -fx-border-width: 2;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+}
+
+.pink-button:focused {
+    -fx-background-color: hotpink;
+    -fx-border-color: deeppink;
+}
+
+.pink-textfield {
+    -fx-background-color: pink;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-border-color: deeppink;
+    -fx-border-width: 2;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+}
+
+.pink-textfield:focused {
+    -fx-background-color: hotpink;
+    -fx-border-color: deeppink;
+}
