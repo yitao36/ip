@@ -1,23 +1,25 @@
 # tsundere.Tsundere User Guide
 
-// Update the title above to match the actual product name
 
-// Product screenshot goes here
 
-// Product intro goes here
+![img.png](img.png)
+
+Need a motivator to finish your tasks on time? 
+Tsundere is just the right task management application for you!
+Just don't let anyone find out about it...
 
 ## Adding deadlines
+Tsundere supports tracking deadline tasks, enabling you to easily monitor and complete
+tasks on time.
 
-// Describe the action and its outcome.
+Insert deadline tasks using the format `deadline <name of task> /by <end data>`
 
-// Give examples of usage
+Example: `deadline TASK /by 2025-02-02T23:59`
 
-Example: `keyword (optional arguments)`
-
-// A description of the expected outcome goes here
-
+Output:
 ```
-expected output
+New task added!
+[D][] TASK (By 02-Feb-25 23:59)
 ```
 
 ## Feature ABC

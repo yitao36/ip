@@ -225,7 +225,6 @@ public class CommandParser {
                 case NAME -> type = Param.BY;
                 case BY -> {
                     by.append(words[i]);
-                    by.append(' ');
                 }
                 default -> {
                     assert false : "parseDeadline error";
@@ -239,7 +238,6 @@ public class CommandParser {
                 }
                 case BY -> {
                     by.append(words[i]);
-                    by.append(' ');
                 }
                 default -> {
                     assert false : "parseDeadline error";
@@ -248,12 +246,11 @@ public class CommandParser {
             }
         }
 
-        if (name.isEmpty() || by.toString().split(" ").length != 1) {
+        if (name.isEmpty() || by.isEmpty() || by.toString().split(" ").length != 1) {
             return new InvalidFormatCommand(Format.DEADLINE);
         }
 
         name.deleteCharAt(name.length() - 1);
-        by.deleteCharAt(by.length() - 1);
 
         LocalDateTime byDate;
         try {
