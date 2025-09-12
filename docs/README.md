@@ -16,7 +16,7 @@ Insert todo tasks using the format `todo <name of task>`
 
 Example: `todo TASK`
 
-Ouutput: 
+Output: 
 ```
 New task added!
 [T][ ] TASK

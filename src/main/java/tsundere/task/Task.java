@@ -60,7 +60,7 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return "[" + (done ? "X" : "") + "] " + this.name;
+        return "[" + (done ? "X" : " ") + "] " + this.name;
     }
 
     @Override
