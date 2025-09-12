@@ -5,10 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 
 /**
  * Controller for the main GUI.
@@ -17,16 +15,21 @@ public class MainWindow extends AnchorPane {
     @FXML
     private ScrollPane scrollPane;
     @FXML
+    private ImageView backgroundView;
+    @FXML
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private StackPane dialogWithBackground;
 
     private Tsundere tsundere;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Sticker1.png"));
     private Image tsundereImage = new Image(this.getClass().getResourceAsStream("/images/tohsaka.jpg"));
+    private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/tsundere.jpg"));
 
     /**
      * Binds scrollbar to the dialog container, and sets up Tsundere Graphics UI.
@@ -34,10 +37,11 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-
-        this.setBackground(new Background(new BackgroundImage(new Image(
-                this.getClass().getResourceAsStream("/images/tsundere.jpg")),
-                null, null, null, null)));
+        backgroundView.setImage(backgroundImage);
+        backgroundView.setPreserveRatio(false);
+        backgroundView.setSmooth(true);
+        backgroundView.fitHeightProperty().bind(scrollPane.heightProperty());
+        backgroundView.fitWidthProperty().bind(scrollPane.widthProperty());
     }
     /** Injects the Duke instance */
     public void setTsundere(Tsundere t) {
@@ -51,7 +55,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage));
+        dialogContainer.getChildren().addAll(DialogBox.getUserDialog(dialogContainer, input, userImage));
         tsundere.displayResponse(input);
         userInput.clear();
     }
