@@ -11,4 +11,17 @@ public class TsundereException extends Exception {
     public TsundereException(String message) {
         super(message);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TsundereException) {
+            return super.getMessage().equals(((TsundereException) obj).getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.getMessage().hashCode();
+    }
 }

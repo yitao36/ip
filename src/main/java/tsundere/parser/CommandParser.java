@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
+import tsundere.TsundereException;
 import tsundere.command.AbstractCommand;
 import tsundere.command.AddTaskCommand;
 import tsundere.command.ByeCommand;
@@ -21,7 +22,7 @@ import tsundere.command.UnmarkCommand;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
-
+import tsundere.task.TsundereOutOfBoundsException;
 
 
 /**
@@ -34,7 +35,7 @@ public class CommandParser {
      * @param fullCommand The user input to be parsed.
      * @return A runnable command that effects storage, ui, and tasks.
      */
-    public static AbstractCommand parse(String fullCommand) {
+    public static AbstractCommand parse(String fullCommand) throws TsundereException {
         String[] args = fullCommand.split(" ");
 
         if (args.length == 0 || args[0].isBlank() || args[0].equals("help")) {
@@ -63,7 +64,11 @@ public class CommandParser {
                 if (args.length < 2) {
                     return new InvalidFormatCommand(Format.MARK);
                 }
-                return new MarkCommand(Integer.parseInt(args[1]) - 1);
+                int id = Integer.parseInt(args[1]) - 1;
+                if (id < 0) {
+                    throw new TsundereOutOfBoundsException();
+                }
+                return new MarkCommand(id);
             } catch (NumberFormatException e) {
                 return new InvalidFormatCommand(Format.MARK);
             }
@@ -72,7 +77,11 @@ public class CommandParser {
                 if (args.length < 2) {
                     return new InvalidFormatCommand(Format.UNMARK);
                 }
-                return new UnmarkCommand(Integer.parseInt(args[1]) - 1);
+                int id = Integer.parseInt(args[1]) - 1;
+                if (id < 0) {
+                    throw new TsundereOutOfBoundsException();
+                }
+                return new UnmarkCommand(id);
             } catch (NumberFormatException e) {
                 return new InvalidFormatCommand(Format.UNMARK);
             }
@@ -81,7 +90,11 @@ public class CommandParser {
                 if (args.length < 2) {
                     return new InvalidFormatCommand(Format.DELETE);
                 }
-                return new DeleteCommand(Integer.parseInt(args[1]) - 1);
+                int id = Integer.parseInt(args[1]) - 1;
+                if (id < 0) {
+                    throw new TsundereOutOfBoundsException();
+                }
+                return new DeleteCommand(id);
             } catch (NumberFormatException e) {
                 return new InvalidFormatCommand(Format.DELETE);
             }

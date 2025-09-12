@@ -1,13 +1,14 @@
 package tsundere.command;
 
 import tsundere.log.Log;
+import tsundere.storage.AbstractStorage;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
 
 /**
  *  The abstract command class that handles the execution of code for {@link TaskList},
- *  {@link AbstractUi}, and {@link TextStorage}
+ *  {@link AbstractUi}, and {@link AbstractStorage}
  */
 public abstract class AbstractCommand {
     private final boolean isExit;
@@ -43,7 +44,7 @@ public abstract class AbstractCommand {
      * @param ui      Displays messages to the user.
      * @param storage Storage for the tasks.
      */
-    public abstract void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log);
+    public abstract void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log);
 
     /**
      * Undoes the results of this command, bringing program back to a previous state.
@@ -51,7 +52,7 @@ public abstract class AbstractCommand {
      * @param ui      Displays messages to the user.
      * @param storage Storage for the tasks.
      */
-    public abstract void undo(TaskList tasks, AbstractUi ui, TextStorage storage);
+    public abstract void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage);
 
     @Override
     public String toString() {

@@ -16,7 +16,7 @@ import tsundere.task.TaskList;
  * Checks storage paths for existing storages. If it does not exist, attempts to create one.
  * Uses the alternate storage path if default fails to initialize.
  */
-public class TextStorage {
+public class TextStorage extends AbstractStorage {
     private static final String DEFAULT_STORAGE_PATH = "./src/main/java/tsundere/storage/tsundereStorage.txt";
     private static final String ALT_STORAGE_PATH = "./tsundereStorage.txt";
 
@@ -51,6 +51,7 @@ public class TextStorage {
      * Saves the task list to storage.
      * @param tasks Tasks to be stored.
      */
+    @Override
     public void storeAll(TaskList tasks) throws IOException {
         FileWriter fw = new FileWriter(storage, false);
         StringBuilder sb = new StringBuilder();
@@ -68,6 +69,7 @@ public class TextStorage {
      *
      * @return new {@link TaskList}
      */
+    @Override
     public TaskList retrieveAll() throws TsundereException, IOException {
         File file = new File(storage);
 
@@ -87,6 +89,7 @@ public class TextStorage {
     /**
      * Deletes all data stored in the specified storage. Used for testing.
      */
+    @Override
     public void clear() {
         try {
             FileWriter fw = new FileWriter(storage);

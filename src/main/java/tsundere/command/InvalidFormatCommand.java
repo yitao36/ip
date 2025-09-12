@@ -1,7 +1,7 @@
 package tsundere.command;
 
 import tsundere.log.Log;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
 
@@ -30,12 +30,12 @@ public class InvalidFormatCommand extends AbstractCommand {
         this.format = format;
     }
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
+    public void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log) {
         ui.displayMessage(format);
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {}
+    public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {}
 
     @Override
     public boolean equals(Object obj) {

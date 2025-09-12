@@ -57,9 +57,13 @@ public class Tsundere {
         boolean isExit = false;
         while (!isExit) {
             String fullCommand = sc.nextLine();
-            AbstractCommand command = CommandParser.parse(fullCommand);
-            command.execute(tasks, ui, storage, log);
-            isExit = command.isExit();
+            try {
+                AbstractCommand command = CommandParser.parse(fullCommand);
+                command.execute(tasks, ui, storage, log);
+                isExit = command.isExit();
+            } catch (TsundereException e) {
+                ui.displayMessage(e.getMessage());
+            }
         }
     }
 
@@ -87,8 +91,11 @@ public class Tsundere {
      * Generates a response for the user's chat message.
      */
     public void displayResponse(String input) {
-        AbstractCommand command = CommandParser.parse(input);
-        command.execute(tasks, ui, storage, log);
-        boolean isExit = command.isExit();
+        try {
+            AbstractCommand command = CommandParser.parse(input);
+            command.execute(tasks, ui, storage, log);
+        } catch (TsundereException e) {
+            ui.displayMessage(e.getMessage());
+        }
     }
 }

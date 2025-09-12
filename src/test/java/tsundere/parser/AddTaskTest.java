@@ -4,23 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tsundere.command.InvalidFormatCommand.Format;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import tsundere.command.AbstractCommand;
-import tsundere.command.AddTaskCommand;
-import tsundere.command.InvalidFormatCommand;
+import tsundere.TsundereException;
+import tsundere.command.*;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
 
 
 
-public class CommandParserTest {
+public class AddTaskTest {
     @Test
-    public void parse_emptyInput_returnsHelpCommand() {
+    public void parse_emptyInput_returnsHelpCommand() throws TsundereException {
         String userInput = "";
         AbstractCommand expected = new InvalidFormatCommand(Format.HELP);
 
@@ -30,7 +27,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void parse_validTodoInput_returnsTodoCommand() {
+    public void parse_validTodoInput_returnsTodoCommand() throws TsundereException {
         String userInput = "todo task";
         AbstractCommand expected = new AddTaskCommand(new TodoTask("task"));
 
@@ -40,7 +37,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void parse_invalidTodoInput_returnsInvalidFormatCommand() {
+    public void parse_invalidTodoInput_returnsInvalidFormatCommand() throws TsundereException {
         String userInput = "todo";
         AbstractCommand expected = new InvalidFormatCommand(Format.TODO);
 
@@ -50,7 +47,7 @@ public class CommandParserTest {
     }
 
     @Test
-    public void parse_validDeadlineInput_returnsDeadlineCommand() {
+    public void parse_validDeadlineInput_returnsDeadlineCommand() throws TsundereException {
         String normalInput = "deadline task /by 2025-05-25T23:59";
         String longNameInput = "deadline super important task /by 2025-05-25T23:59";
 
@@ -69,23 +66,27 @@ public class CommandParserTest {
     }
 
     @Test
-    public void parse_invalidDeadlineInput_returnsInvalidFormatCommand() {
+    public void parse_invalidDeadlineInput_returnsInvalidFormatCommand() throws TsundereException {
         String emptyNameInput = "deadline /by 2025-05-25T23:59";
         String emptyByInput = "deadline task /by";
         String missingByInput = "deadline task";
         String invalidDateInput = "deadline task /by today";
-        String[] inputs = new String[] {emptyNameInput, emptyByInput, missingByInput, invalidDateInput};
+
         AbstractCommand expected = new InvalidFormatCommand(Format.DEADLINE);
 
-        List<AbstractCommand> outputs = Arrays.stream(inputs).map(CommandParser::parse).toList();
+        AbstractCommand output1 = CommandParser.parse(emptyNameInput);
+        AbstractCommand output2 = CommandParser.parse(emptyByInput);
+        AbstractCommand output3 = CommandParser.parse(missingByInput);
+        AbstractCommand output4 = CommandParser.parse(invalidDateInput);
 
-        for (AbstractCommand output : outputs) {
-            assertEquals(expected, output, "invalid event input should return InvalidFormatCommand for event");
-        }
+        assertEquals(expected, output1, "empty name input should return InvalidFormatCommand for event");
+        assertEquals(expected, output2, "empty by input should return InvalidFormatCommand for event");
+        assertEquals(expected, output3, "missing by input should return InvalidFormatCommand for event");
+        assertEquals(expected, output4, "invalid date input should return InvalidFormatCommand for event");
     }
 
     @Test
-    public void parse_validEventInput_returnsEventCommand() {
+    public void parse_validEventInput_returnsEventCommand() throws TsundereException {
         String userInput = "event task /from 2025-05-25T23:59 /to 2025-05-26T23:59";
         String name = "task";
         String from = "2025-05-25T23:59";
@@ -99,41 +100,44 @@ public class CommandParserTest {
     }
 
     @Test
-    public void parse_invalidEventInput_returnsInvalidFormatCommand() {
+    public void parse_invalidEventInput_returnsInvalidFormatCommand() throws TsundereException {
         String emptyNameInput = "event /from 2025-05-25T23:59 /to 2025-05-26T23:59";
         String emptyFromInput = "event task /from /to 2025-05-26T23:59";
         String emptyToInput = "event task /from 2025-05-25T23:59 /to";
         String missingFromInput = "event task /to 2025-05-26T23:59";
         String missingToInput = "event task /from 2025-05-25T23:59";
         String wrongOrderInput = "event task /to 2025-05-26T23:59 /from 2025-05-25T23:59";
-        String[] inputs = new String[] {emptyNameInput, emptyFromInput, emptyToInput,
-            missingFromInput, missingToInput, wrongOrderInput};
 
         InvalidFormatCommand expected = new InvalidFormatCommand(Format.EVENT);
 
-        List<AbstractCommand> outputs = Arrays.stream(inputs).map(CommandParser::parse).toList();
+        AbstractCommand output1 = CommandParser.parse(emptyNameInput);
+        AbstractCommand output2 = CommandParser.parse(emptyFromInput);
+        AbstractCommand output3 = CommandParser.parse(emptyToInput);
+        AbstractCommand output4 = CommandParser.parse(missingFromInput);
+        AbstractCommand output5 = CommandParser.parse(missingToInput);
+        AbstractCommand output6 = CommandParser.parse(wrongOrderInput);
 
-        for (AbstractCommand output : outputs) {
-            assertEquals(expected, output, "invalid event input should return InvalidFormatCommand for event");
-        }
+        assertEquals(expected, output1, "empty name input should return InvalidFormatCommand for event");
+        assertEquals(expected, output2, "empty from input should return InvalidFormatCommand for event");
+        assertEquals(expected, output3, "empty to input should return InvalidFormatCommand for event");
+        assertEquals(expected, output4, "missing from input should return InvalidFormatCommand for event");
+        assertEquals(expected, output5, "missing to input should return InvalidFormatCommand for event");
+        assertEquals(expected, output6, "wrong order input should return InvalidFormatCommand for event");
     }
 
     @Test
-    public void parse_invalidDatesEventInput_returnsInvalidFormatCommand() {
+    public void parse_invalidDatesEventInput_returnsInvalidFormatCommand() throws TsundereException {
         String invalidMinutes = "event task /from 2025-05-25T23:60 /to 2025-05-26T23:60";
-        String[] inputs = new String[] {invalidMinutes};
 
         InvalidFormatCommand expected = new InvalidFormatCommand(Format.EVENT);
 
-        List<AbstractCommand> outputs = Arrays.stream(inputs).map(CommandParser::parse).toList();
+        AbstractCommand output = CommandParser.parse(invalidMinutes);
 
-        for (AbstractCommand output : outputs) {
-            assertEquals(expected, output, "wrong date should return InvalidFormatCommand for event");
-        }
+        assertEquals(expected, output, "wrong date should return InvalidFormatCommand for event");
     }
 
     @Test
-    public void parse_fromDateAfterToDateEventInput_returnsInvalidFormatCommand() {
+    public void parse_fromDateAfterToDateEventInput_returnsInvalidFormatCommand() throws TsundereException {
         String toDateBeforeFromDate = "event task /from 2025-05-26T23:59 /to 2025-05-25T23:59";
 
         InvalidFormatCommand expected = new InvalidFormatCommand(Format.EVENT_DATE);

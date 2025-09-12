@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import tsundere.log.Log;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
@@ -26,7 +26,7 @@ public class AddTaskCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
+    public void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log) {
         try {
             tasks.add(task);
             storage.storeAll(tasks);
@@ -38,7 +38,7 @@ public class AddTaskCommand extends AbstractCommand {
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         try {
             tasks.undoAdd();
             storage.storeAll(tasks);

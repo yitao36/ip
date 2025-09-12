@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import tsundere.TsundereException;
 import tsundere.log.Log;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
@@ -15,7 +15,6 @@ import tsundere.ui.UiMessages;
  */
 public class UnmarkCommand extends AbstractCommand {
     private final int id;
-    private Task task;
 
     /**
      * Creates a new command to set the indexed task in the task list to unmarked.
@@ -27,12 +26,11 @@ public class UnmarkCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
+    public void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log) {
         try {
             tasks.unmark(id);
             storage.storeAll(tasks);
             Task task = tasks.get(id);
-            this.task = task;
             ui.displayMessage(UiMessages.UNMARK_TASK_SUCCESS, task);
             log.add(this);
         } catch (TsundereException | IOException e) {
@@ -41,12 +39,13 @@ public class UnmarkCommand extends AbstractCommand {
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         try {
             tasks.undoUnmark(id);
+            Task task = tasks.get(id);
             storage.storeAll(tasks);
             ui.displayMessage("Successfully undid last command of unmarking the following task: \n" + task + '\n');
-        } catch (IOException e) {
+        } catch (TsundereException | IOException e) {
             ui.displayMessage(e.getMessage());
         }
     }
@@ -66,6 +65,6 @@ public class UnmarkCommand extends AbstractCommand {
 
     @Override
     public String toString() {
-        return "Unmark Command: " + task.toString();
+        return "Unmark Command: " + id;
     }
 }
