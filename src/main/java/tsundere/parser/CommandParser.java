@@ -7,16 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
-import tsundere.command.AbstractCommand;
-import tsundere.command.AddTaskCommand;
-import tsundere.command.ByeCommand;
-import tsundere.command.DeleteCommand;
-import tsundere.command.EchoCommand;
-import tsundere.command.FindCommand;
-import tsundere.command.InvalidFormatCommand;
-import tsundere.command.ListCommand;
-import tsundere.command.MarkCommand;
-import tsundere.command.UnmarkCommand;
+import tsundere.command.*;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
@@ -84,6 +75,8 @@ public class CommandParser {
             } catch (NumberFormatException e) {
                 return new InvalidFormatCommand(Format.DELETE);
             }
+        case "undo":
+            return new UndoCommand();
         case "bye":
             return new ByeCommand();
         case "noInput":

@@ -1,5 +1,6 @@
 package tsundere.command;
 
+import tsundere.log.Log;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
@@ -10,9 +11,11 @@ import tsundere.ui.AbstractUi;
  */
 public abstract class AbstractCommand {
     private final boolean isExit;
+    private final boolean isUndoable;
 
-    AbstractCommand(boolean isExit) {
+    AbstractCommand(boolean isExit, boolean isUndoable) {
         this.isExit = isExit;
+        this.isUndoable = isUndoable;
     }
 
     /**
@@ -25,6 +28,14 @@ public abstract class AbstractCommand {
     }
 
     /**
+     * Determines if this command should be stored in the undo logs.
+     * @return true if this command can be undone.
+     */
+    public boolean isUndoable() {
+        return isUndoable;
+    }
+
+    /**
      * Runs the command with the corresponding implementation for handling {@link TaskList},
      * {@link AbstractUi}, and {@link TextStorage}
      *
@@ -32,6 +43,14 @@ public abstract class AbstractCommand {
      * @param ui      Displays messages to the user.
      * @param storage Storage for the tasks.
      */
-    public abstract void execute(TaskList tasks, AbstractUi ui, TextStorage storage);
+    public abstract void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log);
+
+    /**
+     * Undoes the results of this command, bringing program back to a previous state.
+     * @param tasks   The current list of tasks.
+     * @param ui      Displays messages to the user.
+     * @param storage Storage for the tasks.
+     */
+    public abstract void undo(TaskList tasks, AbstractUi ui, TextStorage storage);
 }
 

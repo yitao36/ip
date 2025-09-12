@@ -105,8 +105,10 @@ public enum UiMessages {
             sb.append("event - Creates an event task\n");
             sb.append("deadline - Creates a deadline task\n");
             sb.append("list - Lists all your tasks\n");
+            sb.append("find - Searches for your tasks by name \n");
             sb.append("mark - Marks a task as completed\n");
             sb.append("unmark - Marks a task as uncompleted\n");
+            sb.append("undo - Undoes your previous action\n");
             sb.append("bye - Installs a virus! Don't input this\n");
         }
         case TODO -> {

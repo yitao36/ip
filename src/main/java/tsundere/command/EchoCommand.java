@@ -1,5 +1,6 @@
 package tsundere.command;
 
+import tsundere.log.Log;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
@@ -15,13 +16,23 @@ public class EchoCommand extends AbstractCommand {
      * @param text Text to be printed to the user.
      */
     public EchoCommand(String text) {
-        super(false);
+        super(false, false);
         this.text = text;
     }
 
     @Override
+<<<<<<< Updated upstream
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
+        ui.echo(text);
+=======
+    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         ui.displayMessage(text);
+>>>>>>> Stashed changes
+    }
+
+    @Override
+    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+        return;
     }
 
     @Override
