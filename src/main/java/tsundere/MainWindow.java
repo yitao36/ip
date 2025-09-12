@@ -5,10 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 
 /**
  * Controller for the main GUI.
@@ -16,6 +14,8 @@ import javafx.scene.layout.VBox;
 public class MainWindow extends AnchorPane {
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private ImageView backgroundView;
     @FXML
     private VBox dialogContainer;
     @FXML
@@ -27,6 +27,11 @@ public class MainWindow extends AnchorPane {
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Sticker1.png"));
     private Image tsundereImage = new Image(this.getClass().getResourceAsStream("/images/tohsaka.jpg"));
+    private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/tsundere.jpg"));
+
+
+    @FXML
+    private StackPane dialogWithBackground;
 
     /**
      * Binds scrollbar to the dialog container, and sets up Tsundere Graphics UI.
@@ -34,10 +39,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-
-        this.setBackground(new Background(new BackgroundImage(new Image(
-                this.getClass().getResourceAsStream("/images/tsundere.jpg")),
-                null, null, null, null)));
+        backgroundView.setImage(backgroundImage);
     }
     /** Injects the Duke instance */
     public void setTsundere(Tsundere t) {
