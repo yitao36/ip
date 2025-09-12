@@ -21,13 +21,8 @@ public class EchoCommand extends AbstractCommand {
     }
 
     @Override
-<<<<<<< Updated upstream
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.echo(text);
-=======
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         ui.displayMessage(text);
->>>>>>> Stashed changes
     }
 
     @Override

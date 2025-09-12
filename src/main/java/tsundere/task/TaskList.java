@@ -1,15 +1,32 @@
 package tsundere.task;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+import tsundere.TsundereException;
 
 /**
  * A list of tasks utilizing the ArrayList implementation.
  *
  * @see java.util.ArrayList
  */
-public class TaskList extends ArrayList<Task> {
+public class TaskList implements Iterable<Task> {
+    private List<Task> tasks;
+
     public TaskList() {
-        super();
+        tasks = new ArrayList<>();
+    }
+
+    /**
+     * Creates a new task list with the given tasks.
+     *
+     * @param tasks An ArrayList of Tasks
+     */
+    public TaskList(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     /**
@@ -18,11 +35,6 @@ public class TaskList extends ArrayList<Task> {
      * @return A new {@link TaskList} of the filtered tasks.
      */
     public TaskList find(String name) {
-<<<<<<< Updated upstream
-        TaskList filteredList = new TaskList();
-        filteredList.addAll(super.stream().filter(task -> task.getName().contains(name)).toList());
-        return filteredList;
-=======
         ArrayList<Task> filteredList = new ArrayList<>(tasks.stream().filter(
                 task -> task.getName().contains(name)).toList());
         return new TaskList(filteredList);
@@ -93,30 +105,13 @@ public class TaskList extends ArrayList<Task> {
     /**
      * Removes the task from the task list at the given index and return it
      *
-     * @param id The index of the task to be removed from the task list
+     * @param id The index of the task to be retrieved from the task list
      * @return The removed task
      * @throws TsundereOutOfBoundsException If the given index is invalid
      */
     public Task remove(int id) throws TsundereOutOfBoundsException {
         validateIndex(id);
         return tasks.remove(id);
-    }
-
-    /**
-     * Checks if the task list is empty.
-     * @return true if task list is empty
-     */
-    public boolean isEmpty() {
-        return tasks.isEmpty();
->>>>>>> Stashed changes
-    }
-
-    /**
-     * Returns the number of tasks in the task list.
-     * @return Size of task list
-     */
-    public int size() {
-        return tasks.size();
     }
 
     /**
@@ -162,13 +157,39 @@ public class TaskList extends ArrayList<Task> {
         }
     }
 
+    /**
+     * Checks if the task list is empty.
+     * @return true if task list is empty
+     */
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (o instanceof TaskList) {
+            return ((TaskList) o).tasks.equals(tasks);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return tasks.hashCode();
+    }
+
+    @Override
+    public Iterator<Task> iterator() {
+        return tasks.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Task> action) {
+        tasks.forEach(action);
+    }
+
+    @Override
+    public Spliterator<Task> spliterator() {
+        return tasks.spliterator();
     }
 }

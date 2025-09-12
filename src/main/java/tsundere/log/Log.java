@@ -1,12 +1,9 @@
 package tsundere.log;
 
 import java.util.EmptyStackException;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.util.Stack;
 
 import tsundere.command.AbstractCommand;
-import tsundere.command.InvalidFormatCommand;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;

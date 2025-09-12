@@ -2,17 +2,13 @@ package tsundere.command;
 
 import java.io.IOException;
 
-<<<<<<< Updated upstream
-import tsundere.storage.AlreadyMarkedException;
-import tsundere.storage.StorageFormatException;
-=======
 import tsundere.TsundereException;
 import tsundere.log.Log;
->>>>>>> Stashed changes
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Command to set the status of a task to unmarked.
@@ -33,20 +29,6 @@ public class UnmarkCommand extends AbstractCommand {
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         try {
-<<<<<<< Updated upstream
-            Task task = storage.unmark(id);
-            if (task == null) {
-                throw new ArrayIndexOutOfBoundsException();
-            }
-            tasks.set(id, task);
-            ui.unmarkSuccess(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ui.taskIndexOutOfBounds();
-        } catch (AlreadyMarkedException e) {
-            ui.unmarkRedundant(e.getTask());
-        } catch (StorageFormatException | IOException e) {
-            ui.storageException();
-=======
             tasks.unmark(id);
             storage.storeAll(tasks);
             Task task = tasks.get(id);
@@ -55,7 +37,6 @@ public class UnmarkCommand extends AbstractCommand {
             log.add(this);
         } catch (TsundereException | IOException e) {
             ui.displayMessage(e.getMessage());
->>>>>>> Stashed changes
         }
     }
 

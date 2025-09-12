@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -46,15 +45,8 @@ public class TextStorageTest {
 
         TaskList list = new TaskList(Arrays.stream(
                 new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList());
-        list.forEach(task -> {
-            try {
-                tasks.add(task);
-                storage.storeAll(tasks);
-            } catch (IOException e) {
-                System.out.println("ERROR");
-            }
-        });
         tasks.addAll(list);
+        storage.storeAll(list);
 
         TaskList outputTasks = null;
         try {
@@ -62,6 +54,7 @@ public class TextStorageTest {
         } catch (TsundereException | IOException e) {
             System.out.println("ERROR");
         }
+
         assertEquals(tasks, outputTasks, "able to store and retrieve multiple items correctly");
     }
 
@@ -79,22 +72,11 @@ public class TextStorageTest {
 
         TaskList list = new TaskList(Arrays.stream(
                 new Task[] {todo1, todo2, deadline1, deadline2, event1, event2}).toList());
-        list.forEach(task -> {
-            try {
-                tasks.add(task);
-                storage.storeAll(tasks);
-            } catch (IOException e) {
-                System.out.println("ERROR");
-            }
-        });
         tasks.addAll(list);
         try {
             todo2.markDone();
             deadline2.markDone();
             event2.markDone();
-            tasks.mark(1);
-            tasks.mark(3);
-            tasks.mark(5);
             storage.storeAll(tasks);
         } catch (TsundereException | IOException e) {
             throw new RuntimeException(e);

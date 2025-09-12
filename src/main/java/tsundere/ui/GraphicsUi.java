@@ -7,8 +7,6 @@ import tsundere.command.InvalidFormatCommand;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 
-import static tsundere.Config.HORIZONTAL_LINE;
-
 /**
  * Ui class handling displaying of responses to the user's GUI.
  */

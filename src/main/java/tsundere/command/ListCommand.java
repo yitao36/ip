@@ -4,6 +4,7 @@ import tsundere.log.Log;
 import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Command to list out all the tasks to the user.
@@ -14,13 +15,8 @@ public class ListCommand extends AbstractCommand {
     }
 
     @Override
-<<<<<<< Updated upstream
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.listTasks(tasks);
-=======
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         ui.displayMessage(UiMessages.LIST_TASKS, tasks);
->>>>>>> Stashed changes
     }
 
     @Override

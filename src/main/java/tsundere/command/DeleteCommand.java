@@ -1,17 +1,14 @@
 package tsundere.command;
 
-<<<<<<< Updated upstream
-import tsundere.storage.StorageFormatException;
-=======
 import java.io.IOException;
 
 import tsundere.TsundereException;
 import tsundere.log.Log;
->>>>>>> Stashed changes
 import tsundere.storage.TextStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
+import tsundere.ui.UiMessages;
 
 /**
  * Deletes a task from the task list and storage, and prints a message to the user.
@@ -32,18 +29,6 @@ public class DeleteCommand extends AbstractCommand {
     @Override
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         try {
-<<<<<<< Updated upstream
-            Task task = storage.delete(id);
-            if (task == null) {
-                throw new ArrayIndexOutOfBoundsException();
-            }
-            tasks.remove(id);
-            ui.deleteSuccess(task);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ui.taskIndexOutOfBounds();
-        } catch (StorageFormatException e) {
-            ui.storageException();
-=======
             Task task = tasks.remove(id);
             this.task = task;
             storage.storeAll(tasks);
@@ -51,7 +36,6 @@ public class DeleteCommand extends AbstractCommand {
             log.add(this);
         } catch (TsundereException | IOException e) {
             ui.displayMessage(e.getMessage());
->>>>>>> Stashed changes
         }
     }
 

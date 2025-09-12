@@ -5,8 +5,6 @@ import tsundere.storage.TextStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
 
-import java.io.IOException;
-
 /**
  * Command that displays a help message to the user for the correct format for the specified Format type.
  * @see Format
@@ -32,13 +30,8 @@ public class InvalidFormatCommand extends AbstractCommand {
         this.format = format;
     }
     @Override
-<<<<<<< Updated upstream
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage) {
-        ui.showHelp(format);
-=======
     public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
         ui.displayMessage(format);
->>>>>>> Stashed changes
     }
 
     @Override
