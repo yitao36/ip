@@ -22,16 +22,14 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private StackPane dialogWithBackground;
 
     private Tsundere tsundere;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Sticker1.png"));
     private Image tsundereImage = new Image(this.getClass().getResourceAsStream("/images/tohsaka.jpg"));
     private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/tsundere.jpg"));
-
-
-    @FXML
-    private StackPane dialogWithBackground;
 
     /**
      * Binds scrollbar to the dialog container, and sets up Tsundere Graphics UI.
@@ -40,6 +38,10 @@ public class MainWindow extends AnchorPane {
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         backgroundView.setImage(backgroundImage);
+        backgroundView.setPreserveRatio(false);
+        backgroundView.setSmooth(true);
+        backgroundView.fitHeightProperty().bind(scrollPane.heightProperty());
+        backgroundView.fitWidthProperty().bind(scrollPane.widthProperty());
     }
     /** Injects the Duke instance */
     public void setTsundere(Tsundere t) {

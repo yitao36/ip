@@ -7,34 +7,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="400.0"
+<?import javafx.scene.layout.HBox?>
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity"
+            minHeight="557.0" minWidth="400.0"
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tsundere.MainWindow">
     <children>
-        <TextField fx:id="userInput"
-                   layoutY="558.0"
-                   onAction="#handleUserInput"
-                   prefHeight="41.0"
-                   prefWidth="324.0"
-                   AnchorPane.bottomAnchor="1.0"
-                   text="Try a command! E.g. 'help'"
-                   styleClass="pink-textfield"/>
-        <Button fx:id="sendButton"
-                layoutX="324.0"
-                layoutY="558.0"
-                mnemonicParsing="false"
-                onAction="#handleUserInput"
+        <HBox
                 prefHeight="41.0"
-                prefWidth="76.0"
-                text="Send"
-                styleClass="pink-button"/>
-        <StackPane fx:id="dialogWithBackground">
+                AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0"
+                style="-fx-background-color: pink">
+            <TextField fx:id="userInput"
+                       layoutY="558.0"
+                       onAction="#handleUserInput"
+                       prefHeight="41.0"
+                       prefWidth="324.0"
+                       HBox.hgrow="ALWAYS"
+                       text="Try a command! E.g. 'help'"
+                       styleClass="pink-textfield"/>
+            <Button fx:id="sendButton"
+                    layoutX="324.0"
+                    layoutY="558.0"
+                    mnemonicParsing="false"
+                    onAction="#handleUserInput"
+                    prefHeight="41.0"
+                    prefWidth="76.0"
+                    text="Send"
+                    styleClass="pink-button"/>
+        </HBox>
+        <StackPane fx:id="dialogWithBackground"
+            AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0"
+            AnchorPane.topAnchor="0.0"
+            AnchorPane.bottomAnchor="41.0">
             <ImageView fx:id="backgroundView"
-                       fitHeight="557.0"
-                       fitWidth="400.0"
                        opacity="0.5"/>
             <ScrollPane fx:id="scrollPane"
                         hbarPolicy="NEVER"
