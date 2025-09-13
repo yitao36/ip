@@ -1,7 +1,6 @@
 package tsundere.log;
 
 import java.util.EmptyStackException;
-import java.util.Objects;
 import java.util.Stack;
 
 import tsundere.command.AbstractCommand;
@@ -54,13 +53,13 @@ public class Log {
     @Override
     public boolean equals(Object o) {
         if (o instanceof Log log2) {
-            return this.log.equals(log2.log);
+            return this.stack.equals(log2.stack);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return log.hashCode();
+        return stack.hashCode();
     }
 }

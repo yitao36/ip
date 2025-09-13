@@ -1,7 +1,5 @@
 package tsundere.command;
 
-import java.io.IOException;
-
 import tsundere.TsundereException;
 import tsundere.log.Log;
 import tsundere.storage.AbstractStorage;

@@ -1,7 +1,5 @@
 package tsundere;
 
-import java.io.IOException;
-
 import tsundere.storage.AbstractStorage;
 import tsundere.task.TaskList;
 
@@ -12,12 +10,12 @@ public class StorageStub extends AbstractStorage {
     private TaskList tasks;
 
     @Override
-    public void storeAll(TaskList tasks) throws IOException {
+    public void storeAll(TaskList tasks) throws TsundereException {
         this.tasks = tasks;
     }
 
     @Override
-    public TaskList retrieveAll() throws TsundereException, IOException {
+    public TaskList retrieveAll() throws TsundereException {
         return tasks;
     }
 
