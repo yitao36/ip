@@ -44,7 +44,7 @@ public class DeleteCommand extends AbstractCommand {
         try {
             tasks.undoDelete(task, id);
             storage.storeAll(tasks);
-            ui.displayMessage("Successfully undid last command of deleting the following task: \n" + task + '\n');
+            ui.displayMessage(UiMessages.UNDO, this);
         } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }
@@ -65,6 +65,6 @@ public class DeleteCommand extends AbstractCommand {
 
     @Override
     public String toString() {
-        return "Delete Command: " + id;
+        return "Delete Command: " + task;
     }
 }

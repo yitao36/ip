@@ -42,7 +42,7 @@ public class AddTaskCommand extends AbstractCommand {
         try {
             tasks.undoAdd();
             storage.storeAll(tasks);
-            ui.displayMessage("Successfully undid the last action of adding the following task: \n" + task + "\n");
+            ui.displayMessage(UiMessages.UNDO, this);
         } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }

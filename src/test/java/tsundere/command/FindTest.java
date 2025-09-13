@@ -15,9 +15,9 @@ import tsundere.task.TaskList;
 import tsundere.task.TodoTask;
 import tsundere.ui.UiMessages;
 
-public class FindCommandTest {
+public class FindTest {
     @Test
-    public void parse_findMatches_returnsListOfTasks() throws TsundereException {
+    public void find_allMatches_returnsListOfTasks() throws TsundereException {
         TaskList tasks = new TaskList();
         String searchString = "searchable";
         TodoTask todo1 = new TodoTask("1searchable1");
@@ -41,7 +41,7 @@ public class FindCommandTest {
                 "find command should return all matches");
     }
     @Test
-    public void parse_findNoMatches_returnsEmptyListOfTasks() throws TsundereException {
+    public void find_noMatches_returnsEmptyListOfTasks() throws TsundereException {
         TaskList tasks = new TaskList();
         String searchString = "searchable";
         TodoTask todo1 = new TodoTask("some");
@@ -61,7 +61,6 @@ public class FindCommandTest {
         String expected = UiMessages.getMessage(UiMessages.LIST_TASKS, new TaskList());
         String output = ui.getOutput();
 
-        assertEquals(expected, output,
-                "find command should return no matches");
+        assertEquals(expected, output, "find command should return no matches");
     }
 }

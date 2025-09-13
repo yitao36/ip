@@ -1,6 +1,7 @@
 package tsundere.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
@@ -81,7 +82,15 @@ public class TaskList implements Iterable<Task> {
     }
 
     /**
-     * Adds all the tasks to the task list.
+     * Takes in any number of tasks and appends them to the task list.
+     * @param tasks A variable number of tasks
+     */
+    public void addAll(Task... tasks) {
+        Collections.addAll(this.tasks, tasks);
+    }
+
+    /**
+     * Appends all the tasks in the given task list to the current task list.
      * @param tasks List of tasks to be added
      */
     public void addAll(TaskList tasks) {
@@ -131,30 +140,6 @@ public class TaskList implements Iterable<Task> {
         temp.add(task);
         temp.addAll(tasks.subList(index, tasks.size()));
         tasks = temp;
-    }
-
-    /**
-     * Undoes a {@link tsundere.command.MarkCommand} by unmarking the task at the index.
-     * @param index Index of the task to be unmarked
-     */
-    public void undoMark(int index) {
-        try {
-            tasks.get(index).markUndone();
-        } catch (AlreadyUnmarkedException e) {
-            assert false : "undoMark error";
-        }
-    }
-
-    /**
-     * Undoes a {@link tsundere.command.UnmarkCommand} by marking the task at the index.
-     * @param index Index of the task to be marked
-     */
-    public void undoUnmark(int index) {
-        try {
-            tasks.get(index).markDone();
-        } catch (AlreadyMarkedException e) {
-            assert false : "undoUnmark error";
-        }
     }
 
     /**

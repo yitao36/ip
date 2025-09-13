@@ -41,9 +41,11 @@ public class MarkCommand extends AbstractCommand {
     @Override
     public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         try {
-            tasks.undoMark(id);
+            tasks.unmark(id);
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.UNDO, this);
+        } catch (TsundereException e) {
+            assert false : "should not throw exception";
         } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }

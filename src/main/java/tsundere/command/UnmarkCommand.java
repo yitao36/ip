@@ -41,11 +41,12 @@ public class UnmarkCommand extends AbstractCommand {
     @Override
     public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         try {
-            tasks.undoUnmark(id);
-            Task task = tasks.get(id);
+            tasks.mark(id);
             storage.storeAll(tasks);
-            ui.displayMessage("Successfully undid last command of unmarking the following task: \n" + task + '\n');
-        } catch (TsundereException | IOException e) {
+            ui.displayMessage(UiMessages.UNDO, this);
+        } catch (TsundereException e) {
+            assert false : "should not throw exception";
+        } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }
     }
