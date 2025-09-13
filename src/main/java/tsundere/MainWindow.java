@@ -1,12 +1,15 @@
 package tsundere;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import tsundere.autocomplete.Command;
 
 /**
  * Controller for the main GUI.
@@ -24,6 +27,8 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
     @FXML
     private StackPane dialogWithBackground;
+    @FXML
+    private Label autocomplete;
 
     private Tsundere tsundere;
 
@@ -48,6 +53,17 @@ public class MainWindow extends AnchorPane {
         tsundere = t;
         tsundere.setGraphicsUi(dialogContainer, tsundereImage);
     }
+
+    @FXML
+    private void handleKeyType() {
+        String text = userInput.getText();
+        int len = text.length();
+        autocomplete.setTranslateX(8.0 * len);
+        String autocompleteText = Command.autocompleteCommand(text);
+        autocomplete.setVisible(!text.isEmpty() && !autocompleteText.isEmpty());
+        autocomplete.setText(autocompleteText);
+    }
+
     /**
      * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
      * the dialog container. Clears the user input after processing.

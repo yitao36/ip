@@ -29,3 +29,8 @@
     -fx-background-color: hotpink;
     -fx-border-color: deeppink;
 }
+
+.autocomplete-label {
+    -fx-background-color: white;
+    -fx-border-color: deeppink;
+}

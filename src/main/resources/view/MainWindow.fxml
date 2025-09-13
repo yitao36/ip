@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
 <AnchorPane maxHeight="Infinity" maxWidth="Infinity"
             minHeight="557.0" minWidth="400.0"
             xmlns="http://javafx.com/javafx/17"
@@ -21,12 +22,13 @@
                 AnchorPane.rightAnchor="0.0"
                 style="-fx-background-color: pink">
             <TextField fx:id="userInput"
+                       onKeyTyped="#handleKeyType"
                        layoutY="558.0"
                        onAction="#handleUserInput"
                        prefHeight="41.0"
                        prefWidth="324.0"
                        HBox.hgrow="ALWAYS"
-                       text="Try a command! E.g. 'help'"
+                       promptText="Try a command! E.g. 'help'"
                        styleClass="pink-textfield"/>
             <Button fx:id="sendButton"
                     layoutX="324.0"
@@ -62,5 +64,10 @@
                 </content>
             </ScrollPane>
         </StackPane>
+        <Label fx:id="autocomplete"
+                AnchorPane.leftAnchor="50.0"
+                AnchorPane.bottomAnchor="25.0"
+                styleClass="autocomplete-label"
+                visible="false"/>
     </children>
 </AnchorPane>
