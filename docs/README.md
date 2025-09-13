@@ -98,8 +98,8 @@ Example:
 
 ```
 You're so clumsy! I'll fix your mess, here.
-Task deleted:
-[T][ ] TASK
+I've undid the following command:
+Add Task Command: [T][ ] TASK
 ```
 
 Note: Only the commands in the current session can be undone.

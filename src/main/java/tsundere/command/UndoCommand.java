@@ -2,7 +2,7 @@ package tsundere.command;
 
 import tsundere.log.Log;
 import tsundere.log.TsundereNothingToUndoException;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
 
@@ -15,7 +15,7 @@ public class UndoCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
+    public void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log) {
         try {
             log.undo();
         } catch (TsundereNothingToUndoException e) {
@@ -24,7 +24,7 @@ public class UndoCommand extends AbstractCommand {
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         assert false : "Not undoable";
     }
 

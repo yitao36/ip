@@ -1,6 +1,7 @@
 package tsundere.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
@@ -81,7 +82,15 @@ public class TaskList implements Iterable<Task> {
     }
 
     /**
-     * Adds all the tasks to the task list.
+     * Takes in any number of tasks and appends them to the task list.
+     * @param tasks A variable number of tasks
+     */
+    public void addAll(Task... tasks) {
+        Collections.addAll(this.tasks, tasks);
+    }
+
+    /**
+     * Appends all the tasks in the given task list to the current task list.
      * @param tasks List of tasks to be added
      */
     public void addAll(TaskList tasks) {

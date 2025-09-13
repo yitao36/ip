@@ -4,7 +4,7 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 import tsundere.command.AbstractCommand;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
 
@@ -14,7 +14,7 @@ import tsundere.ui.AbstractUi;
 public class Log {
     private final TaskList tasks;
     private final AbstractUi ui;
-    private final TextStorage storage;
+    private final AbstractStorage storage;
     private final Stack<AbstractCommand> stack = new Stack<>();
 
     /**
@@ -23,7 +23,7 @@ public class Log {
      * @param ui Ui to display messages to the user
      * @param storage Storage location of the tasks
      */
-    public Log(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public Log(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         this.tasks = tasks;
         this.ui = ui;
         this.storage = storage;
@@ -48,5 +48,18 @@ public class Log {
         } catch (EmptyStackException e) {
             throw new TsundereNothingToUndoException();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Log log2) {
+            return this.stack.equals(log2.stack);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return stack.hashCode();
     }
 }

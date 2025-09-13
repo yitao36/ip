@@ -161,8 +161,8 @@ public enum UiMessages {
      * @return A String containing information about the undo
      */
     public static String getMessage(UiMessages ui, AbstractCommand command) {
-        return "You're so clumsy! I'll fix your mess, here.\n" +
-                "I've undid the following command:\n" +
-                command.toString();
+        return "You're so clumsy! I'll fix your mess, here.\n"
+                + "I've undid the following command:\n"
+                + command.toString();
     }
 }

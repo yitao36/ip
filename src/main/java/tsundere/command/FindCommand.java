@@ -1,7 +1,7 @@
 package tsundere.command;
 
 import tsundere.log.Log;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
 import tsundere.ui.UiMessages;
@@ -22,14 +22,27 @@ public class FindCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
+    public void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log) {
         TaskList filteredList = tasks.find(name);
         ui.displayMessage(UiMessages.LIST_TASKS, filteredList);
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         assert false : "Not undoable";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof FindCommand command) {
+            return this.name.equals(command.name);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 
     @Override

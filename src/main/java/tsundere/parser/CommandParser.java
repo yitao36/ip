@@ -23,6 +23,7 @@ import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
 
 
+
 /**
  * Parses the user input into an executable command.
  */
@@ -170,7 +171,7 @@ public class CommandParser {
      */
     public static AbstractCommand parseDeadline(String[] words) {
         if (words.length < 4) {
-            return new InvalidFormatCommand(Format.FIND);
+            return new InvalidFormatCommand(Format.DEADLINE);
         }
         StringBuilder name = new StringBuilder();
         StringBuilder by = new StringBuilder();

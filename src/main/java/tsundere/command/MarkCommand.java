@@ -2,7 +2,7 @@ package tsundere.command;
 
 import tsundere.TsundereException;
 import tsundere.log.Log;
-import tsundere.storage.TextStorage;
+import tsundere.storage.AbstractStorage;
 import tsundere.task.Task;
 import tsundere.task.TaskList;
 import tsundere.ui.AbstractUi;
@@ -13,7 +13,6 @@ import tsundere.ui.UiMessages;
  */
 public class MarkCommand extends AbstractCommand {
     private final int id;
-    private Task task;
 
     /**
      * Creates a new command to mark the task as completed
@@ -25,11 +24,10 @@ public class MarkCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(TaskList tasks, AbstractUi ui, TextStorage storage, Log log) {
+    public void execute(TaskList tasks, AbstractUi ui, AbstractStorage storage, Log log) {
         try {
             tasks.mark(id);
             Task task = tasks.get(id);
-            this.task = task;
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.MARK_TASK_SUCCESS, task);
             log.add(this);
@@ -39,9 +37,9 @@ public class MarkCommand extends AbstractCommand {
     }
 
     @Override
-    public void undo(TaskList tasks, AbstractUi ui, TextStorage storage) {
+    public void undo(TaskList tasks, AbstractUi ui, AbstractStorage storage) {
         try {
-            tasks.undoMark(id);
+            tasks.unmark(id);
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.UNDO, this);
         } catch (TsundereException e) {
@@ -64,6 +62,6 @@ public class MarkCommand extends AbstractCommand {
 
     @Override
     public String toString() {
-        return "Mark command: " + task.toString();
+        return "Mark command: " + id;
     }
 }
