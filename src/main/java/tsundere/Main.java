@@ -25,7 +25,8 @@ public class Main extends Application {
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setTsundere(tsundere); // inject the Tsundere instance
             stage.show();
-        } catch (IOException e) {
+            stop();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -22,13 +22,13 @@ public class TextStorageTest {
      * Initializes a new text storage in the specified test folder.
      * Clears its contents between each test.
      */
-    public TextStorageTest() throws IOException {
+    public TextStorageTest() throws TsundereException {
         this.storage = TextStorage.of();
         storage.clear();
     }
 
     @Test
-    public void storeAndRetrieveAll_multipleTasks_correctFormat() throws Exception {
+    public void storeAndRetrieveAll_multipleTasks_correctFormat() throws TsundereException {
         TaskList tasks = new TaskList();
         TodoTask todo1 = new TodoTask("task 1");
         TodoTask todo2 = new TodoTask("task 2");
@@ -51,7 +51,7 @@ public class TextStorageTest {
         TaskList outputTasks = null;
         try {
             outputTasks = storage.retrieveAll();
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             System.out.println("ERROR");
         }
 
@@ -78,14 +78,14 @@ public class TextStorageTest {
             deadline2.markDone();
             event2.markDone();
             storage.storeAll(tasks);
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             throw new RuntimeException(e);
         }
 
         TaskList outputTasks = null;
         try {
             outputTasks = storage.retrieveAll();
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             System.out.println("ERROR");
         }
         assertEquals(tasks, outputTasks);

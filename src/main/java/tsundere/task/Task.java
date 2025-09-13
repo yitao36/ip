@@ -31,9 +31,9 @@ public abstract class Task {
     /**
      * Marks the current task as completed.
      */
-    public void markDone() throws AlreadyMarkedException {
+    public void markDone() throws TsundereAlreadyMarkedException {
         if (done) {
-            throw new AlreadyMarkedException(this);
+            throw new TsundereAlreadyMarkedException(this);
         }
         done = true;
     }
@@ -41,9 +41,9 @@ public abstract class Task {
     /**
      * Marks the current task as not completed.
      */
-    public void markUndone() throws AlreadyUnmarkedException {
+    public void markUndone() throws TsundereAlreadyUnmarkedException {
         if (!done) {
-            throw new AlreadyUnmarkedException(this);
+            throw new TsundereAlreadyUnmarkedException(this);
         }
         done = false;
     }
