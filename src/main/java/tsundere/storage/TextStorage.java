@@ -20,47 +20,65 @@ public class TextStorage {
     private static final String DEFAULT_STORAGE_PATH = "./src/main/java/tsundere/storage/tsundereStorage.txt";
     private static final String ALT_STORAGE_PATH = "./tsundereStorage.txt";
 
-    private final String storage;
+    private String path;
 
-    private TextStorage(String storage) {
-        this.storage = storage;
+    private TextStorage() {}
+
+    /**
+     * Sets the path to create or store task data.
+     * @param path Relative path from the ip folder
+     */
+    private void initialize(String path) throws TsundereStorageFileException {
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                if (!(file.canRead() && file.canWrite())) {
+                    throw new TsundereStorageFileException();
+                }
+            } else {
+                if (!file.createNewFile()) {
+                    throw new TsundereStorageFileException();
+                }
+            }
+            this.path = path;
+        } catch (IOException e) {
+            throw new TsundereStorageFileException();
+        }
     }
 
     /**
      * Factory method to try and create a new storage file
-     *
-     * @return new TextStorage or IO Exception if none of the default storage paths work
+     * @return new TextStorage
+     * @throws TsundereStorageFileException Thrown if none of the specified storage paths work
      */
-    public static TextStorage of() throws IOException {
+    public static TextStorage of() throws TsundereStorageFileException {
+        TextStorage storage = new TextStorage();
         try {
-            File file = new File(DEFAULT_STORAGE_PATH);
-            if (!file.exists() && !file.createNewFile()) {
-                throw new IOException();
-            }
-            return new TextStorage(DEFAULT_STORAGE_PATH);
-        } catch (IOException e) {
-            File file = new File(ALT_STORAGE_PATH);
-            if (!file.exists() && !file.createNewFile()) {
-                throw new IOException();
-            }
-            return new TextStorage(ALT_STORAGE_PATH);
+            storage.initialize(DEFAULT_STORAGE_PATH);
+        } catch (TsundereStorageFileException e) {
+            storage.initialize(ALT_STORAGE_PATH);
         }
+        return storage;
     }
 
     /**
      * Saves the task list to storage.
      * @param tasks Tasks to be stored.
      */
-    public void storeAll(TaskList tasks) throws IOException {
-        FileWriter fw = new FileWriter(storage, false);
-        StringBuilder sb = new StringBuilder();
+    public void storeAll(TaskList tasks) throws TsundereException {
+        try {
+            FileWriter fw = new FileWriter(path, false);
+            StringBuilder sb = new StringBuilder();
 
-        for (Task task : tasks) {
-            sb.append(task.toStorageString());
-            sb.append('\n');
+            for (Task task : tasks) {
+                sb.append(task.toStorageString());
+                sb.append('\n');
+            }
+            fw.write(sb.toString());
+            fw.close();
+        } catch (IOException e) {
+            throw new TsundereReadWriteException();
         }
-        fw.write(sb.toString());
-        fw.close();
     }
 
     /**
@@ -68,20 +86,23 @@ public class TextStorage {
      *
      * @return new {@link TaskList}
      */
-    public TaskList retrieveAll() throws TsundereException, IOException {
-        File file = new File(storage);
+    public TaskList retrieveAll() throws TsundereException {
+        try {
+            File file = new File(path);
+            Scanner sc = new Scanner(file);
+            TaskList tasks = new TaskList();
 
-        Scanner sc = new Scanner(file);
-        TaskList tasks = new TaskList();
+            while (sc.hasNext()) {
+                String line = sc.nextLine();
+                Task task = validateTask(line);
 
-        while (sc.hasNext()) {
-            String line = sc.nextLine();
-            Task task = validateTask(line);
-
-            tasks.add(task);
+                tasks.add(task);
+            }
+            sc.close();
+            return tasks;
+        } catch (IOException e) {
+            throw new TsundereReadWriteException();
         }
-        sc.close();
-        return tasks;
     }
 
     /**
@@ -89,7 +110,7 @@ public class TextStorage {
      */
     public void clear() {
         try {
-            FileWriter fw = new FileWriter(storage);
+            FileWriter fw = new FileWriter(path);
             fw.flush();
             fw.close();
         } catch (IOException e) {

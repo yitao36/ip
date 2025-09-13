@@ -23,7 +23,7 @@ public class ValidateTask {
      * and creates the new corresponding Task.
      * @param task The text String containing information about the task
      * @return new Task
-     * @throws StorageFormatException If text format does not comply with standards.
+     * @throws TsundereStorageDataFormatException If text format does not comply with standards.
      */
     public static Task validateTask(String task) throws TsundereException {
         String[] params = task.split(",");
@@ -40,19 +40,19 @@ public class ValidateTask {
     }
 
     /**
-     * The string format should be `todo,[checked],[name]`
+     * Validates that the string format should be `todo,[checked],[name]`
      * @param task The columns of data, split by ','.
      * @return Task
      */
     private static Task validateTodo(String[] task) throws TsundereException {
         if (task.length != 3) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
         String checked = task[1];
         String name = task[2];
 
         if (!(checked.equals("T") || checked.equals("F"))) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
 
         Task t = new TodoTask(name);
@@ -63,27 +63,27 @@ public class ValidateTask {
     }
 
     /**
-     * The string format should be `deadline,[checked],[name],[byDate]`
+     * Validates that the string format should be `deadline,[checked],[name],[byDate]`
      * @param task The columns of data, split by ','.
      * @return Task
      */
     private static Task validateDeadline(String[] task) throws TsundereException {
         if (task.length != 4) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
         String checked = task[1];
         String name = task[2];
         String by = task[3];
 
         if (!(checked.equals("T") || checked.equals("F"))) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
 
         LocalDateTime byDate;
         try {
             byDate = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
         } catch (DateTimeParseException e) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
 
         Task t = new DeadlineTask(name, byDate);
@@ -94,13 +94,13 @@ public class ValidateTask {
     }
 
     /**
-     * The string format should be `event,[checked],[name],[startDate],[endDate]`
+     * Validates that the string format should be `event,[checked],[name],[startDate],[endDate]`
      * @param task The columns of data, split by ','.
      * @return Task
      */
     private static Task validateEvent(String[] task) throws TsundereException {
         if (task.length != 5) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
         String checked = task[1];
         String name = task[2];
@@ -108,7 +108,7 @@ public class ValidateTask {
         String end = task[4];
 
         if (!(checked.equals("T") || checked.equals("F"))) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
 
         LocalDateTime startDate;
@@ -117,7 +117,7 @@ public class ValidateTask {
             startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
             endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
         } catch (DateTimeParseException e) {
-            throw new StorageFormatException();
+            throw new TsundereStorageDataFormatException();
         }
         Task t = new EventTask(name, startDate, endDate);
         if (checked.equals("T")) {

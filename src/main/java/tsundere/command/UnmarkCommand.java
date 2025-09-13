@@ -1,7 +1,5 @@
 package tsundere.command;
 
-import java.io.IOException;
-
 import tsundere.TsundereException;
 import tsundere.log.Log;
 import tsundere.storage.TextStorage;
@@ -35,7 +33,7 @@ public class UnmarkCommand extends AbstractCommand {
             this.task = task;
             ui.displayMessage(UiMessages.UNMARK_TASK_SUCCESS, task);
             log.add(this);
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
     }
@@ -46,7 +44,7 @@ public class UnmarkCommand extends AbstractCommand {
             tasks.undoUnmark(id);
             storage.storeAll(tasks);
             ui.displayMessage("Successfully undid last command of unmarking the following task: \n" + task + '\n');
-        } catch (IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
     }

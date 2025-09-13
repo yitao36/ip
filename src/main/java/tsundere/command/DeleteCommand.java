@@ -1,7 +1,5 @@
 package tsundere.command;
 
-import java.io.IOException;
-
 import tsundere.TsundereException;
 import tsundere.log.Log;
 import tsundere.storage.TextStorage;
@@ -34,7 +32,7 @@ public class DeleteCommand extends AbstractCommand {
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.DELETE_SUCCESS, task);
             log.add(this);
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
     }
@@ -45,7 +43,7 @@ public class DeleteCommand extends AbstractCommand {
             tasks.undoDelete(task, id);
             storage.storeAll(tasks);
             ui.displayMessage("Successfully undid last command of deleting the following task: \n" + task + '\n');
-        } catch (IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
     }

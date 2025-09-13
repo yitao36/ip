@@ -140,7 +140,7 @@ public class TaskList implements Iterable<Task> {
     public void undoMark(int index) {
         try {
             tasks.get(index).markUndone();
-        } catch (AlreadyUnmarkedException e) {
+        } catch (TsundereAlreadyUnmarkedException e) {
             assert false : "undoMark error";
         }
     }
@@ -152,7 +152,7 @@ public class TaskList implements Iterable<Task> {
     public void undoUnmark(int index) {
         try {
             tasks.get(index).markDone();
-        } catch (AlreadyMarkedException e) {
+        } catch (TsundereAlreadyMarkedException e) {
             assert false : "undoUnmark error";
         }
     }
