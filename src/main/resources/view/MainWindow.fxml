@@ -65,8 +65,8 @@
             </ScrollPane>
         </StackPane>
         <Label fx:id="autocomplete"
-                AnchorPane.leftAnchor="50.0"
-                AnchorPane.bottomAnchor="25.0"
+                AnchorPane.leftAnchor="25.0"
+                AnchorPane.bottomAnchor="15.0"
                 styleClass="autocomplete-label"
                 visible="false"/>
     </children>

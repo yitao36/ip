@@ -26,11 +26,15 @@
 }
 
 .pink-textfield:focused {
-    -fx-background-color: hotpink;
+    -fx-background-color: lightpink;
     -fx-border-color: deeppink;
 }
 
 .autocomplete-label {
     -fx-background-color: white;
-    -fx-border-color: deeppink;
+    -fx-border-color: black;
+    -fx-font-weight: bold;
+    -fx-border-width: 1;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
 }
