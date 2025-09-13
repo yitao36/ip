@@ -1,9 +1,9 @@
 package tsundere;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
@@ -26,18 +26,18 @@ public class Tsundere {
 
     /**
      * Initializes a new tsundere.Tsundere chatbot with a text file storage.
-     *
-     * @throws RuntimeException If none of the storage location can be used for text storage.
      */
     public Tsundere() {
-        this.tasks = new TaskList();
-        this.ui = new GraphicsUi();
+        TextStorage storage;
+        tasks = new TaskList();
+        ui = new GraphicsUi();
         try {
-            this.storage = TextStorage.of();
-        } catch (IOException e) {
-            System.out.println("Failed to initialize text storage.");
+            storage = TextStorage.of();
+        } catch (TsundereException e) {
+            ui.displayMessage(e.getMessage());
             throw new RuntimeException();
         }
+        this.storage = storage;
         this.log = new Log(tasks, ui, storage);
     }
     /**
@@ -47,7 +47,7 @@ public class Tsundere {
         ui.displayMessage(UiMessages.WELCOME);
         try {
             tasks.addAll(storage.retrieveAll());
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
 
@@ -57,13 +57,9 @@ public class Tsundere {
         boolean isExit = false;
         while (!isExit) {
             String fullCommand = sc.nextLine();
-            try {
-                AbstractCommand command = CommandParser.parse(fullCommand);
-                command.execute(tasks, ui, storage, log);
-                isExit = command.isExit();
-            } catch (TsundereException e) {
-                ui.displayMessage(e.getMessage());
-            }
+            AbstractCommand command = CommandParser.parse(fullCommand);
+            command.execute(tasks, ui, storage, log);
+            isExit = command.isExit();
         }
     }
 
@@ -80,7 +76,7 @@ public class Tsundere {
     public void setGraphicsUi(VBox vBox, Image image) {
         try {
             tasks.addAll(storage.retrieveAll());
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
         ui.setResources(vBox, image);
@@ -91,11 +87,17 @@ public class Tsundere {
      * Generates a response for the user's chat message.
      */
     public void displayResponse(String input) {
-        try {
-            AbstractCommand command = CommandParser.parse(input);
-            command.execute(tasks, ui, storage, log);
-        } catch (TsundereException e) {
-            ui.displayMessage(e.getMessage());
+        AbstractCommand command = CommandParser.parse(input);
+        command.execute(tasks, ui, storage, log);
+        if (command.isExit()) {
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1500);
+                    javafx.application.Platform.exit();
+                } catch (InterruptedException e) {
+                    ui.displayMessage(new TsundereExitDelayException().getMessage());
+                }
+            }).start();
         }
     }
 }

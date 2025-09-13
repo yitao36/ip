@@ -22,7 +22,7 @@ import tsundere.command.UnmarkCommand;
 import tsundere.task.DeadlineTask;
 import tsundere.task.EventTask;
 import tsundere.task.TodoTask;
-import tsundere.task.TsundereOutOfBoundsException;
+
 
 
 /**
@@ -35,78 +35,27 @@ public class CommandParser {
      * @param fullCommand The user input to be parsed.
      * @return A runnable command that effects storage, ui, and tasks.
      */
-    public static AbstractCommand parse(String fullCommand) throws TsundereException {
-        String[] args = fullCommand.split(" ");
+    public static AbstractCommand parse(String fullCommand) {
+        String[] words = fullCommand.split(" ");
 
-        if (args.length == 0 || args[0].isBlank() || args[0].equals("help")) {
+        if (words.length == 0 || words[0].isBlank() || words[0].equals("help")) {
             return new InvalidFormatCommand(Format.HELP);
         }
 
-        String command = args[0];
-
-        switch (command) {
-        case "todo":
-            return parseTodo(args);
-        case "deadline":
-            return parseDeadline(args);
-        case "event":
-            return parseEvent(args);
-        case "list":
-            return new ListCommand();
-        case "find":
-            if (args.length < 2) {
-                return new InvalidFormatCommand(Format.FIND);
-            }
-            return new FindCommand(Arrays.stream(args).skip(2)
-                    .reduce(args[1], (prev, next) -> prev + ' ' + next));
-        case "mark":
-            try {
-                if (args.length < 2) {
-                    return new InvalidFormatCommand(Format.MARK);
-                }
-                int id = Integer.parseInt(args[1]) - 1;
-                if (id < 0) {
-                    throw new TsundereOutOfBoundsException();
-                }
-                return new MarkCommand(id);
-            } catch (NumberFormatException e) {
-                return new InvalidFormatCommand(Format.MARK);
-            }
-        case "unmark":
-            try {
-                if (args.length < 2) {
-                    return new InvalidFormatCommand(Format.UNMARK);
-                }
-                int id = Integer.parseInt(args[1]) - 1;
-                if (id < 0) {
-                    throw new TsundereOutOfBoundsException();
-                }
-                return new UnmarkCommand(id);
-            } catch (NumberFormatException e) {
-                return new InvalidFormatCommand(Format.UNMARK);
-            }
-        case "delete":
-            try {
-                if (args.length < 2) {
-                    return new InvalidFormatCommand(Format.DELETE);
-                }
-                int id = Integer.parseInt(args[1]) - 1;
-                if (id < 0) {
-                    throw new TsundereOutOfBoundsException();
-                }
-                return new DeleteCommand(id);
-            } catch (NumberFormatException e) {
-                return new InvalidFormatCommand(Format.DELETE);
-            }
-        case "undo":
-            return new UndoCommand();
-        case "bye":
-            return new ByeCommand();
-        case "noInput":
-            // Fallthrough
-        default:
-            return new EchoCommand(fullCommand);
-        }
+        String command = words[0];
+        return switch (command) {
+        case "todo" -> parseTodo(words);
+        case "deadline" -> parseDeadline(words);
+        case "event" -> parseEvent(words);
+        case "list" -> new ListCommand();
+        case "find" -> parseFind(words);
+        case "mark" -> parseMark(words);
+        case "unmark" -> parseUnmark(words);
+        case "delete" -> parseDelete(words);
+        case "undo" -> new UndoCommand();
+        case "bye" -> new ByeCommand();
+        default -> new EchoCommand(fullCommand);
+        };
     }
 
     /**
@@ -274,5 +223,66 @@ public class CommandParser {
 
 
         return new AddTaskCommand(new DeadlineTask(name.toString(), byDate));
+    }
+
+    /**
+     * Verifies that the user input follows the format `find [substring to match]`,
+     * @param words The full user input split by spaces.
+     * @return FindCommand if user input is valid, else InvalidFormatCommand
+     */
+    public static AbstractCommand parseFind(String[] words) {
+        if (words.length < 2) {
+            return new InvalidFormatCommand(Format.FIND);
+        }
+        return new FindCommand(Arrays.stream(words).skip(2)
+                .reduce(words[1], (prev, next) -> prev + ' ' + next));
+    }
+
+    /**
+     * Verifies that the user input follows the format `mark [index]`,
+     * @param words The full user input split by spaces.
+     * @return MarkCommand if user input is valid, else InvalidFormatCommand
+     */
+    public static AbstractCommand parseMark(String[] words) {
+        try {
+            if (words.length < 2) {
+                return new InvalidFormatCommand(Format.MARK);
+            }
+            return new MarkCommand(Integer.parseInt(words[1]) - 1);
+        } catch (NumberFormatException e) {
+            return new InvalidFormatCommand(Format.MARK);
+        }
+    }
+
+    /**
+     * Verifies that the user input follows the format `unmark [index]`,
+     * @param words The full user input split by spaces.
+     * @return UnmarkCommand if user input is valid, else InvalidFormatCommand
+     */
+    public static AbstractCommand parseUnmark(String[] words) {
+        try {
+            if (words.length < 2) {
+                return new InvalidFormatCommand(Format.UNMARK);
+            }
+            return new UnmarkCommand(Integer.parseInt(words[1]) - 1);
+        } catch (NumberFormatException e) {
+            return new InvalidFormatCommand(Format.UNMARK);
+        }
+    }
+
+    /**
+     * Verifies that the user input follows the format `delete [index]`,
+     * @param words The full user input split by spaces.
+     * @return DeleteCommand if user input is valid, else InvalidFormatCommand
+     */
+    public static AbstractCommand parseDelete(String[] words) {
+        try {
+            if (words.length < 2) {
+                return new InvalidFormatCommand(Format.DELETE);
+            }
+            return new DeleteCommand(Integer.parseInt(words[1]) - 1);
+        } catch (NumberFormatException e) {
+            return new InvalidFormatCommand(Format.DELETE);
+        }
     }
 }

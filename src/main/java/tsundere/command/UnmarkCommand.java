@@ -33,7 +33,7 @@ public class UnmarkCommand extends AbstractCommand {
             Task task = tasks.get(id);
             ui.displayMessage(UiMessages.UNMARK_TASK_SUCCESS, task);
             log.add(this);
-        } catch (TsundereException | IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
     }
@@ -45,8 +45,6 @@ public class UnmarkCommand extends AbstractCommand {
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.UNDO, this);
         } catch (TsundereException e) {
-            assert false : "should not throw exception";
-        } catch (IOException e) {
             ui.displayMessage(e.getMessage());
         }
     }

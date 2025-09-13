@@ -143,6 +143,30 @@ public class TaskList implements Iterable<Task> {
     }
 
     /**
+     * Undoes a {@link tsundere.command.MarkCommand} by unmarking the task at the index.
+     * @param index Index of the task to be unmarked
+     */
+    public void undoMark(int index) {
+        try {
+            tasks.get(index).markUndone();
+        } catch (TsundereAlreadyUnmarkedException e) {
+            assert false : "undoMark error";
+        }
+    }
+
+    /**
+     * Undoes a {@link tsundere.command.UnmarkCommand} by marking the task at the index.
+     * @param index Index of the task to be marked
+     */
+    public void undoUnmark(int index) {
+        try {
+            tasks.get(index).markDone();
+        } catch (TsundereAlreadyMarkedException e) {
+            assert false : "undoUnmark error";
+        }
+    }
+
+    /**
      * Checks if the task list is empty.
      * @return true if task list is empty
      */

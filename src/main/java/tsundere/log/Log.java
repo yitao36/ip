@@ -16,7 +16,7 @@ public class Log {
     private final TaskList tasks;
     private final AbstractUi ui;
     private final AbstractStorage storage;
-    private final Stack<AbstractCommand> log = new Stack<>();
+    private final Stack<AbstractCommand> stack = new Stack<>();
 
     /**
      * Initializes a log with the respective task list, ui, and storage.
@@ -35,7 +35,7 @@ public class Log {
      * @param command The command to be stored in logs.
      */
     public void add(AbstractCommand command) {
-        log.add(command);
+        stack.add(command);
     }
 
     /**
@@ -44,7 +44,7 @@ public class Log {
      */
     public void undo() throws TsundereNothingToUndoException {
         try {
-            AbstractCommand command = log.pop();
+            AbstractCommand command = stack.pop();
             command.undo(tasks, ui, storage);
         } catch (EmptyStackException e) {
             throw new TsundereNothingToUndoException();

@@ -1,8 +1,8 @@
 package tsundere.command;
 
-import java.io.IOException;
 import java.util.Objects;
 
+import tsundere.TsundereException;
 import tsundere.log.Log;
 import tsundere.storage.AbstractStorage;
 import tsundere.task.Task;
@@ -32,7 +32,7 @@ public class AddTaskCommand extends AbstractCommand {
             storage.storeAll(tasks);
             ui.displayMessage(UiMessages.ADD_TASK, task);
             log.add(this);
-        } catch (IOException e) {
+        } catch (TsundereException e) {
             ui.displayMessage(e.getMessage());
         }
     }
@@ -42,9 +42,9 @@ public class AddTaskCommand extends AbstractCommand {
         try {
             tasks.undoAdd();
             storage.storeAll(tasks);
+            ui.displayMessage("Successfully undid the last action of adding the following task: \n" + task + "\n");
+        } catch (TsundereException e) {
             ui.displayMessage(UiMessages.UNDO, this);
-        } catch (IOException e) {
-            ui.displayMessage(e.getMessage());
         }
     }
 
