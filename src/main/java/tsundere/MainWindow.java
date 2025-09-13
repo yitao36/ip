@@ -35,7 +35,7 @@ public class MainWindow extends AnchorPane {
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/emiya.jpg"));
     private Image tsundereImage = new Image(this.getClass().getResourceAsStream("/images/tohsaka.jpg"));
-    private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/tsundere.jpg"));
+    private Image backgroundImage = new Image(this.getClass().getResourceAsStream("/images/house.jpg"));
 
     /**
      * Binds scrollbar to the dialog container, and sets up Tsundere Graphics UI.
@@ -43,11 +43,11 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        backgroundView.setImage(backgroundImage);
         backgroundView.setPreserveRatio(false);
         backgroundView.setSmooth(true);
-        backgroundView.fitHeightProperty().bind(scrollPane.heightProperty());
+        backgroundView.setImage(backgroundImage);
         backgroundView.fitWidthProperty().bind(scrollPane.widthProperty());
+        backgroundView.fitHeightProperty().bind(scrollPane.heightProperty());
     }
     /** Injects the Duke instance */
     public void setTsundere(Tsundere t) {

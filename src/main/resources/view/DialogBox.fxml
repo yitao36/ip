@@ -18,16 +18,8 @@
                wrapText="true"
                minHeight="-Infinity"
                maxHeight="-Infinity"
-               style="
-               -fx-text-fill: black;
-               -fx-background-color: transparent;
-               -fx-background-color: pink;
-               -fx-border-color: deeppink;
-               -fx-border-width: 2;
-               -fx-border-radius: 5;
-               -fx-background-radius: 5;
-               -fx-min-width: 200;
-               -fx-padding: 5 5 5 5"/>
+               styleClass="dialogbox"
+               />
         <ImageView fx:id="displayPicture"
                    fitHeight="99.0"
                    fitWidth="99.0"
