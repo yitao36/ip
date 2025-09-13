@@ -35,7 +35,7 @@ public class Autocomplete {
         case "event" -> autocompleteEvent(words);
         case "mark", "unmark", "delete" -> "<number>";
         case "find" -> "<substring to search>";
-        default -> null;
+        default -> "";
         };
     }
 
