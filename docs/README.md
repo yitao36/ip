@@ -7,6 +7,9 @@ Need a motivator to finish your tasks on time?
 Tsundere is just the right task management application for you!
 Just don't let anyone find out about it...
 
+## Auto-completion
+Get real-time autocompletion for command parameters, which will help you type way faster!
+
 ## Adding todos
 The most basic form of tasks, with only a task name.
 Can be marked as completed or not completed yet.
