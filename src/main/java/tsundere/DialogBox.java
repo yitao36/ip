@@ -44,7 +44,7 @@ public class DialogBox extends HBox {
         displayPicture.setImage(img);
         if (!isUser) {
             displayPicture.setOnMouseClicked(event -> parent.getChildren().add(
-                    DialogBox.getTsundereDialog(parent, "OW! STOP THAT!", angryTsundereImage)
+                    DialogBox.getTsundereDialog(parent, "Hey! Stop it!", angryTsundereImage)
             ));
         }
     }
